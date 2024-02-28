@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2022, Wazuh Inc.
+# Fortishield package generator
+# Copyright (C) 2022, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -71,20 +71,20 @@ build() {
 help() {
     echo -e ""
     echo -e "NAME"
-    echo -e "        $(basename "$0") - Build Wazuh dashboard base file."
+    echo -e "        $(basename "$0") - Build Fortishield dashboard base file."
     echo -e ""
     echo -e "SYNOPSIS"
     echo -e "        $(basename "$0") -a | -s | -b | -f | -r | -h"
     echo -e ""
     echo -e "DESCRIPTION"
     echo -e "        --app-url <url>"
-    echo -e "                [Optional] Set the repository from where the Wazuh plugin should be downloaded."
+    echo -e "                [Optional] Set the repository from where the Fortishield plugin should be downloaded."
     echo -e ""
     echo -e "        -s, --store <path>"
     echo -e "                [Optional] Set the destination path of package. By default, an output folder will be created."
     echo -e ""
     echo -e "        --reference <ref>"
-    echo -e "                [Optional] wazuh-packages branch or tag."
+    echo -e "                [Optional] fortishield-packages branch or tag."
     echo -e ""
     echo -e "        --future"
     echo -e "                [Optional] Build test future package. Used for development purposes."

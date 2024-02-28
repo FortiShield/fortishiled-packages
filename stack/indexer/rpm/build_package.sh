@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2021, Wazuh Inc.
+# Fortishield package generator
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -26,7 +26,7 @@ clean() {
     exit_code=$1
 
     # Clean the files
-    rm -rf ${dockerfile_path}/{*.sh,*.tar.gz,wazuh-*}
+    rm -rf ${dockerfile_path}/{*.sh,*.tar.gz,fortishield-*}
 
     exit ${exit_code}
 }
@@ -53,13 +53,13 @@ build_rpm() {
         ../base/generate_base.sh -s ${outdir} -r ${revision} -f ${filebeat_module_reference} ${base_cmd}
     else
         if [ "${reference}" ];then
-            version=$(curl -sL https://raw.githubusercontent.com/wazuh/wazuh-packages/${reference}/VERSION | cat)
+            version=$(curl -sL https://raw.githubusercontent.com/fortishield/fortishield-packages/${reference}/VERSION | cat)
         else
             version=$(cat ${current_path}/../../../VERSION)
         fi
-        basefile="${outdir}/wazuh-indexer-base-${version}-${revision}-linux-x64.tar.xz"
+        basefile="${outdir}/fortishield-indexer-base-${version}-${revision}-linux-x64.tar.xz"
         if ! test -f "${basefile}"; then
-            echo "Did not find expected Wazuh indexer base file: ${basefile} in output path. Exiting..."
+            echo "Did not find expected Fortishield indexer base file: ${basefile} in output path. Exiting..."
             exit 1
         fi
     fi
@@ -111,8 +111,8 @@ help() {
     echo "    -b, --build-base <yes/no>         [Optional] Build a new base or use a existing one. By default, yes."
     echo "    -r, --revision <rev>              [Optional] Package revision. By default: 1."
     echo "    -s, --store <path>                [Optional] Set the destination path of package. By default, an output folder will be created."
-    echo "    --reference <ref>                 [Optional] wazuh-packages branch to download SPECs, not used by default."
-    echo "    -f, --filebeat-module-reference   [Optional] wazuh/wazuh Filebeat template branch or tag."
+    echo "    --reference <ref>                 [Optional] fortishield-packages branch to download SPECs, not used by default."
+    echo "    -f, --filebeat-module-reference   [Optional] fortishield/fortishield Filebeat template branch or tag."
     echo "    --dont-build-docker               [Optional] Locally built docker image will be used instead of generating a new one."
     echo "    --future                          [Optional] Build test future package 99.99.0 Used for development purposes."
     echo "    -h, --help                        Show this help."

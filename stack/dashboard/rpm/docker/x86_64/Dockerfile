@@ -1,7 +1,7 @@
 FROM amd64/centos:7
 
 # Enable EPEL
-RUN yum install -y http://packages.wazuh.com/utils/pkg/epel-release-latest-7.noarch.rpm
+RUN yum install -y http://fortishield.github.io/packages/utils/pkg/epel-release-latest-7.noarch.rpm
 
 # Install all the necessary tools to build the packages
 RUN yum clean all && yum update -y

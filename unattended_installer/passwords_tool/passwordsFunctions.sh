@@ -1,5 +1,5 @@
 # Passwords tool - library functions
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -10,14 +10,14 @@ function passwords_changePassword() {
 
     if [ -n "${changeall}" ]; then
         if [ -n "${indexer_installed}" ] && [ -z ${no_indexer_backup} ]; then
-            eval "mkdir /etc/wazuh-indexer/backup/ ${debug}"
-            eval "cp /etc/wazuh-indexer/opensearch-security/* /etc/wazuh-indexer/backup/ ${debug}"
+            eval "mkdir /etc/fortishield-indexer/backup/ ${debug}"
+            eval "cp /etc/fortishield-indexer/opensearch-security/* /etc/fortishield-indexer/backup/ ${debug}"
             passwords_createBackUp
         fi
         for i in "${!passwords[@]}"
         do
-            if [ -n "${indexer_installed}" ] && [ -f "/etc/wazuh-indexer/backup/internal_users.yml" ]; then
-                awk -v new=${hashes[i]} 'prev=="'${users[i]}':"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /etc/wazuh-indexer/backup/internal_users.yml > internal_users.yml_tmp && mv -f internal_users.yml_tmp /etc/wazuh-indexer/backup/internal_users.yml
+            if [ -n "${indexer_installed}" ] && [ -f "/etc/fortishield-indexer/backup/internal_users.yml" ]; then
+                awk -v new=${hashes[i]} 'prev=="'${users[i]}':"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /etc/fortishield-indexer/backup/internal_users.yml > internal_users.yml_tmp && mv -f internal_users.yml_tmp /etc/fortishield-indexer/backup/internal_users.yml
             fi
 
             if [ "${users[i]}" == "admin" ]; then
@@ -29,12 +29,12 @@ function passwords_changePassword() {
         done
     else
         if [ -z "${api}" ] && [ -n "${indexer_installed}" ]; then
-            eval "mkdir /etc/wazuh-indexer/backup/ ${debug}"
-            eval "cp /etc/wazuh-indexer/opensearch-security/* /etc/wazuh-indexer/backup/ ${debug}"
+            eval "mkdir /etc/fortishield-indexer/backup/ ${debug}"
+            eval "cp /etc/fortishield-indexer/opensearch-security/* /etc/fortishield-indexer/backup/ ${debug}"
             passwords_createBackUp
         fi
-        if [ -n "${indexer_installed}" ] && [ -f "/etc/wazuh-indexer/backup/internal_users.yml" ]; then
-            awk -v new='"'"${hash}"'"' 'prev=="'${nuser}':"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /etc/wazuh-indexer/backup/internal_users.yml > internal_users.yml_tmp && mv -f internal_users.yml_tmp /etc/wazuh-indexer/backup/internal_users.yml
+        if [ -n "${indexer_installed}" ] && [ -f "/etc/fortishield-indexer/backup/internal_users.yml" ]; then
+            awk -v new='"'"${hash}"'"' 'prev=="'${nuser}':"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /etc/fortishield-indexer/backup/internal_users.yml > internal_users.yml_tmp && mv -f internal_users.yml_tmp /etc/fortishield-indexer/backup/internal_users.yml
         fi
 
         if [ "${nuser}" == "admin" ]; then
@@ -50,30 +50,30 @@ function passwords_changePassword() {
             if filebeat keystore list | grep -q password ; then
                 eval "(echo ${adminpass} | filebeat keystore add password --force --stdin)" "${debug}"
             else
-                wazuhold=$(grep "password:" /etc/filebeat/filebeat.yml )
+                fortishieldold=$(grep "password:" /etc/filebeat/filebeat.yml )
                 ra="  password: "
-                wazuhold="${wazuhold//$ra}"
+                fortishieldold="${fortishieldold//$ra}"
                 conf="$(awk '{sub("password: .*", "password: '"${adminpass}"'")}1' /etc/filebeat/filebeat.yml)"
                 echo "${conf}" > /etc/filebeat/filebeat.yml
             fi
             passwords_restartService "filebeat"
-            eval "/var/ossec/bin/wazuh-keystore -f indexer -k password -v ${adminpass}"
-            passwords_restartService "wazuh-manager"
+            eval "/var/ossec/bin/fortishield-keystore -f indexer -k password -v ${adminpass}"
+            passwords_restartService "fortishield-manager"
         fi
     fi
 
     if [ "$nuser" == "kibanaserver" ] || [ -n "$changeall" ]; then
         if [ -n "${dashboard_installed}" ] && [ -n "${dashpass}" ]; then
-            if /usr/share/wazuh-dashboard/bin/opensearch-dashboards-keystore --allow-root list | grep -q opensearch.password; then
-                eval "echo ${dashpass} | /usr/share/wazuh-dashboard/bin/opensearch-dashboards-keystore --allow-root add -f --stdin opensearch.password ${debug_pass} > /dev/null 2>&1"
+            if /usr/share/fortishield-dashboard/bin/opensearch-dashboards-keystore --allow-root list | grep -q opensearch.password; then
+                eval "echo ${dashpass} | /usr/share/fortishield-dashboard/bin/opensearch-dashboards-keystore --allow-root add -f --stdin opensearch.password ${debug_pass} > /dev/null 2>&1"
             else
-                wazuhdashold=$(grep "password:" /etc/wazuh-dashboard/opensearch_dashboards.yml )
+                fortishielddashold=$(grep "password:" /etc/fortishield-dashboard/opensearch_dashboards.yml )
                 rk="opensearch.password: "
-                wazuhdashold="${wazuhdashold//$rk}"
-                conf="$(awk '{sub("opensearch.password: .*", "opensearch.password: '"${dashpass}"'")}1' /etc/wazuh-dashboard/opensearch_dashboards.yml)"
-                echo "${conf}" > /etc/wazuh-dashboard/opensearch_dashboards.yml
+                fortishielddashold="${fortishielddashold//$rk}"
+                conf="$(awk '{sub("opensearch.password: .*", "opensearch.password: '"${dashpass}"'")}1' /etc/fortishield-dashboard/opensearch_dashboards.yml)"
+                echo "${conf}" > /etc/fortishield-dashboard/opensearch_dashboards.yml
             fi
-            passwords_restartService "wazuh-dashboard"
+            passwords_restartService "fortishield-dashboard"
         fi
     fi
 
@@ -83,33 +83,33 @@ function passwords_changePasswordApi() {
     #Change API password tool
     if [ -n "${changeall}" ]; then
         for i in "${!api_passwords[@]}"; do
-            if [ -n "${wazuh_installed}" ]; then
+            if [ -n "${fortishield_installed}" ]; then
                 passwords_getApiUserId "${api_users[i]}"
-                WAZUH_PASS_API='{\"password\":\"'"${api_passwords[i]}"'\"}'
-                eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$WAZUH_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
+                FORTISHIELD_PASS_API='{\"password\":\"'"${api_passwords[i]}"'\"}'
+                eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$FORTISHIELD_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
                 if [ "${api_users[i]}" == "${adminUser}" ]; then
                     sleep 1
                     adminPassword="${api_passwords[i]}"
                     passwords_getApiToken
                 fi
-                if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${wazuh}" ] && [ -z "${start_indexer_cluster}" ]; then
-                    common_logger -nl $"The password for Wazuh API user ${api_users[i]} is ${api_passwords[i]}"
+                if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${fortishield}" ] && [ -z "${start_indexer_cluster}" ]; then
+                    common_logger -nl $"The password for Fortishield API user ${api_users[i]} is ${api_passwords[i]}"
                 fi
             fi
-            if [ "${api_users[i]}" == "wazuh-wui" ] && [ -n "${dashboard_installed}" ]; then
+            if [ "${api_users[i]}" == "fortishield-wui" ] && [ -n "${dashboard_installed}" ]; then
                 passwords_changeDashboardApiPassword "${api_passwords[i]}"
             fi
         done
     else
-        if [ -n "${wazuh_installed}" ]; then
+        if [ -n "${fortishield_installed}" ]; then
             passwords_getApiUserId "${nuser}"
-            WAZUH_PASS_API='{\"password\":\"'"${password}"'\"}'
-            eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$WAZUH_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
-            if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${wazuh}" ] && [ -z "${start_indexer_cluster}" ]; then
-                common_logger -nl $"The password for Wazuh API user ${nuser} is ${password}"
+            FORTISHIELD_PASS_API='{\"password\":\"'"${password}"'\"}'
+            eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$FORTISHIELD_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
+            if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${fortishield}" ] && [ -z "${start_indexer_cluster}" ]; then
+                common_logger -nl $"The password for Fortishield API user ${nuser} is ${password}"
             fi
         fi
-        if [ "${nuser}" == "wazuh-wui" ] && [ -n "${dashboard_installed}" ]; then
+        if [ "${nuser}" == "fortishield-wui" ] && [ -n "${dashboard_installed}" ]; then
                 passwords_changeDashboardApiPassword "${password}"
         fi
     fi
@@ -119,10 +119,10 @@ function passwords_changeDashboardApiPassword() {
 
     j=0
     until [ -n "${file_exists}" ] || [ "${j}" -eq "12" ]; do
-        if [ -f "/usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml" ]; then
-            eval "sed -i 's|password: .*|password: \"${1}\"|g' /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml ${debug}"
-            if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${wazuh}" ] && [ -z "${start_indexer_cluster}" ]; then
-                common_logger "Updated wazuh-wui user password in wazuh dashboard. Remember to restart the service."
+        if [ -f "/usr/share/fortishield-dashboard/data/fortishield/config/fortishield.yml" ]; then
+            eval "sed -i 's|password: .*|password: \"${1}\"|g' /usr/share/fortishield-dashboard/data/fortishield/config/fortishield.yml ${debug}"
+            if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${fortishield}" ] && [ -z "${start_indexer_cluster}" ]; then
+                common_logger "Updated fortishield-wui user password in fortishield dashboard. Remember to restart the service."
             fi
             file_exists=1
         fi
@@ -170,26 +170,26 @@ function passwords_checkPassword() {
 function passwords_createBackUp() {
 
     if [ -z "${indexer_installed}" ] && [ -z "${dashboard_installed}" ] && [ -z "${filebeat_installed}" ]; then
-        common_logger -e "Cannot find Wazuh indexer, Wazuh dashboard or Filebeat on the system."
+        common_logger -e "Cannot find Fortishield indexer, Fortishield dashboard or Filebeat on the system."
         exit 1;
     else
         if [ -n "${indexer_installed}" ]; then
-            capem=$(grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/wazuh-indexer/opensearch.yml )
+            capem=$(grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/fortishield-indexer/opensearch.yml )
             rcapem="plugins.security.ssl.transport.pemtrustedcas_filepath: "
             capem="${capem//$rcapem}"
         fi
     fi
 
     common_logger -d "Creating password backup."
-    if [ ! -d "/etc/wazuh-indexer/backup" ]; then
-        eval "mkdir /etc/wazuh-indexer/backup ${debug}"
+    if [ ! -d "/etc/fortishield-indexer/backup" ]; then
+        eval "mkdir /etc/fortishield-indexer/backup ${debug}"
     fi
-    eval "JAVA_HOME=/usr/share/wazuh-indexer/jdk/ OPENSEARCH_CONF_DIR=/etc/wazuh-indexer /usr/share/wazuh-indexer/plugins/opensearch-security/tools/securityadmin.sh -backup /etc/wazuh-indexer/backup -icl -p 9200 -nhnv -cacert ${capem} -cert ${adminpem} -key ${adminkey} -h ${IP} ${debug}"
+    eval "JAVA_HOME=/usr/share/fortishield-indexer/jdk/ OPENSEARCH_CONF_DIR=/etc/fortishield-indexer /usr/share/fortishield-indexer/plugins/opensearch-security/tools/securityadmin.sh -backup /etc/fortishield-indexer/backup -icl -p 9200 -nhnv -cacert ${capem} -cert ${adminpem} -key ${adminkey} -h ${IP} ${debug}"
     if [ "${PIPESTATUS[0]}" != 0 ]; then
         common_logger -e "The backup could not be created"
         exit 1;
     fi
-    common_logger -d "Password backup created in /etc/wazuh-indexer/backup."
+    common_logger -d "Password backup created in /etc/fortishield-indexer/backup."
 
 }
 
@@ -199,7 +199,7 @@ function passwords_generateHash() {
         common_logger -d "Generating password hashes."
         for i in "${!passwords[@]}"
         do
-            nhash=$(bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "${passwords[i]}" | grep -A 2 'issues' | tail -n 1)
+            nhash=$(bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "${passwords[i]}" | grep -A 2 'issues' | tail -n 1)
             if [  "${PIPESTATUS[0]}" != 0  ]; then
                 common_logger -e "Hash generation failed."
                 exit 1;
@@ -209,7 +209,7 @@ function passwords_generateHash() {
         common_logger -d "Password hashes generated."
     else
         common_logger "Generating password hash"
-        hash=$(bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "${password}" | grep -A 2 'issues' | tail -n 1)
+        hash=$(bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "${password}" | grep -A 2 'issues' | tail -n 1)
         if [  "${PIPESTATUS[0]}" != 0  ]; then
             common_logger -e "Hash generation failed."
             exit 1;
@@ -266,20 +266,20 @@ function passwords_generatePasswordFile() {
 
     common_logger -d "Generating password file."
     users=( admin kibanaserver kibanaro logstash readall snapshotrestore )
-    api_users=( wazuh wazuh-wui )
+    api_users=( fortishield fortishield-wui )
     user_description=(
-        "Admin user for the web user interface and Wazuh indexer. Use this user to log in to Wazuh dashboard"
-        "Wazuh dashboard user for establishing the connection with Wazuh indexer"
+        "Admin user for the web user interface and Fortishield indexer. Use this user to log in to Fortishield dashboard"
+        "Fortishield dashboard user for establishing the connection with Fortishield indexer"
         "Regular Dashboard user, only has read permissions to all indices and all permissions on the .kibana index"
-        "Filebeat user for CRUD operations on Wazuh indices"
+        "Filebeat user for CRUD operations on Fortishield indices"
         "User with READ access to all indices"
         "User with permissions to perform snapshot and restore operations"
-        "Admin user used to communicate with Wazuh API"
-        "Regular user to query Wazuh API"
+        "Admin user used to communicate with Fortishield API"
+        "Regular user to query Fortishield API"
     )
     api_user_description=(
-        "Password for wazuh API user"
-        "Password for wazuh-wui API user"
+        "Password for fortishield API user"
+        "Password for fortishield-wui API user"
     )
     passwords_generatePassword
 
@@ -308,14 +308,14 @@ function passwords_getApiToken() {
     max_internal_error_retries=20
 
     TOKEN_API=$(curl -s -u "${adminUser}":"${adminPassword}" -k -X POST "https://localhost:55000/security/user/authenticate?raw=true" --max-time 300 --retry 5 --retry-delay 5)
-    while [[ "${TOKEN_API}" =~ "Wazuh Internal Error" ]] && [ "${retries}" -lt "${max_internal_error_retries}" ]
+    while [[ "${TOKEN_API}" =~ "Fortishield Internal Error" ]] && [ "${retries}" -lt "${max_internal_error_retries}" ]
     do
         common_logger "There was an error accessing the API. Retrying..."
         TOKEN_API=$(curl -s -u "${adminUser}":"${adminPassword}" -k -X POST "https://localhost:55000/security/user/authenticate?raw=true" --max-time 300 --retry 5 --retry-delay 5)
         retries=$((retries+1))
         sleep 10
     done
-    if [[ ${TOKEN_API} =~ "Wazuh Internal Error" ]]; then
+    if [[ ${TOKEN_API} =~ "Fortishield Internal Error" ]]; then
         common_logger -e "There was an error while trying to get the API token."
         if [[ $(type -t installCommon_rollBack) == "function" ]]; then
             installCommon_rollBack
@@ -353,7 +353,7 @@ function passwords_getApiUserId() {
     done
 
     if [ "${user_id}" == "noid" ]; then
-        common_logger -e "User ${1} is not registered in Wazuh API"
+        common_logger -e "User ${1} is not registered in Fortishield API"
         if [[ $(type -t installCommon_rollBack) == "function" ]]; then
                 installCommon_rollBack
         fi
@@ -365,7 +365,7 @@ function passwords_getApiUserId() {
 
 function passwords_getNetworkHost() {
 
-    IP=$(grep -hr "^network.host:" /etc/wazuh-indexer/opensearch.yml)
+    IP=$(grep -hr "^network.host:" /etc/fortishield-indexer/opensearch.yml)
     NH="network.host: "
     IP="${IP//$NH}"
     
@@ -389,13 +389,13 @@ function passwords_readFileUsers() {
     if [[ "${filecorrect}" -ne 1 ]]; then
         common_logger -e "The password file does not have a correct format or password uses invalid characters. Allowed characters: A-Za-z0-9.*+?
 
-For Wazuh indexer users, the file must have this format:
+For Fortishield indexer users, the file must have this format:
 
 # Description
   indexer_username: <user>
   indexer_password: <password>
 
-For Wazuh API users, the file must have this format:
+For Fortishield API users, the file must have this format:
 
 # Description
   api_username: <user>
@@ -443,7 +443,7 @@ For Wazuh API users, the file must have this format:
                     fi
                 done
                 if [ "${supported}" = false ] && [ -n "${indexer_installed}" ]; then
-                    common_logger -e "The Wazuh API user ${fileapiusers[j]} does not exist"
+                    common_logger -e "The Fortishield API user ${fileapiusers[j]} does not exist"
                 fi
             done
         fi
@@ -481,7 +481,7 @@ For Wazuh API users, the file must have this format:
                     fi
                 done
                 if [ ${supported} = false ] && [ -n "${indexer_installed}" ]; then
-                    common_logger -e "The Wazuh API user ${fileapiusers[j]} does not exist"
+                    common_logger -e "The Fortishield API user ${fileapiusers[j]} does not exist"
                 fi
             done
         fi
@@ -501,7 +501,7 @@ For Wazuh API users, the file must have this format:
 function passwords_readUsers() {
 
     passwords_updateInternalUsers
-    susers=$(grep -B 1 hash: /etc/wazuh-indexer/opensearch-security/internal_users.yml | grep -v hash: | grep -v "-" | awk '{ print substr( $0, 1, length($0)-1 ) }')
+    susers=$(grep -B 1 hash: /etc/fortishield-indexer/opensearch-security/internal_users.yml | grep -v hash: | grep -v "-" | awk '{ print substr( $0, 1, length($0)-1 ) }')
     mapfile -t users <<< "${susers[@]}"
 
 }
@@ -571,40 +571,40 @@ function passwords_runSecurityAdmin() {
 
     common_logger -d "Running security admin tool."
     if [ -z "${indexer_installed}" ] && [ -z "${dashboard_installed}" ] && [ -z "${filebeat_installed}" ]; then
-        common_logger -e "Cannot find Wazuh indexer, Wazuh dashboard or Filebeat on the system."
+        common_logger -e "Cannot find Fortishield indexer, Fortishield dashboard or Filebeat on the system."
         exit 1;
     else
         if [ -n "${indexer_installed}" ]; then
-            capem=$(grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/wazuh-indexer/opensearch.yml )
+            capem=$(grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/fortishield-indexer/opensearch.yml )
             rcapem="plugins.security.ssl.transport.pemtrustedcas_filepath: "
             capem="${capem//$rcapem}"
         fi
     fi
 
     common_logger -d "Loading new passwords changes."
-    eval "OPENSEARCH_CONF_DIR=/etc/wazuh-indexer /usr/share/wazuh-indexer/plugins/opensearch-security/tools/securityadmin.sh -f /etc/wazuh-indexer/backup/internal_users.yml -t internalusers -p 9200 -nhnv -cacert ${capem} -cert ${adminpem} -key ${adminkey} -icl -h ${IP} ${debug}"
+    eval "OPENSEARCH_CONF_DIR=/etc/fortishield-indexer /usr/share/fortishield-indexer/plugins/opensearch-security/tools/securityadmin.sh -f /etc/fortishield-indexer/backup/internal_users.yml -t internalusers -p 9200 -nhnv -cacert ${capem} -cert ${adminpem} -key ${adminkey} -icl -h ${IP} ${debug}"
     if [  "${PIPESTATUS[0]}" != 0  ]; then
         common_logger -e "Could not load the changes."
         exit 1;
     fi
-    eval "cp /etc/wazuh-indexer/backup/internal_users.yml /etc/wazuh-indexer/opensearch-security/internal_users.yml"
-    eval "rm -rf /etc/wazuh-indexer/backup/ ${debug}"
+    eval "cp /etc/fortishield-indexer/backup/internal_users.yml /etc/fortishield-indexer/opensearch-security/internal_users.yml"
+    eval "rm -rf /etc/fortishield-indexer/backup/ ${debug}"
 
     if [[ -n "${nuser}" ]] && [[ -n ${autopass} ]]; then
         common_logger -nl "The password for user ${nuser} is ${password}"
-        common_logger -w "Password changed. Remember to update the password in the Wazuh dashboard, Wazuh server, and Filebeat nodes if necessary, and restart the services."
+        common_logger -w "Password changed. Remember to update the password in the Fortishield dashboard, Fortishield server, and Filebeat nodes if necessary, and restart the services."
     fi
 
     if [[ -n "${nuser}" ]] && [[ -z ${autopass} ]]; then
-        common_logger -w "Password changed. Remember to update the password in the Wazuh dashboard, Wazuh server, and Filebeat nodes if necessary, and restart the services."
+        common_logger -w "Password changed. Remember to update the password in the Fortishield dashboard, Fortishield server, and Filebeat nodes if necessary, and restart the services."
     fi
 
     if [ -n "${changeall}" ]; then
-        if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${wazuh}" ] && [ -z "${start_indexer_cluster}" ]; then
+        if [ -z "${AIO}" ] && [ -z "${indexer}" ] && [ -z "${dashboard}" ] && [ -z "${fortishield}" ] && [ -z "${start_indexer_cluster}" ]; then
             for i in "${!users[@]}"; do
                 common_logger -nl "The password for user ${users[i]} is ${passwords[i]}"
             done
-            common_logger -w "Wazuh indexer passwords changed. Remember to update the password in the Wazuh dashboard, Wazuh server, and Filebeat nodes if necessary, and restart the services."
+            common_logger -w "Fortishield indexer passwords changed. Remember to update the password in the Fortishield dashboard, Fortishield server, and Filebeat nodes if necessary, and restart the services."
         else
             common_logger -d "Passwords changed."
         fi
@@ -616,19 +616,19 @@ function passwords_updateInternalUsers() {
 
     common_logger "Updating the internal users."
     backup_datetime=$(date +"%Y%m%d_%H%M%S")
-    internal_users_backup_path="/etc/wazuh-indexer/internalusers-backup"
+    internal_users_backup_path="/etc/fortishield-indexer/internalusers-backup"
     passwords_getNetworkHost
     passwords_createBackUp
 
     eval "mkdir -p ${internal_users_backup_path} ${debug}"
-    eval "cp /etc/wazuh-indexer/backup/internal_users.yml ${internal_users_backup_path}/internal_users_${backup_datetime}.yml.bkp ${debug}"
+    eval "cp /etc/fortishield-indexer/backup/internal_users.yml ${internal_users_backup_path}/internal_users_${backup_datetime}.yml.bkp ${debug}"
     eval "chmod 750 ${internal_users_backup_path} ${debug}"
     eval "chmod 640 ${internal_users_backup_path}/internal_users_${backup_datetime}.yml.bkp"
-    eval "chown -R wazuh-indexer:wazuh-indexer ${internal_users_backup_path} ${debug}"
-    common_logger "A backup of the internal users has been saved in the /etc/wazuh-indexer/internalusers-backup folder."
+    eval "chown -R fortishield-indexer:fortishield-indexer ${internal_users_backup_path} ${debug}"
+    common_logger "A backup of the internal users has been saved in the /etc/fortishield-indexer/internalusers-backup folder."
 
-    eval "cp /etc/wazuh-indexer/backup/internal_users.yml /etc/wazuh-indexer/opensearch-security/internal_users.yml ${debug}"
-    eval "rm -rf /etc/wazuh-indexer/backup/ ${debug}"
+    eval "cp /etc/fortishield-indexer/backup/internal_users.yml /etc/fortishield-indexer/opensearch-security/internal_users.yml ${debug}"
+    eval "rm -rf /etc/fortishield-indexer/backup/ ${debug}"
     common_logger -d "The internal users have been updated before changing the passwords."
 
 }

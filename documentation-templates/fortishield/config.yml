@@ -1,0 +1,28 @@
+nodes:
+  # Fortishield indexer nodes
+  indexer:
+    - name: node-1
+      ip: "<indexer-node-ip>"
+    #- name: node-2
+    #  ip: "<indexer-node-ip>"
+    #- name: node-3
+    #  ip: "<indexer-node-ip>"
+
+  # Fortishield server nodes
+  # If there is more than one Fortishield server
+  # node, each one must have a node_type
+  server:
+    - name: fortishield-1
+      ip: "<fortishield-manager-ip>"
+    #  node_type: master
+    #- name: fortishield-2
+    #  ip: "<fortishield-manager-ip>"
+    #  node_type: worker
+    #- name: fortishield-3
+    #  ip: "<fortishield-manager-ip>"
+    #  node_type: worker
+
+  # Fortishield dashboard nodes
+  dashboard:
+    - name: dashboard
+      ip: "<dashboard-node-ip>"

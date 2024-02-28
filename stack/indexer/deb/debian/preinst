@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for Wazuh-indexer
-# Copyright (C) 2021, Wazuh Inc.
+# postinst script for Fortishield-indexer
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -9,7 +9,7 @@
 
 set -e
 
-export NAME=wazuh-indexer
+export NAME=fortishield-indexer
 export CONFIG_DIR="/etc/${NAME}"
 export BACKUP_DIR="${CONFIG_DIR}/upgrade_backup"
 export INSTALLATION_DIR="/usr/share/${NAME}"
@@ -27,8 +27,8 @@ err_exit() {
 }
 
 # Source the default env file
-if [ -f "/etc/default/wazuh-indexer" ]; then
-    . "/etc/default/wazuh-indexer"
+if [ -f "/etc/default/fortishield-indexer" ]; then
+    . "/etc/default/fortishield-indexer"
 fi
 
 export OPENSEARCH_PATH_CONF=${OPENSEARCH_PATH_CONF:-${CONFIG_DIR}}
@@ -38,14 +38,14 @@ case "$1" in
     # Debian ####################################################
     install)
 
-        # Create wazuh-indexer group if not existing
+        # Create fortishield-indexer group if not existing
         if ! getent group ${NAME} > /dev/null 2>&1 ; then
             echo -n "Creating ${NAME} group..."
             addgroup --quiet --system ${NAME}
             echo " OK"
         fi
 
-        # Create wazuh-indexer user if not existing
+        # Create fortishield-indexer user if not existing
         if ! id ${NAME} > /dev/null 2>&1 ; then
             echo -n "Creating ${NAME} user..."
             adduser --quiet \
@@ -75,13 +75,13 @@ case "$1" in
         elif command -v service > /dev/null 2>&1 && service "${NAME}" status 2>/dev/null | grep "running" > /dev/null 2>&1; then
             service "${NAME}" stop > /dev/null 2>&1
             touch "${INSTALLATION_DIR}/${NAME}.restart"
-        elif [ -x /etc/init.d/wazuh-indexer ]; then
-            if command -v invoke-rc.d >/dev/null && invoke-rc.d --quiet wazuh-indexer status > /dev/null 2>&1; then
-                invoke-rc.d wazuh-indexer stop > /dev/null 2>&1
+        elif [ -x /etc/init.d/fortishield-indexer ]; then
+            if command -v invoke-rc.d >/dev/null && invoke-rc.d --quiet fortishield-indexer status > /dev/null 2>&1; then
+                invoke-rc.d fortishield-indexer stop > /dev/null 2>&1
                 touch "${INSTALLATION_DIR}/${NAME}.restart"
             fi
-        elif [ -x /etc/rc.d/init.d/wazuh-indexer ] ; then
-            /etc/rc.d/init.d/wazuh-indexer stop > /dev/null 2>&1
+        elif [ -x /etc/rc.d/init.d/fortishield-indexer ] ; then
+            /etc/rc.d/init.d/fortishield-indexer stop > /dev/null 2>&1
             touch "${INSTALLATION_DIR}/${NAME}.restart"
         fi
     ;;

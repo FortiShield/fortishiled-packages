@@ -1,10 +1,10 @@
 nodes:
   indexer:
-    - name: wazuh-indexer
+    - name: fortishield-indexer
       ip: 127.0.0.1
   server:
-    - name: wazuh-server
+    - name: fortishield-server
       ip: 127.0.0.1
   dashboard:
-    - name: wazuh-dashboard
+    - name: fortishield-dashboard
       ip: 127.0.0.1

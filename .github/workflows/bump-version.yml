@@ -1,5 +1,5 @@
 
-name: Bump version - wazuh-packages
+name: Bump version - fortishield-packages
 on:
   workflow_dispatch:
     inputs:
@@ -56,8 +56,8 @@ jobs:
       
       # - name: "Commit changes and push"
       #   run: |
-      #       git config --global user.name "wazuhci"
-      #       git config --global user.email "wazuhci@wazuh.com"
+      #       git config --global user.name "fortishieldci"
+      #       git config --global user.email "fortishieldci@fortishield.github.io"
       #       git add .
       #       git commit -m "Bump version to ${{ github.event.inputs.version }}"
       #   shell: bash

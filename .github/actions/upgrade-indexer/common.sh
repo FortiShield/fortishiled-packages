@@ -1,6 +1,6 @@
 #!/bin/bash
-FILES_OLD="/usr/share/wazuh-indexer/plugins/opensearch-security/securityconfig"
-FILES_NEW="/etc/wazuh-indexer/opensearch-security"
+FILES_OLD="/usr/share/fortishield-indexer/plugins/opensearch-security/securityconfig"
+FILES_NEW="/etc/fortishield-indexer/opensearch-security"
 declare -A files_old
 declare -A files_new
 PACKAGE_NAME="${1}"
@@ -20,7 +20,7 @@ function check_system() {
 
 }
 
-# Checks the version of Wazuh with 4.3 version, where path is different.
+# Checks the version of Fortishield with 4.3 version, where path is different.
 function check_version() {
 
     if [ -z "${MAJOR_MINOR_RELEASE}" ]; then
@@ -59,8 +59,8 @@ function compare_arrays() {
 # Steps before installing the RPM release package.
 function add_production_repository() {
 
-    rpm --import https://packages.wazuh.com/key/GPG-KEY-WAZUH
-    echo -e '[wazuh]\ngpgcheck=1\ngpgkey=https://packages.wazuh.com/key/GPG-KEY-WAZUH\nenabled=1\nname=EL-$releasever - Wazuh\nbaseurl=https://packages.wazuh.com/4.x/yum/\nprotect=1' | tee /etc/yum.repos.d/wazuh.repo
+    rpm --import https://fortishield.github.io/packages/key/GPG-KEY-FORTISHIELD
+    echo -e '[fortishield]\ngpgcheck=1\ngpgkey=https://fortishield.github.io/packages/key/GPG-KEY-FORTISHIELD\nenabled=1\nname=EL-$releasever - Fortishield\nbaseurl=https://fortishield.github.io/packages/4.x/yum/\nprotect=1' | tee /etc/yum.repos.d/fortishield.repo
 
 }
 

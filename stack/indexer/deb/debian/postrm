@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for Wazuh-indexer
-# Copyright (C) 2021, Wazuh Inc.
+# postinst script for Fortishield-indexer
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -9,7 +9,7 @@
 
 set -e
 
-export NAME=wazuh-indexer
+export NAME=fortishield-indexer
 export CONFIG_DIR="/etc/${NAME}"
 export INSTALLATION_DIR="/usr/share/${NAME}"
 export PID_DIR="/run/${NAME}"

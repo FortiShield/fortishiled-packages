@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2021, Wazuh Inc.
+# Fortishield package generator
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -32,7 +32,7 @@ clean() {
     exit_code=$1
 
     # Clean the files
-    rm -rf ${dockerfile_path}/{*.sh,*.tar.gz,wazuh-*}
+    rm -rf ${dockerfile_path}/{*.sh,*.tar.gz,fortishield-*}
 
     exit ${exit_code}
 }
@@ -43,7 +43,7 @@ ctrl_c() {
 
 set_version() {
     if [ "${reference}" ];then
-        version=$(curl -sL https://raw.githubusercontent.com/wazuh/wazuh-packages/${reference}/VERSION | cat)
+        version=$(curl -sL https://raw.githubusercontent.com/fortishield/fortishield-packages/${reference}/VERSION | cat)
     else
         version=$(cat ${current_path}/../../../VERSION)
     fi
@@ -79,9 +79,9 @@ build_deb() {
         fi
         ../base/generate_base.sh -s ${outdir} -r ${revision} ${base_cmd}
     else
-        basefile="${outdir}/wazuh-dashboard-base-${version}-${revision}-linux-x64.tar.xz"
+        basefile="${outdir}/fortishield-dashboard-base-${version}-${revision}-linux-x64.tar.xz"
         if ! test -f "${basefile}"; then
-            echo "Did not find expected Wazuh dashboard base file: ${basefile} in output path. Exiting..."
+            echo "Did not find expected Fortishield dashboard base file: ${basefile} in output path. Exiting..."
             exit 1
         fi
     fi
@@ -128,7 +128,7 @@ build() {
 help() {
     echo -e ""
     echo -e "NAME"
-    echo -e "        $(basename "$0") - Build Wazuh dashboard base file."
+    echo -e "        $(basename "$0") - Build Fortishield dashboard base file."
     echo -e ""
     echo -e "SYNOPSIS"
     echo -e "        $(basename "$0") -a | -m | -u | -c | -s | -b | -f | -r | -h"
@@ -138,13 +138,13 @@ help() {
     echo -e "                [Optional] Target architecture of the package [amd64]."
     echo -e ""
     echo -e "        -m, --main-app <URL>"
-    echo -e "                [Optional] Wazuh main plugin URL."
+    echo -e "                [Optional] Fortishield main plugin URL."
     echo -e ""
     echo -e "        -u, --updates-app <URL>"
-    echo -e "                [Optional] Wazuh Check Updates plugin URL."
+    echo -e "                [Optional] Fortishield Check Updates plugin URL."
     echo -e ""
     echo -e "        -c, --core-app <URL>"
-    echo -e "                [Optional] Wazuh Core plugin URL."
+    echo -e "                [Optional] Fortishield Core plugin URL."
     echo -e ""
     echo -e "        -b, --build-base <yes/no>"
     echo -e "                [Optional] Build a new base or use a existing one. By default, yes."
@@ -156,7 +156,7 @@ help() {
     echo -e "                [Optional] Set the destination path of package. By default, an output folder will be created."
     echo -e ""
     echo -e "        --reference <ref>"
-    echo -e "                [Optional] wazuh-packages branch to download SPECs, not used by default."
+    echo -e "                [Optional] fortishield-packages branch to download SPECs, not used by default."
     echo -e ""
     echo -e "        --dont-build-docker"
     echo -e "                [Optional] Locally built docker image will be used instead of generating a new one."
@@ -261,7 +261,7 @@ main() {
     set_version
 
     if [ ! "${plugin_main_reference}" ] && [ ! "${plugin_updates_reference}" ] && [ ! "${plugin_core_reference}" ]; then
-        echo "No Wazuh plugins have been defined, ${version} pre-release development packages with revision ${revision} will be used."
+        echo "No Fortishield plugins have been defined, ${version} pre-release development packages with revision ${revision} will be used."
     elif [[ ${have_main} != ${have_updates} ]] || [[ ${have_updates} != ${have_core} ]]; then
         echo "The -m, -u, and -c options must be used together."
         exit 1

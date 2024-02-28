@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# add something which happens after deinstall
+
+directory_base="DIRECTORY_BASE"
+
+# Remove the fortishield user if it exists
+if id -u fortishield > /dev/null 2>&1; then
+  deluser fortishield > /dev/null 2>&1
+fi
+# Remove the fortishield group if it exists
+if command -v getent > /dev/null 2>&1 && getent group fortishield > /dev/null 2>&1; then
+  delgroup fortishield > /dev/null 2>&1
+elif id -g fortishield > /dev/null 2>&1; then
+  delgroup fortishield > /dev/null 2>&1
+fi
+
+# Remove lingering folders and files
+rm -rf ${directory_base}
+
+exit 0

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2023, Wazuh Inc.
+# Fortishield package generator
+# Copyright (C) 2023, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -10,7 +10,7 @@
 
 set -e
 
-wazuh_puppet_branch=""
+fortishield_puppet_branch=""
 current_path="$( cd $(dirname $0) ; pwd -P )"
 dockerfile_path="${current_path}/Docker"
 container_name="puppet_module_builder"
@@ -43,7 +43,7 @@ build() {
     # Build the Docker image
     docker build -t ${container_name} ${dockerfile_path} || return 1
 
-    docker run -t --rm -v ${outdir}/:/tmp/output:Z ${container_name} ${wazuh_puppet_branch} || return 1
+    docker run -t --rm -v ${outdir}/:/tmp/output:Z ${container_name} ${fortishield_puppet_branch} || return 1
 
     echo "Puppet module file $(ls -Art ${outdir} | tail -n 1) added to ${outdir}."
 
@@ -56,14 +56,14 @@ help() {
     echo
     echo -e ""
     echo -e "NAME"
-    echo -e "        $(basename "${0}") - Build Wazuh Puppet module."
+    echo -e "        $(basename "${0}") - Build Fortishield Puppet module."
     echo -e ""
     echo -e "SYNOPSIS"
     echo -e "        $(basename "${0}") [OPTIONS]"
     echo -e ""
     echo -e "DESCRIPTION"
     echo -e "        -b, --branch <branch>"
-    echo -e "                Enter the branch or tag of the wazuh-puppet repository from which you want to build the module."
+    echo -e "                Enter the branch or tag of the fortishield-puppet repository from which you want to build the module."
     echo -e ""
     echo -e "        -s, --store <path>"
     echo -e "                [Optional] Set the destination path of package. By default, an output folder will be created."
@@ -85,7 +85,7 @@ main() {
             ;;
         "-b"|"--branch")
             if [ -n "${2}" ]; then
-                wazuh_puppet_branch="${2}"
+                fortishield_puppet_branch="${2}"
                 shift 2
             else
                 help 1
@@ -104,7 +104,7 @@ main() {
         esac
     done
 
-    if [ -z "${wazuh_puppet_branch}" ];  then
+    if [ -z "${fortishield_puppet_branch}" ];  then
         echo "Branch cannot be empty"
         exit $1
     fi

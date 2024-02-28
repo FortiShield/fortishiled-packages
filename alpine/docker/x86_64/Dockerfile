@@ -4,7 +4,7 @@ FROM amd64/alpine:3.12.12
 RUN apk add ca-certificates curl alpine-sdk sudo less openssh \
     openssl openssl-dev libgcc bash make gcc g++ cmake automake \
     linux-headers autoconf libtool python3 aws-cli jq gettext-dev procps && \
-    mkdir /var/local/wazuh && mkdir /wazuh
+    mkdir /var/local/fortishield && mkdir /fortishield
 
 # Add the scripts to build the Alpine package
 ADD builder.sh /usr/local/bin/builder

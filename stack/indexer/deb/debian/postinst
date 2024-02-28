@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for Wazuh-indexer
-# Copyright (C) 2021, Wazuh Inc.
+# postinst script for Fortishield-indexer
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -9,7 +9,7 @@
 
 #DEBHELPER#
 
-export NAME=wazuh-indexer
+export NAME=fortishield-indexer
 export USER=${NAME}
 export GROUP=${NAME}
 export CONFIG_DIR=/etc/${NAME}
@@ -29,17 +29,17 @@ set -e
 #       $1=configure : is set to 'configure' and if $2 is set, it is an upgrade
 
 # Source the default env file
-if [ -f "/etc/default/wazuh-indexer" ]; then
-    . "/etc/default/wazuh-indexer"
+if [ -f "/etc/default/fortishield-indexer" ]; then
+    . "/etc/default/fortishield-indexer"
 fi
 
 export OPENSEARCH_PATH_CONF=${OPENSEARCH_PATH_CONF:-${CONFIG_DIR}}
 
 if [ -d /run/systemd/system ]; then
-    rm -f /etc/init.d/wazuh-indexer
+    rm -f /etc/init.d/fortishield-indexer
 fi
 
-# To pick up /usr/lib/sysctl.d/wazuh-indexer.conf
+# To pick up /usr/lib/sysctl.d/fortishield-indexer.conf
 if command -v systemctl > /dev/null 2>&1; then
     systemctl restart systemd-sysctl.service > /dev/null 2>&1 || true
 fi
@@ -57,7 +57,7 @@ case "$1" in
           chown -R ${USER}:${GROUP} ${LOG_DIR}
 
           # Prepare the RCA reader process for execution
-          mkdir -p "/var/lib/wazuh-indexer"
+          mkdir -p "/var/lib/fortishield-indexer"
           echo 'true' > ${LIB_DIR}/performance_analyzer_enabled.conf
           echo 'true' > ${LIB_DIR}/rca_enabled.conf
           # This is needed by the performance-analyzer service
@@ -71,11 +71,11 @@ case "$1" in
 
           # Setting performance analyzer options
           CLK_TCK=$(getconf CLK_TCK)
-          echo >> /etc/wazuh-indexer/jvm.options
-          echo '## OpenDistro Performance Analyzer' >> /etc/wazuh-indexer/jvm.options
-          echo "-Dclk.tck=$CLK_TCK" >> /etc/wazuh-indexer/jvm.options
-          echo "-Djdk.attach.allowAttachSelf=true" >> /etc/wazuh-indexer/jvm.options
-          echo "-Djava.security.policy=file:///usr/share/wazuh-indexer/plugins/opendistro-performance-analyzer/pa_config/es_security.policy" >> /etc/wazuh-indexer/jvm.options
+          echo >> /etc/fortishield-indexer/jvm.options
+          echo '## OpenDistro Performance Analyzer' >> /etc/fortishield-indexer/jvm.options
+          echo "-Dclk.tck=$CLK_TCK" >> /etc/fortishield-indexer/jvm.options
+          echo "-Djdk.attach.allowAttachSelf=true" >> /etc/fortishield-indexer/jvm.options
+          echo "-Djava.security.policy=file:///usr/share/fortishield-indexer/plugins/opendistro-performance-analyzer/pa_config/es_security.policy" >> /etc/fortishield-indexer/jvm.options
 
           # ---------------------------------------------------------------------------
 
@@ -94,23 +94,23 @@ case "$1" in
             fi
 
             if [ -f "${INSTALLATION_DIR}/${NAME}.restart" ]; then
-                echo -n "Restarting wazuh-indexer service..."
+                echo -n "Restarting fortishield-indexer service..."
                 rm -f "${INSTALLATION_DIR}/${NAME}.restart"
                 if command -v systemctl > /dev/null 2>&1; then
                     systemctl daemon-reload > /dev/null 2>&1
-                    systemctl restart wazuh-indexer.service > /dev/null 2>&1
+                    systemctl restart fortishield-indexer.service > /dev/null 2>&1
                 # Check for SysV
                 elif command -v service > /dev/null 2>&1; then
-                    service wazuh-indexer restart > /dev/null 2>&1
+                    service fortishield-indexer restart > /dev/null 2>&1
 
-                elif [ -x /etc/init.d/wazuh-indexer ]; then
+                elif [ -x /etc/init.d/fortishield-indexer ]; then
                     if command -v invoke-rc.d >/dev/null; then
-                        invoke-rc.d wazuh-indexer restart > /dev/null 2>&1
+                        invoke-rc.d fortishield-indexer restart > /dev/null 2>&1
                     else
-                        /etc/init.d/wazuh-indexer restart > /dev/null 2>&1
+                        /etc/init.d/fortishield-indexer restart > /dev/null 2>&1
                     fi
-                elif [ -x /etc/rc.d/init.d/wazuh-indexer ]; then
-                    /etc/rc.d/init.d/wazuh-indexer restart > /dev/null 2>&1
+                elif [ -x /etc/rc.d/init.d/fortishield-indexer ]; then
+                    /etc/rc.d/init.d/fortishield-indexer restart > /dev/null 2>&1
                 fi
                 echo " OK"
             fi

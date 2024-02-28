@@ -4430,9 +4430,9 @@ input:focus {
 }
 
 
-/*------------- WAZUH -------------*/
+/*------------- FORTISHIELD -------------*/
 .wz-login {
-  background: url(./logos/wazuh_dashboard_login_background.svg) !important;
+  background: url(./logos/fortishield_dashboard_login_background.svg) !important;
   width: 100% !important;
   height: 100% !important;
   background-size: cover !important;

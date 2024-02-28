@@ -1,10 +1,10 @@
-Wazuh unattended installer - Development guide
+Fortishield unattended installer - Development guide
 ========================================
 
-[![Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://wazuh.com/community/join-us-on-slack/)
-[![Email](https://img.shields.io/badge/email-join-blue.svg)](https://groups.google.com/forum/#!forum/wazuh)
-[![Documentation](https://img.shields.io/badge/docs-view-green.svg)](https://documentation.wazuh.com)
-[![Documentation](https://img.shields.io/badge/web-view-green.svg)](https://wazuh.com)
+[![Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://fortishield.github.io/community/join-us-on-slack/)
+[![Email](https://img.shields.io/badge/email-join-blue.svg)](https://groups.google.com/forum/#!forum/fortishield)
+[![Documentation](https://img.shields.io/badge/docs-view-green.svg)](https://documentation.fortishield.github.io)
+[![Documentation](https://img.shields.io/badge/web-view-green.svg)](https://fortishield.github.io)
 
 # Development guide
 
@@ -33,7 +33,7 @@ In order to have homogenous developments, this document shows some rules to be t
 
 ## License and copyright
 
-Copyright (C) 2015, Wazuh Inc.
+Copyright (C) 2015, Fortishield Inc.
 
 This program is free software; you can redistribute it
 and/or modify it under the terms of the GNU General Public

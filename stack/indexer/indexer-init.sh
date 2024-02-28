@@ -1,8 +1,8 @@
 #!/bin/bash
-# Wazuh Copyright (C) 2023 Wazuh Inc. (License GPLv2)
-# Wazuh - indexer initialization script
+# Fortishield Copyright (C) 2023 Fortishield Inc. (License GPLv2)
+# Fortishield - indexer initialization script
 
-INSTALL_PATH="/usr/share/wazuh-indexer"
+INSTALL_PATH="/usr/share/fortishield-indexer"
 BIN_PATH="${INSTALL_PATH}/bin"
 
 
@@ -48,7 +48,7 @@ function parse_security_args() {
 # Run the security init script.
 #########################################################################
 function run_security_init() {
-    echo "Executing Wazuh indexer security init script..."
+    echo "Executing Fortishield indexer security init script..."
     parse_security_args "$@"
     /bin/bash "${BIN_PATH}/indexer-security-init.sh" "${security_args[@]}"
 }
@@ -118,7 +118,7 @@ function parse_ism_args() {
 # Run the ISM init script.
 #########################################################################
 function run_ism_init() {
-    echo "Executing Wazuh indexer ISM init script..."
+    echo "Executing Fortishield indexer ISM init script..."
     parse_ism_args "$@"
     /bin/bash "${BIN_PATH}/indexer-ism-init.sh" "${ism_args[@]}";
 }

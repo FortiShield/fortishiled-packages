@@ -1,0 +1,12 @@
+set name=pkg.fmri value=fortishield-agent@<VERSION>,5.11-0
+set name=pkg.summary value="Fortishield agent"
+set name=pkg.description value="Fortishield agent monitoring utility"
+set name=info.maintainer value="Fortishield Inc. <support@fortishield.github.io>"
+set name=info.source-url value=https://github.com/fortishield/fortishield/archive/<TAG>.tar.gz
+<transform dir path=var$ -> drop>
+<transform dir path=lib$ -> drop>
+<transform dir path=lib/svc$ -> drop>
+<transform dir path=lib/svc/manifest$ -> drop>
+<transform dir path=lib/svc/manifest/site$ -> drop>
+<transform file path=lib/svc/manifest/.*\.xml$ -> \
+    default restart_fmri svc:/system/manifest-import:default>

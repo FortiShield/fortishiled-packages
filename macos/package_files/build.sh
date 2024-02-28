@@ -1,7 +1,7 @@
 #!/bin/bash
-# Program to build OSX wazuh-agent
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# Program to build OSX fortishield-agent
+# Fortishield package generator
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -37,7 +37,7 @@ function build() {
     if [ -z "${USER_BINARYINSTALL}" ]; then
     make -C ${SOURCES_PATH}/src deps TARGET=agent
 
-    echo "Generating Wazuh executables"
+    echo "Generating Fortishield executables"
     make -j$JOBS -C ${SOURCES_PATH}/src DYLD_FORCE_FLAT_NAMESPACE=1 TARGET=agent build
     fi
 

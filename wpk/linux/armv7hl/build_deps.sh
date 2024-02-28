@@ -1,4 +1,4 @@
-rpm_url="https://packages.wazuh.com/utils/armv7hl"
+rpm_url="https://fortishield.github.io/packages/utils/armv7hl"
 rpm -ivh --force --ignorearch --nodeps \
 ${rpm_url}/iproute-4.11.0-25.el7_7.2.armv7hl.rpm \
 ${rpm_url}/dhclient-4.2.5-79.el7.centos.armv7hl.rpm \

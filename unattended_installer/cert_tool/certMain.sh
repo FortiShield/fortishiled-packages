@@ -1,5 +1,5 @@
 # Certificate tool - Main functions
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -10,10 +10,10 @@ function getHelp() {
 
     echo -e ""
     echo -e "NAME"
-    echo -e "        wazuh-cert-tool.sh - Manages the creation of certificates of the Wazuh components."
+    echo -e "        fortishield-cert-tool.sh - Manages the creation of certificates of the Fortishield components."
     echo -e ""
     echo -e "SYNOPSIS"
-    echo -e "        wazuh-cert-tool.sh [OPTIONS]"
+    echo -e "        fortishield-cert-tool.sh [OPTIONS]"
     echo -e ""
     echo -e "DESCRIPTION"
     echo -e "        -a,  --admin-certificates </path/to/root-ca.pem> </path/to/root-ca.key>"
@@ -28,17 +28,17 @@ function getHelp() {
     echo -e "        -v,  --verbose"
     echo -e "                Enables verbose mode."
     echo -e ""
-    echo -e "        -wd,  --wazuh-dashboard-certificates </path/to/root-ca.pem> </path/to/root-ca.key>"
-    echo -e "                Creates the Wazuh dashboard certificates, add root-ca.pem and root-ca.key."
+    echo -e "        -wd,  --fortishield-dashboard-certificates </path/to/root-ca.pem> </path/to/root-ca.key>"
+    echo -e "                Creates the Fortishield dashboard certificates, add root-ca.pem and root-ca.key."
     echo -e ""
-    echo -e "        -wi,  --wazuh-indexer-certificates </path/to/root-ca.pem> </path/to/root-ca.key>"
-    echo -e "                Creates the Wazuh indexer certificates, add root-ca.pem and root-ca.key."
+    echo -e "        -wi,  --fortishield-indexer-certificates </path/to/root-ca.pem> </path/to/root-ca.key>"
+    echo -e "                Creates the Fortishield indexer certificates, add root-ca.pem and root-ca.key."
     echo -e ""
-    echo -e "        -ws,  --wazuh-server-certificates </path/to/root-ca.pem> </path/to/root-ca.key>"
-    echo -e "                Creates the Wazuh server certificates, add root-ca.pem and root-ca.key."
+    echo -e "        -ws,  --fortishield-server-certificates </path/to/root-ca.pem> </path/to/root-ca.key>"
+    echo -e "                Creates the Fortishield server certificates, add root-ca.pem and root-ca.key."
     echo -e ""
     echo -e "        -tmp,  --cert_tmp_path </path/to/tmp_dir>"
-    echo -e "                Modifies the default tmp directory (/tmp/wazuh-ceritificates) to the specified one."
+    echo -e "                Modifies the default tmp directory (/tmp/fortishield-ceritificates) to the specified one."
     echo -e "                Must be used along with one of these options: -a, -A, -ca, -wi, -wd, -ws"
     echo -e ""
 
@@ -100,9 +100,9 @@ function main() {
                 debugEnabled=1
                 shift 1
                 ;;
-            "-wd"|"--wazuh-dashboard-certificates")
+            "-wd"|"--fortishield-dashboard-certificates")
                 if [[ -z "${2}" || -z "${3}" ]]; then
-                    common_logger -e "Error on arguments. Probably missing </path/to/root-ca.pem> </path/to/root-ca.key> after -wd|--wazuh-dashboard-certificates"
+                    common_logger -e "Error on arguments. Probably missing </path/to/root-ca.pem> </path/to/root-ca.key> after -wd|--fortishield-dashboard-certificates"
                     getHelp
                     exit 1
                 else
@@ -112,9 +112,9 @@ function main() {
                     shift 3
                 fi
                 ;;
-            "-wi"|"--wazuh-indexer-certificates")
+            "-wi"|"--fortishield-indexer-certificates")
                 if [[ -z "${2}" || -z "${3}" ]]; then
-                    common_logger -e "Error on arguments. Probably missing </path/to/root-ca.pem> </path/to/root-ca.key> after -wi|--wazuh-indexer-certificates"
+                    common_logger -e "Error on arguments. Probably missing </path/to/root-ca.pem> </path/to/root-ca.key> after -wi|--fortishield-indexer-certificates"
                     getHelp
                     exit 1
                 else
@@ -124,9 +124,9 @@ function main() {
                     shift 3
                 fi
                 ;;
-            "-ws"|"--wazuh-server-certificates")
+            "-ws"|"--fortishield-server-certificates")
                 if [[ -z "${2}" || -z "${3}" ]]; then
-                    common_logger -e "Error on arguments. Probably missing </path/to/root-ca.pem> </path/to/root-ca.key> after -ws|--wazuh-server-certificates"
+                    common_logger -e "Error on arguments. Probably missing </path/to/root-ca.pem> </path/to/root-ca.key> after -ws|--fortishield-server-certificates"
                     getHelp
                     exit 1
                 else
@@ -158,9 +158,9 @@ function main() {
             esac
         done
 
-        if [[ -d "${base_path}"/wazuh-certificates ]]; then
-            if [ -n "$(ls -A "${base_path}"/wazuh-certificates)" ]; then
-                common_logger -e "Directory wazuh-certificates already exists in the same path as the script. Please, remove the certs directory to create new certificates."
+        if [[ -d "${base_path}"/fortishield-certificates ]]; then
+            if [ -n "$(ls -A "${base_path}"/fortishield-certificates)" ]; then
+                common_logger -e "Directory fortishield-certificates already exists in the same path as the script. Please, remove the certs directory to create new certificates."
                 exit 1
             fi
         fi
@@ -182,7 +182,7 @@ function main() {
             common_logger "Admin certificates created."
             cert_cleanFiles
             cert_setpermisions
-            eval "mv ${cert_tmp_path} ${base_path}/wazuh-certificates ${debug}"
+            eval "mv ${cert_tmp_path} ${base_path}/fortishield-certificates ${debug}"
         fi
 
         if [[ -n "${all}" ]]; then
@@ -190,34 +190,34 @@ function main() {
             cert_generateAdmincertificate
             common_logger "Admin certificates created."
             if cert_generateIndexercertificates; then
-                common_logger "Wazuh indexer certificates created."
+                common_logger "Fortishield indexer certificates created."
             fi
             if cert_generateFilebeatcertificates; then
-                common_logger "Wazuh Filebeat certificates created."
+                common_logger "Fortishield Filebeat certificates created."
             fi
             if cert_generateDashboardcertificates; then
-                common_logger "Wazuh dashboard certificates created."
+                common_logger "Fortishield dashboard certificates created."
             fi
             cert_cleanFiles
             cert_setpermisions
-            eval "mv ${cert_tmp_path} ${base_path}/wazuh-certificates ${debug}"
+            eval "mv ${cert_tmp_path} ${base_path}/fortishield-certificates ${debug}"
         fi
 
         if [[ -n "${ca}" ]]; then
             cert_generateRootCAcertificate
             common_logger "Authority certificates created."
             cert_cleanFiles
-            eval "mv ${cert_tmp_path} ${base_path}/wazuh-certificates ${debug}"
+            eval "mv ${cert_tmp_path} ${base_path}/fortishield-certificates ${debug}"
         fi
 
         if [[ -n "${cindexer}" ]]; then
             if [ ${#indexer_node_names[@]} -gt 0 ]; then
                 cert_checkRootCA
                 cert_generateIndexercertificates
-                common_logger "Wazuh indexer certificates created."
+                common_logger "Fortishield indexer certificates created."
                 cert_cleanFiles
                 cert_setpermisions
-                eval "mv ${cert_tmp_path} ${base_path}/wazuh-certificates ${debug}"
+                eval "mv ${cert_tmp_path} ${base_path}/fortishield-certificates ${debug}"
             else
                 common_logger -e "Indexer node not present in config.yml."
                 exit 1
@@ -228,10 +228,10 @@ function main() {
             if [ ${#server_node_names[@]} -gt 0 ]; then
                 cert_checkRootCA
                 cert_generateFilebeatcertificates
-                common_logger "Wazuh Filebeat certificates created."
+                common_logger "Fortishield Filebeat certificates created."
                 cert_cleanFiles
                 cert_setpermisions
-                eval "mv ${cert_tmp_path} ${base_path}/wazuh-certificates ${debug}"
+                eval "mv ${cert_tmp_path} ${base_path}/fortishield-certificates ${debug}"
             else
                 common_logger -e "Server node not present in config.yml."
                 exit 1
@@ -242,10 +242,10 @@ function main() {
             if [ ${#dashboard_node_names[@]} -gt 0 ]; then
                 cert_checkRootCA
                 cert_generateDashboardcertificates
-                common_logger "Wazuh dashboard certificates created."
+                common_logger "Fortishield dashboard certificates created."
                 cert_cleanFiles
                 cert_setpermisions
-                eval "mv ${cert_tmp_path} ${base_path}/wazuh-certificates ${debug}"
+                eval "mv ${cert_tmp_path} ${base_path}/fortishield-certificates ${debug}"
             else
                 common_logger -e "Dashboard node not present in config.yml."
                 exit 1

@@ -1,0 +1,9 @@
+fortishield-manager: embedded-library
+fortishield-manager: embedded-zlib
+fortishield-manager: possible-gpl-code-linked-with-openssl
+fortishield-manager: new-package-should-close-itp-bug
+fortishield-manager: possibly-insecure-handling-of-tmp-files-in-maintainer-script
+fortishield-manager: non-standard-dir-in-var
+fortishield-manager: file-in-unusual-dir
+fortishield-manager: hardening-no-fortify-functions
+fortishield-manager: hardening-no-relro

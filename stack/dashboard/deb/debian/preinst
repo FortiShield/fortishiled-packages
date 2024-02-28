@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for wazuh-dashboard
-# Copyright (C) 2021, Wazuh Inc.
+# postinst script for fortishield-dashboard
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -17,7 +17,7 @@ set -e
 #       $1=upgrade : indicates an upgrade
 
 # configuration variables
-export NAME=wazuh-dashboard
+export NAME=fortishield-dashboard
 export CONFIG_DIR=/etc/"${NAME}"
 export INSTALLATION_DIR=/usr/share/"${NAME}"
 
@@ -30,13 +30,13 @@ case "$1" in
         mkdir -p "${INSTALLATION_DIR}"
 
         
-        # Create wazuh-dashboard group if not existing
+        # Create fortishield-dashboard group if not existing
         if ! getent group "${NAME}" > /dev/null 2>&1 ; then
             echo -n "Creating ${NAME} group..."
             addgroup --quiet --system "${NAME}"
             echo " OK"
         fi
-        # Create wazuh-dashboard user if not existing
+        # Create fortishield-dashboard user if not existing
         if ! id "${NAME}" > /dev/null 2>&1 ; then
             echo -n "Creating ${NAME} user..."
             adduser --quiet \

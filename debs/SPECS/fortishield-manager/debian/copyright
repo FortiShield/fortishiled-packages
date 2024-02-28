@@ -1,0 +1,38 @@
+This work was packaged for Debian by:
+
+    Fortishield, Inc <info@fortishield.github.io> on Tue, 01 Oct 2024 00:00:00 +0000
+
+It was downloaded from:
+
+    https://www.fortishield.github.io
+
+Upstream Authors:
+
+    dcid@dcid.me
+    Jia-BingJB_Cheng@trendmicro.com
+    vichargrave@gmail.com
+    ossec@michaelstarks.com
+    ddpbsd@gmail.com
+    scott@atomicorp.com
+    brad.lhotsky@gmail.com
+    jeremy@jeremyrossy.com
+    santiago.bassett@gmail.com
+    pedro@fortishield.github.io
+    alberto.rodriguez@fortishield.github.io
+    braulio@fortishield.github.io
+    jose.fernandez@fortishield.github.io
+
+Copyright:
+
+    GNU General Public License version 2.
+
+License:
+
+    GNU General Public License version 2.
+
+The Debian packaging is:
+
+    Copyright (C) 2015 Fortishield, Inc <info@fortishield.github.io>
+
+and is licensed under the GPL version 2,
+see "/usr/share/common-licenses/GPL-2".

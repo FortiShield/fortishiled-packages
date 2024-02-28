@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for wazuh-dashboard
-# Copyright (C) 2021, Wazuh Inc.
+# postinst script for fortishield-dashboard
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -9,7 +9,7 @@
 
 set -e
 
-export NAME=wazuh-dashboard
+export NAME=fortishield-dashboard
 export CONFIG_DIR=/etc/"${NAME}"
 export INSTALLATION_DIR=/usr/share/"${NAME}"
 
@@ -48,7 +48,7 @@ esac
 
 # Stops the service
 if [ "$STOP_REQUIRED" = "true" ]; then
-    echo -n "Stopping wazuh-dashboard service..."
+    echo -n "Stopping fortishield-dashboard service..."
     if command -v systemctl >/dev/null; then
         systemctl --no-reload stop "${NAME}".service
 
@@ -61,7 +61,7 @@ if [ "$STOP_REQUIRED" = "true" ]; then
 
     # older suse linux distributions do not ship with systemd
     # but do not have an /etc/init.d/ directory
-    # this tries to start the wazuh-dashboard service on these
+    # this tries to start the fortishield-dashboard service on these
     # as well without failing this script
     elif [ -x /etc/rc.d/init.d/"${NAME}" ] ; then
         /etc/rc.d/init.d/"${NAME}" stop

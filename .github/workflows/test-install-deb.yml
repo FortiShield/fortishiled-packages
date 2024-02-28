@@ -1,4 +1,4 @@
-name: Test install Wazuh agent and manager - DEB
+name: Test install Fortishield agent and manager - DEB
 on:
   pull_request:
     paths:
@@ -69,9 +69,9 @@ jobs:
         run: |
           VERSION=$(cat $GITHUB_WORKSPACE/VERSION)
           REVISION=$( echo ${{ github.head_ref }} | sed 's/-/./g; s/\//./g' )
-          echo "PACKAGE_NAME=wazuh-${{ matrix.type }}_${VERSION}-${REVISION}_${{ matrix.arch }}.deb" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=fortishield-${{ matrix.type }}_${VERSION}-${REVISION}_${{ matrix.arch }}.deb" >> $GITHUB_ENV
 
-      - name: Download the Wazuh ${{ matrix.type }} package for ${{ matrix.system.NAME }}
+      - name: Download the Fortishield ${{ matrix.type }} package for ${{ matrix.system.NAME }}
         if: steps.changes.outputs.deb_packages == 'true' || (steps.changes.outputs.deb_images_agent_i386 == 'true' && matrix.ARCHITECTURE == 'i386') || (steps.changes.outputs.deb_images_amd64 == 'true' && matrix.ARCHITECTURE == 'amd64')
         id: download-artifact
         continue-on-error: true
@@ -82,7 +82,7 @@ jobs:
           name: ${{env.PACKAGE_NAME}}
           if_no_artifact_found: fail
 
-      - name: Move the Wazuh ${{ matrix.type }} package for ${{ matrix.distro_name }} to the packages directory
+      - name: Move the Fortishield ${{ matrix.type }} package for ${{ matrix.distro_name }} to the packages directory
         if: steps.changes.outputs.deb_packages == 'true' || (steps.changes.outputs.deb_images_agent_i386 == 'true' && matrix.ARCHITECTURE == 'i386') || (steps.changes.outputs.deb_images_amd64 == 'true' && matrix.ARCHITECTURE == 'amd64')
         run: |
           mkdir $GITHUB_WORKSPACE/packages

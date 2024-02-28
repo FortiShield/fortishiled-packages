@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for wazuh-dashboard
-# Copyright (C) 2021, Wazuh Inc.
+# postinst script for fortishield-dashboard
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -9,7 +9,7 @@
 
 set -e
 
-export NAME=wazuh-dashboard
+export NAME=fortishield-dashboard
 export CONFIG_DIR=/etc/"${NAME}"
 export INSTALLATION_DIR=/usr/share/"${NAME}"
 export PID_DIR=/run/${NAME}

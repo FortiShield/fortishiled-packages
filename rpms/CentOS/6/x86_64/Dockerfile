@@ -23,22 +23,22 @@ RUN yum-builddep python34 -y
 RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
 RUN yum install -y nodejs
 
-RUN curl -OL http://packages.wazuh.com/utils/perl/perl-5.10.1.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/perl/perl-5.10.1.tar.gz && \
     gunzip perl-5.10.1.tar.gz && tar -xf perl*.tar && \
     cd /perl-5.10.1 && ./Configure -des -Dcc='gcc' -Dusethreads && \
     make -j2 && make install && ln -fs /usr/local/bin/perl /bin/perl && \
     cd / && rm -rf /perl-5.10.1*
 
 # Update rpmbuild, rpm and autoconf
-RUN curl -O http://packages.wazuh.com/utils/autoconf/autoconf-2.69.tar.gz && \
+RUN curl -O http://fortishield.github.io/packages/utils/autoconf/autoconf-2.69.tar.gz && \
     gunzip autoconf-2.69.tar.gz && tar xvf autoconf-2.69.tar && \
     cd autoconf-2.69 && ./configure && make -j$(nproc) && \
     make install && cd / && rm -rf autoconf-*
 
-RUN curl -O https://packages.wazuh.com/utils/libarchive/libarchive-3.1.2-12.el7.src.rpm && \
+RUN curl -O https://fortishield.github.io/packages/utils/libarchive/libarchive-3.1.2-12.el7.src.rpm && \
     rpmbuild --rebuild libarchive-3.1.2-12.el7.src.rpm && rpm -Uvh /root/rpmbuild/RPMS/x86_64/* --nodeps && rm -rf libarchive-*
 
-RUN curl -O http://packages.wazuh.com/utils/rpm/rpm-4.15.1.tar.bz2 && \
+RUN curl -O http://fortishield.github.io/packages/utils/rpm/rpm-4.15.1.tar.bz2 && \
     tar -xjf rpm-4.15.1.tar.bz2 && cd rpm-4.15.1 && \
     ./configure --without-lua && make -j$(nproc) && make install && cd / && rm -rf rpm-*
 
@@ -46,7 +46,7 @@ RUN mkdir -p /usr/local/var/lib/rpm && \
     cp /var/lib/rpm/Packages /usr/local/var/lib/rpm/Packages && \
     /usr/local/bin/rpm --rebuilddb && rm -rf /root/rpmbuild
 
-RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/gcc/gcc-9.4.0.tar.gz && \
     tar xzf gcc-9.4.0.tar.gz  && cd gcc-9.4.0/ && \
     ./contrib/download_prerequisites && \
     ./configure --prefix=/usr/local/gcc-9.4.0 --enable-languages=c,c++ \
@@ -59,7 +59,7 @@ ENV CPLUS_INCLUDE_PATH "/usr/local/gcc-9.4.0/include/c++/9.4.0/"
 ENV LD_LIBRARY_PATH "/usr/local/gcc-9.4.0/lib64/"
 ENV PATH "/usr/local/gcc-9.4.0/bin:${PATH}"
 
-RUN curl -OL http://packages.wazuh.com/utils/cmake/cmake-3.18.3.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/cmake/cmake-3.18.3.tar.gz && \
     tar -zxf cmake-3.18.3.tar.gz && cd cmake-3.18.3 && \
     ./bootstrap --no-system-curl CC=/usr/local/gcc-9.4.0/bin/gcc \
         CXX=/usr/local/gcc-9.4.0/bin/g++ && \

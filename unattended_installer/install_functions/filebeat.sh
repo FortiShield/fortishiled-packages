@@ -1,5 +1,5 @@
-# Wazuh installer - filebeat.sh functions.
-# Copyright (C) 2015, Wazuh Inc.
+# Fortishield installer - filebeat.sh functions.
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -11,27 +11,27 @@ function filebeat_configure(){
     common_logger -d "Configuring Filebeat."
 
     if [ -z "${offline_install}" ]; then
-        eval "common_curl -sSo /etc/filebeat/wazuh-template.json ${filebeat_wazuh_template} --max-time 300 --retry 5 --retry-delay 5 --fail"
-        if [ ! -f "/etc/filebeat/wazuh-template.json" ]; then
-            common_logger -e "Error downloading wazuh-template.json file."
+        eval "common_curl -sSo /etc/filebeat/fortishield-template.json ${filebeat_fortishield_template} --max-time 300 --retry 5 --retry-delay 5 --fail"
+        if [ ! -f "/etc/filebeat/fortishield-template.json" ]; then
+            common_logger -e "Error downloading fortishield-template.json file."
             installCommon_rollBack
             exit 1
         fi
         common_logger -d "Filebeat template was download successfully."
 
-        eval "(common_curl -sS ${filebeat_wazuh_module} --max-time 300 --retry 5 --retry-delay 5 --fail | tar -xvz -C /usr/share/filebeat/module) ${debug}"
+        eval "(common_curl -sS ${filebeat_fortishield_module} --max-time 300 --retry 5 --retry-delay 5 --fail | tar -xvz -C /usr/share/filebeat/module) ${debug}"
         if [ ! -d "/usr/share/filebeat/module" ]; then
-            common_logger -e "Error downloading wazuh filebeat module."
+            common_logger -e "Error downloading fortishield filebeat module."
             installCommon_rollBack
             exit 1
         fi
         common_logger -d "Filebeat module was downloaded successfully."
     else
-        eval "cp ${offline_files_path}/wazuh-template.json /etc/filebeat/wazuh-template.json ${debug}"
-        eval "tar -xvzf ${offline_files_path}/wazuh-filebeat-*.tar.gz -C /usr/share/filebeat/module ${debug}"
+        eval "cp ${offline_files_path}/fortishield-template.json /etc/filebeat/fortishield-template.json ${debug}"
+        eval "tar -xvzf ${offline_files_path}/fortishield-filebeat-*.tar.gz -C /usr/share/filebeat/module ${debug}"
     fi
 
-    eval "chmod go+r /etc/filebeat/wazuh-template.json ${debug}"
+    eval "chmod go+r /etc/filebeat/fortishield-template.json ${debug}"
     if [ -n "${AIO}" ]; then
         eval "installCommon_getConfig filebeat/filebeat_unattended.yml /etc/filebeat/filebeat.yml ${debug}"
     else
@@ -69,10 +69,10 @@ function filebeat_copyCertificates() {
             fi
             eval "sed -i s/filebeat.pem/${server_node_names[0]}.pem/ /etc/filebeat/filebeat.yml ${debug}"
             eval "sed -i s/filebeat-key.pem/${server_node_names[0]}-key.pem/ /etc/filebeat/filebeat.yml ${debug}"
-            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} --wildcards wazuh-install-files/${server_node_names[0]}.pem --strip-components 1 ${debug}"
-            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} --wildcards wazuh-install-files/${server_node_names[0]}-key.pem --strip-components 1 ${debug}"
-            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} wazuh-install-files/root-ca.pem --strip-components 1 ${debug}"
-            eval "rm -rf ${filebeat_cert_path}/wazuh-install-files/ ${debug}"
+            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} --wildcards fortishield-install-files/${server_node_names[0]}.pem --strip-components 1 ${debug}"
+            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} --wildcards fortishield-install-files/${server_node_names[0]}-key.pem --strip-components 1 ${debug}"
+            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} fortishield-install-files/root-ca.pem --strip-components 1 ${debug}"
+            eval "rm -rf ${filebeat_cert_path}/fortishield-install-files/ ${debug}"
         else
             if ! tar -tvf "${tar_file}" | grep -q "${winame}" ; then
                 common_logger -e "Tar file does not contain certificate for the node ${winame}."
@@ -81,10 +81,10 @@ function filebeat_copyCertificates() {
             fi
             eval "sed -i s/filebeat.pem/${winame}.pem/ /etc/filebeat/filebeat.yml ${debug}"
             eval "sed -i s/filebeat-key.pem/${winame}-key.pem/ /etc/filebeat/filebeat.yml ${debug}"
-            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} wazuh-install-files/${winame}.pem --strip-components 1 ${debug}"
-            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} wazuh-install-files/${winame}-key.pem --strip-components 1 ${debug}"
-            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} wazuh-install-files/root-ca.pem --strip-components 1 ${debug}"
-            eval "rm -rf ${filebeat_cert_path}/wazuh-install-files/ ${debug}"
+            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} fortishield-install-files/${winame}.pem --strip-components 1 ${debug}"
+            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} fortishield-install-files/${winame}-key.pem --strip-components 1 ${debug}"
+            eval "tar -xf ${tar_file} -C ${filebeat_cert_path} fortishield-install-files/root-ca.pem --strip-components 1 ${debug}"
+            eval "rm -rf ${filebeat_cert_path}/fortishield-install-files/ ${debug}"
         fi
         eval "chmod 500 ${filebeat_cert_path} ${debug}"
         eval "chmod 400 ${filebeat_cert_path}/* ${debug}"

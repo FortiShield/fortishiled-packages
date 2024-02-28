@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-wazuh_branch=$1
+fortishield_branch=$1
 
 download_sources() {
-    if ! curl -L https://github.com/wazuh/wazuh-puppet/tarball/${wazuh_branch} | tar zx ; then
+    if ! curl -L https://github.com/fortishield/fortishield-puppet/tarball/${fortishield_branch} | tar zx ; then
         echo "Error downloading the source code from GitHub."
         exit 1
     fi
-    cd wazuh-*
+    cd fortishield-*
 }
 
 build_module() {

@@ -6,7 +6,7 @@ Instructions to run uit tests:
     - The docker image is kept, it isn't destroyed when the script finishes. If something in the Dockerfile is changed, run with `-r` to rebuild
 
 NAME
-        unit-tests.sh - Unit test for the Wazuh installer.
+        unit-tests.sh - Unit test for the Fortishield installer.
 
 SYNOPSIS
         bash unit-tests.sh [OPTIONS] -a | -d | -f <file-list>

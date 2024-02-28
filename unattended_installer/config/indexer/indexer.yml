@@ -2,15 +2,15 @@ network.host: 0.0.0.0
 node.name: node-1
 cluster.initial_master_nodes: node-1
 
-plugins.security.ssl.transport.pemcert_filepath: /etc/wazuh-indexer/certs/indexer.pem
-plugins.security.ssl.transport.pemkey_filepath: /etc/wazuh-indexer/certs/indexer-key.pem
-plugins.security.ssl.transport.pemtrustedcas_filepath: /etc/wazuh-indexer/certs/root-ca.pem
+plugins.security.ssl.transport.pemcert_filepath: /etc/fortishield-indexer/certs/indexer.pem
+plugins.security.ssl.transport.pemkey_filepath: /etc/fortishield-indexer/certs/indexer-key.pem
+plugins.security.ssl.transport.pemtrustedcas_filepath: /etc/fortishield-indexer/certs/root-ca.pem
 plugins.security.ssl.transport.enforce_hostname_verification: false
 plugins.security.ssl.transport.resolve_hostname: false
 plugins.security.ssl.http.enabled: true
-plugins.security.ssl.http.pemcert_filepath: /etc/wazuh-indexer/certs/indexer.pem
-plugins.security.ssl.http.pemkey_filepath: /etc/wazuh-indexer/certs/indexer-key.pem
-plugins.security.ssl.http.pemtrustedcas_filepath: /etc/wazuh-indexer/certs/root-ca.pem
+plugins.security.ssl.http.pemcert_filepath: /etc/fortishield-indexer/certs/indexer.pem
+plugins.security.ssl.http.pemkey_filepath: /etc/fortishield-indexer/certs/indexer-key.pem
+plugins.security.ssl.http.pemtrustedcas_filepath: /etc/fortishield-indexer/certs/root-ca.pem
 plugins.security.ssl.http.enabled_ciphers:
   - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
   - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
@@ -19,9 +19,9 @@ plugins.security.ssl.http.enabled_ciphers:
 plugins.security.ssl.http.enabled_protocols:
   - "TLSv1.2"
 plugins.security.nodes_dn:
-- CN=node-1,OU=Wazuh,O=Wazuh,L=California,C=US
+- CN=node-1,OU=Fortishield,O=Fortishield,L=California,C=US
 plugins.security.authcz.admin_dn:
-- CN=admin,OU=Wazuh,O=Wazuh,L=California,C=US
+- CN=admin,OU=Fortishield,O=Fortishield,L=California,C=US
 
 plugins.security.enable_snapshot_restore_privilege: true
 plugins.security.check_snapshot_restore_write_privileges: true

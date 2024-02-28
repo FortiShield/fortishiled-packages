@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Tool to create wazuh-install.sh, wazuh-cert-tool.sh
-# and wazuh-passwords-tool.sh
-# Copyright (C) 2015, Wazuh Inc.
+# Tool to create fortishield-install.sh, fortishield-cert-tool.sh
+# and fortishield-passwords-tool.sh
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -29,16 +29,16 @@ function getHelp() {
     echo -e ""
     echo -e "DESCRIPTION"
     echo -e "        -i,  --installer"
-    echo -e "                Builds the unattended installer single file wazuh-install.sh"
+    echo -e "                Builds the unattended installer single file fortishield-install.sh"
     echo -e ""
     echo -e "        -c,  --cert-tool"
-    echo -e "                Builds the certificate creation tool wazuh-cert-tool.sh"
+    echo -e "                Builds the certificate creation tool fortishield-cert-tool.sh"
     echo -e ""
     echo -e "        -d [pre-release|staging],  --development"
     echo -e "                Use development repositories. By default it uses the pre-release package repository. If staging is specified, it will use that repository."
     echo -e ""
     echo -e "        -p,  --password-tool"
-    echo -e "                Builds the password creation and modification tool wazuh-password-tool.sh"
+    echo -e "                Builds the password creation and modification tool fortishield-password-tool.sh"
     echo -e ""
     echo -e "        -h,  --help"
     echo -e "                Shows help."
@@ -50,7 +50,7 @@ function buildInstaller() {
 
     checkDistDetectURL
 
-    output_script_path="${base_path_builder}/wazuh-install.sh"
+    output_script_path="${base_path_builder}/fortishield-install.sh"
 
     ## Create installer script
     echo -n > "${output_script_path}"
@@ -58,8 +58,8 @@ function buildInstaller() {
     ## License
     echo "#!/bin/bash
 
-# Wazuh installer
-# Copyright (C) 2015, Wazuh Inc.
+# Fortishield installer
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -70,19 +70,19 @@ function buildInstaller() {
     ## Installation variables
     if [ -n "${development}" ]; then
         echo 'readonly development=1' >> "${output_script_path}"
-        echo 'readonly repogpg="https://packages-dev.wazuh.com/key/GPG-KEY-WAZUH"' >> "${output_script_path}"
-        echo 'readonly repobaseurl="https://packages-dev.wazuh.com/'${devrepo}'"' >> "${output_script_path}"
+        echo 'readonly repogpg="https://fortishield.github.io/packages-dev/key/GPG-KEY-FORTISHIELD"' >> "${output_script_path}"
+        echo 'readonly repobaseurl="https://fortishield.github.io/packages-dev/'${devrepo}'"' >> "${output_script_path}"
         echo 'readonly reporelease="unstable"' >> "${output_script_path}"
-        echo 'readonly filebeat_wazuh_module="${repobaseurl}/filebeat/wazuh-filebeat-0.4.tar.gz"' >> "${output_script_path}"
-        echo 'readonly bucket="packages-dev.wazuh.com"' >> "${output_script_path}"
+        echo 'readonly filebeat_fortishield_module="${repobaseurl}/filebeat/fortishield-filebeat-0.4.tar.gz"' >> "${output_script_path}"
+        echo 'readonly bucket="fortishield.github.io/packages-dev"' >> "${output_script_path}"
         echo 'readonly repository="'"${devrepo}"'"' >> "${output_script_path}"
-        sed -i 's|v${wazuh_version}|${wazuh_version}|g' "${resources_installer}/installVariables.sh"
+        sed -i 's|v${fortishield_version}|${fortishield_version}|g' "${resources_installer}/installVariables.sh"
     else
-        echo 'readonly repogpg="https://packages.wazuh.com/key/GPG-KEY-WAZUH"' >> "${output_script_path}"
-        echo 'readonly repobaseurl="https://packages.wazuh.com/4.x"' >> "${output_script_path}"
+        echo 'readonly repogpg="https://fortishield.github.io/packages/key/GPG-KEY-FORTISHIELD"' >> "${output_script_path}"
+        echo 'readonly repobaseurl="https://fortishield.github.io/packages/4.x"' >> "${output_script_path}"
         echo 'readonly reporelease="stable"' >> "${output_script_path}"
-        echo 'readonly filebeat_wazuh_module="${repobaseurl}/filebeat/wazuh-filebeat-0.4.tar.gz"' >> "${output_script_path}"
-        echo 'readonly bucket="packages.wazuh.com"' >> "${output_script_path}"
+        echo 'readonly filebeat_fortishield_module="${repobaseurl}/filebeat/fortishield-filebeat-0.4.tar.gz"' >> "${output_script_path}"
+        echo 'readonly bucket="fortishield.github.io/packages"' >> "${output_script_path}"
         echo 'readonly repository="4.x"' >> "${output_script_path}"
     fi
     echo >> "${output_script_path}"
@@ -102,7 +102,7 @@ function buildInstaller() {
     echo "trap installCommon_cleanExit SIGINT" >> "${output_script_path}"
 
     ## JAVA_HOME
-    echo "export JAVA_HOME=\"/usr/share/wazuh-indexer/jdk/\"" >> "${output_script_path}"
+    echo "export JAVA_HOME=\"/usr/share/fortishield-indexer/jdk/\"" >> "${output_script_path}"
 
     ## Functions for all install function modules
     install_modules=($(find "${resources_installer}" -type f))
@@ -117,7 +117,7 @@ function buildInstaller() {
 
     ## dist-detect.sh
     echo "function dist_detect() {" >> "${output_script_path}"
-    curl -s "https://raw.githubusercontent.com/wazuh/wazuh/${source_branch}/src/init/dist-detect.sh" | sed '/^#/d' >> "${output_script_path}"
+    curl -s "https://raw.githubusercontent.com/fortishield/fortishield/${source_branch}/src/init/dist-detect.sh" | sed '/^#/d' >> "${output_script_path}"
     echo "}" >> "${output_script_path}"
 
     ## Common functions
@@ -138,7 +138,7 @@ function buildInstaller() {
 }
 
 function buildPasswordsTool() {
-    output_script_path="${base_path_builder}/wazuh-passwords-tool.sh"
+    output_script_path="${base_path_builder}/fortishield-passwords-tool.sh"
 
     ## Create installer script
     echo -n > "${output_script_path}"
@@ -146,8 +146,8 @@ function buildPasswordsTool() {
     ## License
     echo "#!/bin/bash
 
-# Wazuh installer
-# Copyright (C) 2015, Wazuh Inc.
+# Fortishield installer
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -179,7 +179,7 @@ function buildPasswordsTool() {
 }
 
 function buildCertsTool() {
-    output_script_path="${base_path_builder}/wazuh-certs-tool.sh"
+    output_script_path="${base_path_builder}/fortishield-certs-tool.sh"
 
     ## Create installer script
     echo -n > "${output_script_path}"
@@ -187,8 +187,8 @@ function buildCertsTool() {
     ## License
     echo "#!/bin/bash
 
-# Wazuh installer
-# Copyright (C) 2015, Wazuh Inc.
+# Fortishield installer
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -265,10 +265,10 @@ function builder_main() {
         buildInstaller
         chmod 500 ${output_script_path}
         if [ -n "${change_filebeat_url}" ]; then
-            sed -i -E "s|(https.+)master(.+wazuh-template.json)|\1\\$\\{source_branch\\}\2|"  "${resources_installer}/installVariables.sh"
+            sed -i -E "s|(https.+)master(.+fortishield-template.json)|\1\\$\\{source_branch\\}\2|"  "${resources_installer}/installVariables.sh"
         fi
         if [ -n "${development}" ]; then
-            sed -i 's|${wazuh_version}|v${wazuh_version}|g' "${resources_installer}/installVariables.sh"
+            sed -i 's|${fortishield_version}|v${fortishield_version}|g' "${resources_installer}/installVariables.sh"
         fi
     fi
 
@@ -285,9 +285,9 @@ function builder_main() {
 
 function checkDistDetectURL() {
 
-    urls=("https://raw.githubusercontent.com/wazuh/wazuh/${source_branch}/src/init/dist-detect.sh"
-          "https://raw.githubusercontent.com/wazuh/wazuh/v${source_branch}/src/init/dist-detect.sh"
-          "https://raw.githubusercontent.com/wazuh/wazuh/master/src/init/dist-detect.sh")
+    urls=("https://raw.githubusercontent.com/fortishield/fortishield/${source_branch}/src/init/dist-detect.sh"
+          "https://raw.githubusercontent.com/fortishield/fortishield/v${source_branch}/src/init/dist-detect.sh"
+          "https://raw.githubusercontent.com/fortishield/fortishield/master/src/init/dist-detect.sh")
 
     for url in "${urls[@]}"; do
         eval "curl -s -o /dev/null '${url}' --retry 5 --retry-delay 5 --max-time 300 --fail"
@@ -309,21 +309,21 @@ function checkDistDetectURL() {
 function checkFilebeatURL() {
 
     # Import variables
-    eval "$(grep -E "filebeat_wazuh_template=" "${resources_installer}/installVariables.sh")"
-    new_filebeat_url="https://raw.githubusercontent.com/wazuh/wazuh/master/extensions/elasticsearch/7.x/wazuh-template.json"
+    eval "$(grep -E "filebeat_fortishield_template=" "${resources_installer}/installVariables.sh")"
+    new_filebeat_url="https://raw.githubusercontent.com/fortishield/fortishield/master/extensions/elasticsearch/7.x/fortishield-template.json"
 
     # Get the response of the URL and check it
-    response=$(curl -I --write-out '%{http_code}' --silent --output /dev/null $filebeat_wazuh_template)
+    response=$(curl -I --write-out '%{http_code}' --silent --output /dev/null $filebeat_fortishield_template)
     if [ "${response}" != "200" ]; then
        	response=$(curl -I --write-out '%{http_code}' --silent --output /dev/null $new_filebeat_url)
 
         # Display error if both URLs do not get the resource
         if [ "${response}" != "200" ]; then
-            echo -e "Error: Could not get the Filebeat Wazuh template. "
+            echo -e "Error: Could not get the Filebeat Fortishield template. "
         # If matches, replace the variable of installVariables to the new one
         else
             echo -e "Changing Filebeat URL..."
-            sed -i -E "s|filebeat_wazuh_template=.*|filebeat_wazuh_template=\"${new_filebeat_url}\"|g" "${resources_installer}/installVariables.sh"
+            sed -i -E "s|filebeat_fortishield_template=.*|filebeat_fortishield_template=\"${new_filebeat_url}\"|g" "${resources_installer}/installVariables.sh"
             change_filebeat_url=1
         fi
     fi

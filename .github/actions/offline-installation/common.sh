@@ -44,7 +44,7 @@ function check_file() {
 function check_shards() {
 
     retries=0
-    until [ "$(curl -s -k -u admin:admin "https://localhost:9200/_template/wazuh?pretty&filter_path=wazuh.settings.index.number_of_shards" | grep "number_of_shards")" ] || [ "${retries}" -eq 5 ]; do
+    until [ "$(curl -s -k -u admin:admin "https://localhost:9200/_template/fortishield?pretty&filter_path=fortishield.settings.index.number_of_shards" | grep "number_of_shards")" ] || [ "${retries}" -eq 5 ]; do
         sleep 5
         retries=$((retries+1))
     done
@@ -53,64 +53,64 @@ function check_shards() {
         echo "ERROR: Could not get the number of shards."
         exit 1
     fi
-    curl -s -k -u admin:admin "https://localhost:9200/_template/wazuh?pretty&filter_path=wazuh.settings.index.number_of_shards"
+    curl -s -k -u admin:admin "https://localhost:9200/_template/fortishield?pretty&filter_path=fortishield.settings.index.number_of_shards"
     echo "INFO: Number of shards detected."
 
 }
 
 function dashboard_installation() {
 
-    install_package "wazuh-dashboard"
-    check_package "wazuh-dashboard"
+    install_package "fortishield-dashboard"
+    check_package "fortishield-dashboard"
 
-    echo "INFO: Generating certificates of the Wazuh dashboard..."
+    echo "INFO: Generating certificates of the Fortishield dashboard..."
     NODE_NAME=dashboard
-    mkdir /etc/wazuh-dashboard/certs
-    mv -n wazuh-certificates/$NODE_NAME.pem /etc/wazuh-dashboard/certs/dashboard.pem
-    mv -n wazuh-certificates/$NODE_NAME-key.pem /etc/wazuh-dashboard/certs/dashboard-key.pem
-    cp wazuh-certificates/root-ca.pem /etc/wazuh-dashboard/certs/
-    chmod 500 /etc/wazuh-dashboard/certs
-    chmod 400 /etc/wazuh-dashboard/certs/*
-    chown -R wazuh-dashboard:wazuh-dashboard /etc/wazuh-dashboard/certs
+    mkdir /etc/fortishield-dashboard/certs
+    mv -n fortishield-certificates/$NODE_NAME.pem /etc/fortishield-dashboard/certs/dashboard.pem
+    mv -n fortishield-certificates/$NODE_NAME-key.pem /etc/fortishield-dashboard/certs/dashboard-key.pem
+    cp fortishield-certificates/root-ca.pem /etc/fortishield-dashboard/certs/
+    chmod 500 /etc/fortishield-dashboard/certs
+    chmod 400 /etc/fortishield-dashboard/certs/*
+    chown -R fortishield-dashboard:fortishield-dashboard /etc/fortishield-dashboard/certs
 
     if [ "${sys_type}" == "deb" ]; then
-        enable_start_service "wazuh-dashboard"
+        enable_start_service "fortishield-dashboard"
     elif [ "${sys_type}" == "rpm" ]; then
-        /usr/share/wazuh-dashboard/bin/opensearch-dashboards "-c /etc/wazuh-dashboard/opensearch_dashboards.yml" --allow-root > /dev/null 2>&1 &
+        /usr/share/fortishield-dashboard/bin/opensearch-dashboards "-c /etc/fortishield-dashboard/opensearch_dashboards.yml" --allow-root > /dev/null 2>&1 &
     fi
 
     sleep 10
     # In this context, 302 HTTP code refers to SSL certificates warning: success.
     if [ "$(curl -k -s -I -w "%{http_code}" https://localhost -o /dev/null --fail)" -ne "302" ]; then
-        echo "ERROR: The Wazuh dashboard installation has failed."
+        echo "ERROR: The Fortishield dashboard installation has failed."
         exit 1
     fi
-    echo "INFO: The Wazuh dashboard is ready."
+    echo "INFO: The Fortishield dashboard is ready."
 
 }
 
 function download_resources() {
 
-    check_file "${ABSOLUTE_PATH}"/wazuh-install.sh
-    bash "${ABSOLUTE_PATH}"/wazuh-install.sh -dw "${sys_type}"
+    check_file "${ABSOLUTE_PATH}"/fortishield-install.sh
+    bash "${ABSOLUTE_PATH}"/fortishield-install.sh -dw "${sys_type}"
     echo "INFO: Downloading the resources..."
 
-    curl -sO https://packages.wazuh.com/4.3/config.yml
+    curl -sO https://fortishield.github.io/packages/4.3/config.yml
     check_file "config.yml"
 
     sed -i -e '0,/<indexer-node-ip>/ s/<indexer-node-ip>/127.0.0.1/' config.yml
-    sed -i -e '0,/<wazuh-manager-ip>/ s/<wazuh-manager-ip>/127.0.0.1/' config.yml
+    sed -i -e '0,/<fortishield-manager-ip>/ s/<fortishield-manager-ip>/127.0.0.1/' config.yml
     sed -i -e '0,/<dashboard-node-ip>/ s/<dashboard-node-ip>/127.0.0.1/' config.yml
 
-    curl -sO https://packages.wazuh.com/4.3/wazuh-certs-tool.sh
-    check_file "wazuh-certs-tool.sh"
-    chmod 744 wazuh-certs-tool.sh
-    ./wazuh-certs-tool.sh --all
+    curl -sO https://fortishield.github.io/packages/4.3/fortishield-certs-tool.sh
+    check_file "fortishield-certs-tool.sh"
+    chmod 744 fortishield-certs-tool.sh
+    ./fortishield-certs-tool.sh --all
 
-    tar xf wazuh-offline.tar.gz
+    tar xf fortishield-offline.tar.gz
     echo "INFO: Download finished."
 
-    if [ ! -d ./wazuh-offline ]; then
+    if [ ! -d ./fortishield-offline ]; then
         echo "ERROR: Could not download the resources."
         exit 1
     fi
@@ -142,22 +142,22 @@ function filebeat_installation() {
     install_package "filebeat"
     check_package "filebeat"
 
-    cp ./wazuh-offline/wazuh-files/filebeat.yml /etc/filebeat/ &&\
-    cp ./wazuh-offline/wazuh-files/wazuh-template.json /etc/filebeat/ &&\
-    chmod go+r /etc/filebeat/wazuh-template.json
+    cp ./fortishield-offline/fortishield-files/filebeat.yml /etc/filebeat/ &&\
+    cp ./fortishield-offline/fortishield-files/fortishield-template.json /etc/filebeat/ &&\
+    chmod go+r /etc/filebeat/fortishield-template.json
 
-    sed -i 's|\("index.number_of_shards": \)".*"|\1 "1"|' /etc/filebeat/wazuh-template.json
+    sed -i 's|\("index.number_of_shards": \)".*"|\1 "1"|' /etc/filebeat/fortishield-template.json
     filebeat keystore create
     echo admin | filebeat keystore add username --stdin --force
     echo admin | filebeat keystore add password --stdin --force
-    tar -xzf ./wazuh-offline/wazuh-files/wazuh-filebeat-0.4.tar.gz -C /usr/share/filebeat/module
+    tar -xzf ./fortishield-offline/fortishield-files/fortishield-filebeat-0.4.tar.gz -C /usr/share/filebeat/module
 
     echo "INFO: Generating certificates of Filebeat..."
-    NODE_NAME=wazuh-1
+    NODE_NAME=fortishield-1
     mkdir /etc/filebeat/certs
-    mv -n wazuh-certificates/$NODE_NAME.pem /etc/filebeat/certs/filebeat.pem
-    mv -n wazuh-certificates/$NODE_NAME-key.pem /etc/filebeat/certs/filebeat-key.pem
-    cp wazuh-certificates/root-ca.pem /etc/filebeat/certs/
+    mv -n fortishield-certificates/$NODE_NAME.pem /etc/filebeat/certs/filebeat.pem
+    mv -n fortishield-certificates/$NODE_NAME-key.pem /etc/filebeat/certs/filebeat-key.pem
+    cp fortishield-certificates/root-ca.pem /etc/filebeat/certs/
     chmod 500 /etc/filebeat/certs
     chmod 400 /etc/filebeat/certs/*
     chown -R root:root /etc/filebeat/certs
@@ -181,7 +181,7 @@ function filebeat_installation() {
 function indexer_initialize() {
 
     retries=0
-    until [ "$(cat /var/log/wazuh-indexer/wazuh-cluster.log | grep "Node started")" ] || [ "${retries}" -eq 5 ]; do
+    until [ "$(cat /var/log/fortishield-indexer/fortishield-cluster.log | grep "Node started")" ] || [ "${retries}" -eq 5 ]; do
         sleep 5
         retries=$((retries+1))
     done
@@ -190,45 +190,45 @@ function indexer_initialize() {
         echo "ERROR: The indexer node is not started."
         exit 1
     fi
-    /usr/share/wazuh-indexer/bin/indexer-init.sh
+    /usr/share/fortishield-indexer/bin/indexer-init.sh
 
 }
 
 function indexer_installation() {
 
     if [ "${sys_type}" == "rpm" ]; then
-        rpm --import ./wazuh-offline/wazuh-files/GPG-KEY-WAZUH
+        rpm --import ./fortishield-offline/fortishield-files/GPG-KEY-FORTISHIELD
     fi
 
-    install_package "wazuh-indexer"
-    check_package "wazuh-indexer"
+    install_package "fortishield-indexer"
+    check_package "fortishield-indexer"
 
-    echo "INFO: Generating certificates of the Wazuh indexer..."
+    echo "INFO: Generating certificates of the Fortishield indexer..."
     NODE_NAME=node-1
-    mkdir /etc/wazuh-indexer/certs
-    mv -n wazuh-certificates/$NODE_NAME.pem /etc/wazuh-indexer/certs/indexer.pem
-    mv -n wazuh-certificates/$NODE_NAME-key.pem /etc/wazuh-indexer/certs/indexer-key.pem
-    mv wazuh-certificates/admin-key.pem /etc/wazuh-indexer/certs/
-    mv wazuh-certificates/admin.pem /etc/wazuh-indexer/certs/
-    cp wazuh-certificates/root-ca.pem /etc/wazuh-indexer/certs/
-    chmod 500 /etc/wazuh-indexer/certs
-    chmod 400 /etc/wazuh-indexer/certs/*
-    chown -R wazuh-indexer:wazuh-indexer /etc/wazuh-indexer/certs
+    mkdir /etc/fortishield-indexer/certs
+    mv -n fortishield-certificates/$NODE_NAME.pem /etc/fortishield-indexer/certs/indexer.pem
+    mv -n fortishield-certificates/$NODE_NAME-key.pem /etc/fortishield-indexer/certs/indexer-key.pem
+    mv fortishield-certificates/admin-key.pem /etc/fortishield-indexer/certs/
+    mv fortishield-certificates/admin.pem /etc/fortishield-indexer/certs/
+    cp fortishield-certificates/root-ca.pem /etc/fortishield-indexer/certs/
+    chmod 500 /etc/fortishield-indexer/certs
+    chmod 400 /etc/fortishield-indexer/certs/*
+    chown -R fortishield-indexer:fortishield-indexer /etc/fortishield-indexer/certs
 
-    sed -i 's|\(network.host: \)"0.0.0.0"|\1"127.0.0.1"|' /etc/wazuh-indexer/opensearch.yml
+    sed -i 's|\(network.host: \)"0.0.0.0"|\1"127.0.0.1"|' /etc/fortishield-indexer/opensearch.yml
 
     if [ "${sys_type}" == "rpm" ]; then
-        runuser "wazuh-indexer" --shell="/bin/bash" --command="OPENSEARCH_PATH_CONF=/etc/wazuh-indexer /usr/share/wazuh-indexer/bin/opensearch" > /dev/null 2>&1 &
+        runuser "fortishield-indexer" --shell="/bin/bash" --command="OPENSEARCH_PATH_CONF=/etc/fortishield-indexer /usr/share/fortishield-indexer/bin/opensearch" > /dev/null 2>&1 &
         sleep 5
     elif [ "${sys_type}" == "deb" ]; then
-        enable_start_service "wazuh-indexer"
+        enable_start_service "fortishield-indexer"
     fi
 
     indexer_initialize
     sleep 10
     eval "curl -s -XGET https://localhost:9200 -u admin:admin -k --fail"
     if [ "${PIPESTATUS[0]}" != 0 ]; then
-        echo "ERROR: The Wazuh indexer installation has failed."
+        echo "ERROR: The Fortishield indexer installation has failed."
         exit 1
     fi
 
@@ -290,22 +290,22 @@ function install_dependencies() {
 function install_package() {
 
     if [ "${sys_type}" == "deb" ]; then
-        dpkg -i ./wazuh-offline/wazuh-packages/"${1}"*.deb
+        dpkg -i ./fortishield-offline/fortishield-packages/"${1}"*.deb
     elif [ "${sys_type}" == "rpm" ]; then
-        rpm -ivh ./wazuh-offline/wazuh-packages/"${1}"*.rpm
+        rpm -ivh ./fortishield-offline/fortishield-packages/"${1}"*.rpm
     fi
 
 }
 
 function manager_installation() {
 
-    install_package "wazuh-manager"
-    check_package "wazuh-manager"
+    install_package "fortishield-manager"
+    check_package "fortishield-manager"
 
     if [ "${sys_type}" == "deb" ]; then
-        enable_start_service "wazuh-manager"
+        enable_start_service "fortishield-manager"
     elif [ "${sys_type}" == "rpm" ]; then
-        /var/ossec/bin/wazuh-control start
+        /var/ossec/bin/fortishield-control start
     fi
 
 }

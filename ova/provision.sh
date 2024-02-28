@@ -5,9 +5,9 @@ DEBUG=$2
 
 RESOURCES_PATH="/tmp/unattended_installer"
 BUILDER="builder.sh"
-INSTALLER="wazuh-install.sh"
-SYSTEM_USER="wazuh-user"
-HOSTNAME="wazuh-server"
+INSTALLER="fortishield-install.sh"
+SYSTEM_USER="fortishield-user"
+HOSTNAME="fortishield-server"
 
 CURRENT_PATH="$( cd $(dirname $0) ; pwd -P )"
 ASSETS_PATH="${CURRENT_PATH}/assets"
@@ -31,7 +31,7 @@ echo "Using ${PACKAGES_REPOSITORY} packages"
 
 # Build install script
 bash ${RESOURCES_PATH}/${BUILDER} ${BUILDER_ARGS}
-WAZUH_VERSION=$(cat ${RESOURCES_PATH}/${INSTALLER} | grep "wazuh_version=" | cut -d "\"" -f 2)
+FORTISHIELD_VERSION=$(cat ${RESOURCES_PATH}/${INSTALLER} | grep "fortishield_version=" | cut -d "\"" -f 2)
 
 # System configuration
 systemConfig
@@ -42,9 +42,9 @@ preInstall
 # Install
 bash ${RESOURCES_PATH}/${INSTALLER} ${INSTALL_ARGS}
 
-systemctl stop wazuh-dashboard filebeat wazuh-indexer wazuh-manager
-systemctl enable wazuh-manager
-rm -f /var/log/wazuh-indexer/*
+systemctl stop fortishield-dashboard filebeat fortishield-indexer fortishield-manager
+systemctl enable fortishield-manager
+rm -f /var/log/fortishield-indexer/*
 rm -f /var/log/filebeat/*
 
 clean

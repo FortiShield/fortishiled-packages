@@ -1,5 +1,5 @@
 [Unit]
-Description=Update Wazuh Indexer jvm.option memory heap space
+Description=Update Fortishield Indexer jvm.option memory heap space
 
 [Install]
 WantedBy=multi-user.target

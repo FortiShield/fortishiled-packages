@@ -76,8 +76,8 @@ kibana_user:
   and_backend_roles: []
   description: "Maps kibanauser to kibana_user"
 
-# Wazuh monitoring and statistics index permissions
-manage_wazuh_index:
+# Fortishield monitoring and statistics index permissions
+manage_fortishield_index:
   reserved: true
   hidden: false
   backend_roles: []

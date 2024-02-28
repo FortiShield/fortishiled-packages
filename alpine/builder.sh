@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package builder
-# Copyright (C) 2022, Wazuh Inc.
+# Fortishield package builder
+# Copyright (C) 2022, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -12,7 +12,7 @@ set -ex
 
 # Script parameters to build the package
 keypath="/root/.abuild"
-export target="wazuh-agent"
+export target="fortishield-agent"
 export reference=$1
 export architecture=$2
 export revision=$3
@@ -36,17 +36,17 @@ if [ -z "${revision}" ]; then
 fi
 
 if [ "${local_source}" = "no" ]; then
-    curl -sL https://github.com/wazuh/wazuh/tarball/${reference} | tar zx
+    curl -sL https://github.com/fortishield/fortishield/tarball/${reference} | tar zx
 fi
-export version="$(cat wazuh*/src/VERSION | cut -d 'v' -f 2)"
+export version="$(cat fortishield*/src/VERSION | cut -d 'v' -f 2)"
 
 if [ "${future}" = "yes" ]; then
     old_version=$version
     MAJOR=$(echo $version | cut -dv -f2 | cut -d. -f1)
     export version="${MAJOR}.30.0"
-    sed -i "s/${old_version}/${version}/g" "/wazuh"*"/src/init/wazuh-server.sh"
-    sed -i "s/${old_version}/${version}/g" "/wazuh"*"/src/init/wazuh-client.sh"
-    sed -i "s/${old_version}/${version}/g" "/wazuh"*"/src/init/wazuh-local.sh"
+    sed -i "s/${old_version}/${version}/g" "/fortishield"*"/src/init/fortishield-server.sh"
+    sed -i "s/${old_version}/${version}/g" "/fortishield"*"/src/init/fortishield-client.sh"
+    sed -i "s/${old_version}/${version}/g" "/fortishield"*"/src/init/fortishield-local.sh"
 fi
 
 
@@ -71,8 +71,8 @@ pkg_file="${file_name}.apk"
 
 # Including spec file
 if [ "${local_spec}" = "no" ]; then
-    curl -sL https://github.com/wazuh/wazuh-packages/tarball/${spec_reference} | tar zx
-    cp -r ./wazuh*/alpine/SPECS/${target} ${spec_path}/
+    curl -sL https://github.com/fortishield/fortishield-packages/tarball/${spec_reference} | tar zx
+    cp -r ./fortishield*/alpine/SPECS/${target} ${spec_path}/
 else
     cp -r /root/repository/alpine/SPECS/${target} ${spec_path}/
 fi
@@ -88,5 +88,5 @@ else
     abuild -F -r
 fi
 
-cd ${pkg_path} && sha512sum ${pkg_file} > /var/local/wazuh/${pkg_file}.sha512
-find ${pkg_path}/ -maxdepth 3 -type f -name "${file_name}*" -exec mv {} /var/local/wazuh/ \;
+cd ${pkg_path} && sha512sum ${pkg_file} > /var/local/fortishield/${pkg_file}.sha512
+find ${pkg_path}/ -maxdepth 3 -type f -name "${file_name}*" -exec mv {} /var/local/fortishield/ \;

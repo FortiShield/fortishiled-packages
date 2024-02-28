@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Configure JVM options for Wazuh indexer
+# Configure JVM options for Fortishield indexer
 ram_mb=$(free -m | awk '/^Mem:/{print $2}')
 ram="$(( ram_mb / 2 ))"
 
@@ -9,7 +9,7 @@ if [ "${ram}" -eq "0" ]; then
 fi
 
 regex="^\-Xmx\K[0-9]+"
-file="/etc/wazuh-indexer/jvm.options"
+file="/etc/fortishield-indexer/jvm.options"
 value=$(grep -oP ${regex} ${file})
 
 if [[ "${value}" != "${ram}" ]]; then

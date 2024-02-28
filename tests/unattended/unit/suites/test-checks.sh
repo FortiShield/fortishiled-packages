@@ -15,29 +15,29 @@ test-ASSERT-FAIL-01-checks_names-indexer-dashboard-equals() {
     load-checks_names
     indxname="node1"
     dashname="node1"
-    winame="wazuh"
+    winame="fortishield"
     checks_names
 }
 
-test-ASSERT-FAIL-02-checks_names-indexer-wazuh-equals() {
+test-ASSERT-FAIL-02-checks_names-indexer-fortishield-equals() {
     load-checks_names
     indxname="node1"
     winame="node1"
     checks_names
 }
 
-test-ASSERT-FAIL-03-checks_names-dashboard-wazuh-equals() {
+test-ASSERT-FAIL-03-checks_names-dashboard-fortishield-equals() {
     load-checks_names
     dashname="node1"
     winame="node1"
     checks_names
 }
 
-test-ASSERT-FAIL-04-checks_names-wazuh-node-name-not-in-config() {
+test-ASSERT-FAIL-04-checks_names-fortishield-node-name-not-in-config() {
     load-checks_names
     winame="node1"
-    server_node_names=(wazuh node10)
-    @mock echo ${server_node_names[@]} === @out wazuh node10
+    server_node_names=(fortishield node10)
+    @mock echo ${server_node_names[@]} === @out fortishield node10
     @mock grep -w $winame === @false
     checks_names
 }
@@ -64,13 +64,13 @@ test-07-checks_names-all-correct-installing-indexer() {
     load-checks_names
     indxname="indexer1"
     dashname="dashboard1"
-    winame="wazuh1"
+    winame="fortishield1"
     indexer_node_names=(indexer1 node1)
-    server_node_names=(wazuh1 node2)
+    server_node_names=(fortishield1 node2)
     dashboard_node_names=(dashboard1 node3)
     indexer=1
     @mock echo ${indexer_node_names[@]} === @out indexer1 node1
-    @mock echo ${server_node_names[@]} === @out wazuh1 node2
+    @mock echo ${server_node_names[@]} === @out fortishield1 node2
     @mock echo ${dashboard_node_names[@]} === @out dashboard1 node3
     @mock grep -w $indxname
     @mock grep -w $winame
@@ -79,17 +79,17 @@ test-07-checks_names-all-correct-installing-indexer() {
     @assert-success
 }
 
-test-08-checks_names-all-correct-installing-wazuh() {
+test-08-checks_names-all-correct-installing-fortishield() {
     load-checks_names
     indxname="indexer1"
     dashname="dashboard1"
-    winame="wazuh1"
+    winame="fortishield1"
     indexer_node_names=(indexer1 node1)
-    server_node_names=(wazuh1 node2)
+    server_node_names=(fortishield1 node2)
     dashboard_node_names=(dashboard1 node3)
-    wazuh=1
+    fortishield=1
     @mock echo ${indexer_node_names[@]} === @out indexer1 node1
-    @mock echo ${server_node_names[@]} === @out wazuh1 node2
+    @mock echo ${server_node_names[@]} === @out fortishield1 node2
     @mock echo ${dashboard_node_names[@]} === @out dashboard1 node3
     @mock grep -w $indxname
     @mock grep -w $winame
@@ -102,13 +102,13 @@ test-09-checks_names-all-correct-installing-dashboard() {
     load-checks_names
     indxname="indexer1"
     dashname="dashboard1"
-    winame="wazuh1"
+    winame="fortishield1"
     indexer_node_names=(indexer1 node1)
-    server_node_names=(wazuh1 node2)
+    server_node_names=(fortishield1 node2)
     dashboard_node_names=(dashboard1 node3)
     dashboard=1
     @mock echo ${indexer_node_names[@]} === @out indexer1 node1
-    @mock echo ${server_node_names[@]} === @out wazuh1 node2
+    @mock echo ${server_node_names[@]} === @out fortishield1 node2
     @mock echo ${dashboard_node_names[@]} === @out dashboard1 node3
     @mock grep -w $indxname
     @mock grep -w $winame
@@ -168,7 +168,7 @@ test-ASSERT-FAIL-15-checks_arguments-overwrite-with-no-component-installed() {
     overwrite=1
     AIO=
     indexer=
-    wazuh=
+    fortishield=
     dashboard=
     checks_arguments
 }
@@ -178,8 +178,8 @@ test-16-checks_arguments-uninstall-no-component-installed() {
     uninstall=1
     indexer_installed=""
     indexer_remaining_files=""
-    wazuh_installed=""
-    wazuh_remaining_files=""
+    fortishield_installed=""
+    fortishield_remaining_files=""
     dashboard_installed=""
     dashboard_remaining_files=""
     filebeat_installed=""
@@ -195,10 +195,10 @@ test-ASSERT-FAIL-17-checks_arguments-uninstall-and-AIO() {
     checks_arguments
 }
 
-test-ASSERT-FAIL-18-checks_arguments-uninstall-and-wazuh() {
+test-ASSERT-FAIL-18-checks_arguments-uninstall-and-fortishield() {
     load-checks_arguments
     uninstall=1
-    wazuh=1
+    fortishield=1
     checks_arguments
 }
 
@@ -223,10 +223,10 @@ test-ASSERT-FAIL-21-checks_arguments-install-AIO-and-indexer () {
     checks_arguments
 }
 
-test-ASSERT-FAIL-22-checks_arguments-install-AIO-and-wazuh () {
+test-ASSERT-FAIL-22-checks_arguments-install-AIO-and-fortishield () {
     load-checks_arguments
     AIO=1
-    wazuh=1
+    fortishield=1
     checks_arguments
 }
 
@@ -237,18 +237,18 @@ test-ASSERT-FAIL-23-checks_arguments-install-AIO-and-dashboard () {
     checks_arguments
 }
 
-test-ASSERT-FAIL-24-checks_arguments-install-AIO-wazuh-installed-no-overwrite() {
+test-ASSERT-FAIL-24-checks_arguments-install-AIO-fortishield-installed-no-overwrite() {
     load-checks_arguments
     AIO=1
-    wazuh_installed=1
+    fortishield_installed=1
     overwrite=
     checks_arguments
 }
 
-test-ASSERT-FAIL-25-checks_arguments-install-AIO-wazuh-files-no-overwrite() {
+test-ASSERT-FAIL-25-checks_arguments-install-AIO-fortishield-files-no-overwrite() {
     load-checks_arguments
     AIO=1
-    wazuh_remaining_files=1
+    fortishield_remaining_files=1
     overwrite=
     checks_arguments
 }
@@ -285,27 +285,27 @@ test-ASSERT-FAIL-29-checks_arguments-install-AIO-dashboard-files-no-overwrite() 
     checks_arguments
 }
 
-test-30-checks_arguments-install-AIO-wazuh-installed-overwrite() {
+test-30-checks_arguments-install-AIO-fortishield-installed-overwrite() {
     load-checks_arguments
     AIO=1
-    wazuh_installed=1
+    fortishield_installed=1
     overwrite=1
     checks_arguments
 }
 
-test-30-checks_arguments-install-AIO-wazuh-installed-overwrite-assert() {
+test-30-checks_arguments-install-AIO-fortishield-installed-overwrite-assert() {
     installCommon_rollBack
 }
 
-test-31-checks_arguments-install-AIO-wazuh-files-overwrite() {
+test-31-checks_arguments-install-AIO-fortishield-files-overwrite() {
     load-checks_arguments
     AIO=1
-    wazuh_remaining_files=1
+    fortishield_remaining_files=1
     overwrite=1
     checks_arguments
 }
 
-test-31-checks_arguments-install-AIO-wazuh-files-overwrite-assert() {
+test-31-checks_arguments-install-AIO-fortishield-files-overwrite-assert() {
     installCommon_rollBack
 }
 
@@ -397,83 +397,83 @@ test-39-checks_arguments-install-indexer-remaining-files-overwrite-assert() {
     installCommon_rollBack
 }
 
-test-ASSERT-FAIL-40-checks_arguments-install-wazuh-already-installed-no-overwrite() {
+test-ASSERT-FAIL-40-checks_arguments-install-fortishield-already-installed-no-overwrite() {
     load-checks_arguments
-    wazuh=1
-    wazuh_installed=1
+    fortishield=1
+    fortishield_installed=1
     overwrite=
     checks_arguments
 }
 
-test-ASSERT-FAIL-41-checks_arguments-install-wazuh-remaining-files-no-overwrite() {
+test-ASSERT-FAIL-41-checks_arguments-install-fortishield-remaining-files-no-overwrite() {
     load-checks_arguments
-    wazuh=1
-    wazuh_remaining_files=1
+    fortishield=1
+    fortishield_remaining_files=1
     overwrite=
     checks_arguments
 }
 
-test-42-checks_arguments-install-wazuh-already-installed-overwrite() {
+test-42-checks_arguments-install-fortishield-already-installed-overwrite() {
     load-checks_arguments
-    wazuh=1
-    wazuh_installed=1
+    fortishield=1
+    fortishield_installed=1
     overwrite=1
     checks_arguments
 }
 
-test-42-checks_arguments-install-wazuh-already-installed-overwrite-assert() {
+test-42-checks_arguments-install-fortishield-already-installed-overwrite-assert() {
     installCommon_rollBack
 }
 
-test-43-checks_arguments-install-wazuh-remaining-files-overwrite() {
+test-43-checks_arguments-install-fortishield-remaining-files-overwrite() {
     load-checks_arguments
-    wazuh=1
-    wazuh_remaining_files=1
+    fortishield=1
+    fortishield_remaining_files=1
     overwrite=1
     checks_arguments
 }
 
-test-43-checks_arguments-install-wazuh-remaining-files-overwrite-assert() {
+test-43-checks_arguments-install-fortishield-remaining-files-overwrite-assert() {
     installCommon_rollBack
 }
 
-test-ASSERT-FAIL-44-checks_arguments-install-wazuh-filebeat-already-installed-no-overwrite() {
+test-ASSERT-FAIL-44-checks_arguments-install-fortishield-filebeat-already-installed-no-overwrite() {
     load-checks_arguments
-    wazuh=1
+    fortishield=1
     filebeat_installed=1
     overwrite=
     checks_arguments
 }
 
-test-ASSERT-FAIL-45-checks_arguments-install-wazuh-filebeat-remaining-files-no-overwrite() {
+test-ASSERT-FAIL-45-checks_arguments-install-fortishield-filebeat-remaining-files-no-overwrite() {
     load-checks_arguments
-    wazuh=1
+    fortishield=1
     filebeat_remaining_files=1
     overwrite=
     checks_arguments
 }
 
-test-46-checks_arguments-install-wazuh-filebeat-already-installed-overwrite() {
+test-46-checks_arguments-install-fortishield-filebeat-already-installed-overwrite() {
     load-checks_arguments
-    wazuh=1
+    fortishield=1
     filebeat_installed=1
     overwrite=1
     checks_arguments
 }
 
-test-46-checks_arguments-install-wazuh-filebeat-already-installed-overwrite-assert() {
+test-46-checks_arguments-install-fortishield-filebeat-already-installed-overwrite-assert() {
     installCommon_rollBack
 }
 
-test-47-checks_arguments-install-wazuh-filebeat-remaining-files-overwrite() {
+test-47-checks_arguments-install-fortishield-filebeat-remaining-files-overwrite() {
     load-checks_arguments
-    wazuh=1
+    fortishield=1
     filebeat_remaining_files=1
     overwrite=1
     checks_arguments
 }
 
-test-47-checks_arguments-install-wazuh-filebeat-remaining-files-overwrite-assert() {
+test-47-checks_arguments-install-fortishield-filebeat-remaining-files-overwrite-assert() {
     installCommon_rollBack
 }
 
@@ -603,27 +603,27 @@ test-61-checks_health-dashboard-2-cores-3700-ram() {
     @assert-success
 }
 
-test-ASSERT-FAIL-62-checks_health-wazuh-1-core-1700-ram() {
+test-ASSERT-FAIL-62-checks_health-fortishield-1-core-1700-ram() {
     load-checks_health
     cores=1
     ram_gb=1700
-    wazuh=1
+    fortishield=1
     checks_health
 }
 
-test-ASSERT-FAIL-63-checks_health-wazuh-2-cores-1000-ram() {
+test-ASSERT-FAIL-63-checks_health-fortishield-2-cores-1000-ram() {
     load-checks_health
     cores=2
     ram_gb=1000
-    wazuh=1
+    fortishield=1
     checks_health
 }
 
-test-64-checks_health-wazuh-2-cores-1700-ram() {
+test-64-checks_health-fortishield-2-cores-1700-ram() {
     load-checks_health
     cores=2
     ram_gb=1700
-    wazuh=1
+    fortishield=1
     checks_health
     @assert-success
 }
@@ -670,9 +670,9 @@ test-ASSERT-FAIL-68-checks_previousCertificate-winame-not-in-tar_file() {
     tar_file=/tmp/tarfile.tar
     @touch /tmp/tarfile.tar
     @mock tar -tf tarfile.tar
-    winame="wazuh1"
-    @mockfalse grep -q wazuh1.pem
-    @mockfalse grep -q wazuh1-key.pem
+    winame="fortishield1"
+    @mockfalse grep -q fortishield1.pem
+    @mockfalse grep -q fortishield1-key.pem
     checks_previousCertificate
     @rm /tmp/tarfile.tar
 }
@@ -685,9 +685,9 @@ test-69-checks_previousCertificate-all-correct() {
     indxname="indexer1"
     @mocktrue grep -q indexer1.pem
     @mocktrue grep -q indexer1-key.pem
-    winame="wazuh1"
-    @mocktrue grep -q wazuh1.pem
-    @mocktrue grep -q wazuh1-key.pem
+    winame="fortishield1"
+    @mocktrue grep -q fortishield1.pem
+    @mocktrue grep -q fortishield1-key.pem
     dashname="dashboard1"
     @mocktrue grep -q dashboard1.pem
     @mocktrue grep -q dashboard1-key.pem

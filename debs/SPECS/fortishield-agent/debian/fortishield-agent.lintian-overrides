@@ -1,0 +1,9 @@
+fortishield-agent: embedded-library
+fortishield-agent: embedded-zlib
+fortishield-agent: possible-gpl-code-linked-with-openssl
+fortishield-agent: new-package-should-close-itp-bug
+fortishield-agent: possibly-insecure-handling-of-tmp-files-in-maintainer-script
+fortishield-agent: non-standard-dir-in-var
+fortishield-agent: file-in-unusual-dir
+fortishield-agent: hardening-no-fortify-functions
+fortishield-agent: hardening-no-relro

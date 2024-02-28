@@ -129,14 +129,14 @@ asynchronous_search_read_access:
   cluster_permissions:
     - 'cluster:admin/opendistro/asynchronous_search/get'
 
-# Wazuh monitoring and statistics index permissions
-manage_wazuh_index:
+# Fortishield monitoring and statistics index permissions
+manage_fortishield_index:
   reserved: true
   hidden: false
   cluster_permissions: []
   index_permissions:
   - index_patterns:
-    - "wazuh-*"
+    - "fortishield-*"
     dls: ""
     fls: []
     masked_fields: []

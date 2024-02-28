@@ -15,11 +15,11 @@ jobs:
         with:
           # You can target a repository in a different organization
           # to the issue
-          project-url: https://github.com/orgs/wazuh/projects/3
+          project-url: https://github.com/orgs/fortishield/projects/3
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
       - uses: actions/add-to-project@v0.4.0
         with:
           # You can target a repository in a different organization
           # to the issue
-          project-url: https://github.com/orgs/wazuh/projects/15
+          project-url: https://github.com/orgs/fortishield/projects/15
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}

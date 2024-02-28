@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2019, Wazuh Inc.
+# Copyright (C) 2019, Fortishield Inc.
 #
 # Ova2Ovf.py        Helper script to convert VBox .ova export
 #                   for import to VMWare ESXi
@@ -7,7 +7,7 @@
 # Original author: eshizhan https://github.com/eshizhan
 # Author: Neova Health
 # forked from : https://gist.github.com/eshizhan/6650285
-# Modified by Wazuh, Inc
+# Modified by Fortishield, Inc
 
 import sys
 import tarfile

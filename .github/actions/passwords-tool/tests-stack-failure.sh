@@ -1,15 +1,15 @@
 #!/bin/bash
 
-apiPass="$(cat wazuh-install-files/wazuh-passwords.txt | awk "/username: 'wazuh'/{getline;print;}" | awk '{ print $2 }' | tr -d \' )"
-adminPass="$(cat wazuh-install-files/wazuh-passwords.txt | awk "/username: 'admin'/{getline;print;}" | awk '{ print $2 }' | tr -d \')"
+apiPass="$(cat fortishield-install-files/fortishield-passwords.txt | awk "/username: 'fortishield'/{getline;print;}" | awk '{ print $2 }' | tr -d \' )"
+adminPass="$(cat fortishield-install-files/fortishield-passwords.txt | awk "/username: 'admin'/{getline;print;}" | awk '{ print $2 }' | tr -d \')"
 
-if ! bash wazuh-passwords-tool.sh -u wazuuuh | grep "ERROR"; then
+if ! bash fortishield-passwords-tool.sh -u wazuuuh | grep "ERROR"; then
    exit 1
-elif ! sudo bash wazuh-passwords-tool.sh -u admin -p password | grep "ERROR"; then
+elif ! sudo bash fortishield-passwords-tool.sh -u admin -p password | grep "ERROR"; then
    exit 1 
-elif ! sudo bash wazuh-passwords-tool.sh -au wazuh -ap "${adminPass}" -u wazuh -p password -A | grep "ERROR"; then
+elif ! sudo bash fortishield-passwords-tool.sh -au fortishield -ap "${adminPass}" -u fortishield -p password -A | grep "ERROR"; then
    exit 1
-elif ! curl -s -u wazuh:wazuh -k -X POST "https://localhost:55000/security/user/authenticate" | grep "Invalid credentials"; then
+elif ! curl -s -u fortishield:fortishield -k -X POST "https://localhost:55000/security/user/authenticate" | grep "Invalid credentials"; then
    exit 1
 elif ! curl -s -u wazuuh:"${apiPass}" -k -X POST "https://localhost:55000/security/user/authenticate" | grep "Invalid credentials"; then
    exit 1

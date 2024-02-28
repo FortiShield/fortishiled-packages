@@ -17,7 +17,7 @@ RUN echo "deb http://archive.debian.org/debian/ wheezy contrib main non-free" > 
 RUN apt-get update && apt-get build-dep python3.2 -y --force-yes
 RUN sed -i "s;/\* To add :#define SO_REUSEPORT 15 \*/;#define SO_REUSEPORT 15;g" /usr/include/asm-generic/socket.h
 
-RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/gcc/gcc-9.4.0.tar.gz && \
     tar xzf gcc-9.4.0.tar.gz  && cd gcc-9.4.0/ && \
     linux32 ./contrib/download_prerequisites && \
     linux32 ./configure --prefix=/usr/local/gcc-9.4.0 --enable-languages=c,c++ \
@@ -30,7 +30,7 @@ ENV CPLUS_INCLUDE_PATH "/usr/local/gcc-9.4.0/include/c++/9.4.0/"
 ENV LD_LIBRARY_PATH "/usr/local/gcc-9.4.0/lib:${LD_LIBRARY_PATH}"
 ENV PATH "/usr/local/gcc-9.4.0/bin:${PATH}"
 
-RUN curl -OL http://packages.wazuh.com/utils/cmake/cmake-3.18.3.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/cmake/cmake-3.18.3.tar.gz && \
     tar -zxvf cmake-3.18.3.tar.gz && cd cmake-3.18.3 && \
     linux32 ./bootstrap --no-system-curl CXX=/usr/local/gcc-9.4.0/bin/g++ \
         CC=/usr/local/gcc-9.4.0/bin/gcc && \

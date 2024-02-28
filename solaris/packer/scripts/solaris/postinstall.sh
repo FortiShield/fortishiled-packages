@@ -1,8 +1,8 @@
 #!/bin/sh
 # postinstall script for Solaris VMs
-# Wazuh, Inc 2015
+# Fortishield, Inc 2015
 
-# install wazuh dependencies & some important packages
+# install fortishield dependencies & some important packages
 
 if [ "$(uname -v)" = "11.3" ]; then
   export PATH="${PATH}:/usr/sfw/bin:/opt/csw/bin"
@@ -32,15 +32,15 @@ mv /opt/csw/bin/perl5.10.1 /usr/bin/
 mv /usr/bin/perl5.10.1 /usr/bin/perl
 
 # Compile GCC-5.5 and CMake
-curl -L http://packages.wazuh.com/utils/gcc/gcc-5.5.0.tar.gz | gtar xz
+curl -L http://fortishield.github.io/packages/utils/gcc/gcc-5.5.0.tar.gz | gtar xz
 cd gcc-5.5.0
-curl -L http://packages.wazuh.com/utils/gcc/mpfr-2.4.2.tar.bz2 | gtar xj
+curl -L http://fortishield.github.io/packages/utils/gcc/mpfr-2.4.2.tar.bz2 | gtar xj
 mv mpfr-2.4.2 mpfr
-curl -L http://packages.wazuh.com/utils/gcc/gmp-4.3.2.tar.bz2 | gtar xj
+curl -L http://fortishield.github.io/packages/utils/gcc/gmp-4.3.2.tar.bz2 | gtar xj
 mv gmp-4.3.2 gmp
-curl -L http://packages.wazuh.com/utils/gcc/mpc-0.8.1.tar.gz | gtar xz
+curl -L http://fortishield.github.io/packages/utils/gcc/mpc-0.8.1.tar.gz | gtar xz
 mv mpc-0.8.1 mpc
-curl -L http://packages.wazuh.com/utils/gcc/isl-0.14.tar.bz2 | gtar xj
+curl -L http://fortishield.github.io/packages/utils/gcc/isl-0.14.tar.bz2 | gtar xj
 mv isl-0.14 isl
 unset CPLUS_INCLUDE_PATH
 unset LD_LIBRARY_PATH
@@ -68,7 +68,7 @@ echo "export CPLUS_INCLUDE_PATH=/usr/local/gcc-5.5.0/include/c++/5.5.0" >> /etc/
 echo "export LD_LIBRARY_PATH=/usr/local/gcc-5.5.0/lib" >> /etc/profile
 rm -rf gcc-*
 
-curl -sL http://packages.wazuh.com/utils/cmake/cmake-3.18.3.tar.gz | gtar xz
+curl -sL http://fortishield.github.io/packages/utils/cmake/cmake-3.18.3.tar.gz | gtar xz
 cd cmake-3.18.3
 ./bootstrap CC=/usr/local/gcc-5.5.0/bin/gcc CXX=/usr/local/gcc-5.5.0/bin/g++
 gmake -j$(nproc) && gmake install

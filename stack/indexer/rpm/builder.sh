@@ -2,8 +2,8 @@
 
 set -x
 
-# Wazuh package builder
-# Copyright (C) 2021, Wazuh Inc.
+# Fortishield package builder
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -13,12 +13,12 @@ set -x
 set -e
 
 # Script parameters to build the package
-target="wazuh-indexer"
+target="fortishield-indexer"
 architecture=$1
 revision=$2
 future=$3
 reference=$4
-directory_base="/usr/share/wazuh-indexer"
+directory_base="/usr/share/fortishield-indexer"
 
 if [ -z "${revision}" ]; then
     revision="1"
@@ -28,7 +28,7 @@ if [ "${future}" = "yes" ];then
     version="99.99.0"
 else
     if [ "${reference}" ];then
-        version=$(curl -sL https://raw.githubusercontent.com/wazuh/wazuh-packages/${reference}/VERSION | cat)
+        version=$(curl -sL https://raw.githubusercontent.com/fortishield/fortishield-packages/${reference}/VERSION | cat)
     else
         version=$(cat /root/VERSION)
     fi
@@ -48,9 +48,9 @@ mkdir ${build_dir}/${pkg_name}
 
 # Including spec file
 if [ "${reference}" ];then
-    curl -sL https://github.com/wazuh/wazuh-packages/tarball/${reference} | tar zx
-    cp ./wazuh*/stack/indexer/rpm/${target}.spec ${rpm_build_dir}/SPECS/${pkg_name}.spec
-    cp -r ./wazuh*/* /root/
+    curl -sL https://github.com/fortishield/fortishield-packages/tarball/${reference} | tar zx
+    cp ./fortishield*/stack/indexer/rpm/${target}.spec ${rpm_build_dir}/SPECS/${pkg_name}.spec
+    cp -r ./fortishield*/* /root/
 else
     cp /root/stack/indexer/rpm/${target}.spec ${rpm_build_dir}/SPECS/${pkg_name}.spec
 fi

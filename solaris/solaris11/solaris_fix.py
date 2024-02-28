@@ -1,7 +1,7 @@
 import json
 import argparse
 
-aux_file_name = 'wazuh-agent.p5m.1.aux'
+aux_file_name = 'fortishield-agent.p5m.1.aux'
 
 def clean_file(p5m1_file_path):
     aux_file = open(aux_file_name, 'w')
@@ -30,7 +30,7 @@ def set_p5m1(template_path, p5m1_file_path):
     new_file = aux_file_name+".fixed"
 
     with open(new_file, "w") as p5m1_fixed:
-        p5m1_fixed.write("dir  path=var/ossec owner=root group=wazuh mode=0750"+"\n")
+        p5m1_fixed.write("dir  path=var/ossec owner=root group=fortishield mode=0750"+"\n")
         for line in pm51:
             line_components = line.split(' ')
             # if the element is a directory or a file, set the necessary
@@ -71,8 +71,8 @@ def set_p5m1(template_path, p5m1_file_path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--template_path", type=str, help="Path where the wazuh_agent_vVERSION is located.", required=True)
-    parser.add_argument("-p", "--p5m1_file_path", type=str, help="Path where the wazuh-agent.p5m.1 file is located.", required=True)
+    parser.add_argument("-t", "--template_path", type=str, help="Path where the fortishield_agent_vVERSION is located.", required=True)
+    parser.add_argument("-p", "--p5m1_file_path", type=str, help="Path where the fortishield-agent.p5m.1 file is located.", required=True)
     args = parser.parse_args()
 
     clean_file(p5m1_file_path=args.p5m1_file_path)

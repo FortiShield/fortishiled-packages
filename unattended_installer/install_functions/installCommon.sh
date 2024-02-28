@@ -1,5 +1,5 @@
-# Wazuh installer - common.sh functions.
-# Copyright (C) 2015, Wazuh Inc.
+# Fortishield installer - common.sh functions.
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -44,46 +44,46 @@ function installCommon_cleanExit() {
 
 }
 
-function installCommon_addWazuhRepo() {
+function installCommon_addFortishieldRepo() {
 
-    common_logger -d "Adding the Wazuh repository."
+    common_logger -d "Adding the Fortishield repository."
 
     if [ -n "${development}" ]; then
         if [ "${sys_type}" == "yum" ]; then
-            eval "rm -f /etc/yum.repos.d/wazuh.repo ${debug}"
+            eval "rm -f /etc/yum.repos.d/fortishield.repo ${debug}"
         elif [ "${sys_type}" == "apt-get" ]; then
-            eval "rm -f /etc/apt/sources.list.d/wazuh.list ${debug}"
+            eval "rm -f /etc/apt/sources.list.d/fortishield.list ${debug}"
         fi
     fi
 
-    if [ ! -f "/etc/yum.repos.d/wazuh.repo" ] && [ ! -f "/etc/zypp/repos.d/wazuh.repo" ] && [ ! -f "/etc/apt/sources.list.d/wazuh.list" ] ; then
+    if [ ! -f "/etc/yum.repos.d/fortishield.repo" ] && [ ! -f "/etc/zypp/repos.d/fortishield.repo" ] && [ ! -f "/etc/apt/sources.list.d/fortishield.list" ] ; then
         if [ "${sys_type}" == "yum" ]; then
             eval "rpm --import ${repogpg} ${debug}"
             if [ "${PIPESTATUS[0]}" != 0 ]; then
-                common_logger -e "Cannot import Wazuh GPG key"
+                common_logger -e "Cannot import Fortishield GPG key"
                 exit 1
             fi
-            eval "(echo -e '[wazuh]\ngpgcheck=1\ngpgkey=${repogpg}\nenabled=1\nname=EL-\${releasever} - Wazuh\nbaseurl='${repobaseurl}'/yum/\nprotect=1' | tee /etc/yum.repos.d/wazuh.repo)" "${debug}"
-            eval "chmod 644 /etc/yum.repos.d/wazuh.repo ${debug}"
+            eval "(echo -e '[fortishield]\ngpgcheck=1\ngpgkey=${repogpg}\nenabled=1\nname=EL-\${releasever} - Fortishield\nbaseurl='${repobaseurl}'/yum/\nprotect=1' | tee /etc/yum.repos.d/fortishield.repo)" "${debug}"
+            eval "chmod 644 /etc/yum.repos.d/fortishield.repo ${debug}"
         elif [ "${sys_type}" == "apt-get" ]; then
-            eval "common_curl -s ${repogpg} --max-time 300 --retry 5 --retry-delay 5 --fail | gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import - ${debug}"
+            eval "common_curl -s ${repogpg} --max-time 300 --retry 5 --retry-delay 5 --fail | gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/fortishield.gpg --import - ${debug}"
             if [ "${PIPESTATUS[0]}" != 0 ]; then
-                common_logger -e "Cannot import Wazuh GPG key"
+                common_logger -e "Cannot import Fortishield GPG key"
                 exit 1
             fi
-            eval "chmod 644 /usr/share/keyrings/wazuh.gpg ${debug}"
-            eval "(echo \"deb [signed-by=/usr/share/keyrings/wazuh.gpg] ${repobaseurl}/apt/ ${reporelease} main\" | tee /etc/apt/sources.list.d/wazuh.list)" "${debug}"
+            eval "chmod 644 /usr/share/keyrings/fortishield.gpg ${debug}"
+            eval "(echo \"deb [signed-by=/usr/share/keyrings/fortishield.gpg] ${repobaseurl}/apt/ ${reporelease} main\" | tee /etc/apt/sources.list.d/fortishield.list)" "${debug}"
             eval "apt-get update -q ${debug}"
-            eval "chmod 644 /etc/apt/sources.list.d/wazuh.list ${debug}"
+            eval "chmod 644 /etc/apt/sources.list.d/fortishield.list ${debug}"
         fi
     else
-        common_logger -d "Wazuh repository already exists. Skipping addition."
+        common_logger -d "Fortishield repository already exists. Skipping addition."
     fi
 
     if [ -n "${development}" ]; then
-        common_logger "Wazuh development repository added."
+        common_logger "Fortishield development repository added."
     else
-        common_logger "Wazuh repository added."
+        common_logger "Fortishield repository added."
     fi
 }
 
@@ -152,27 +152,27 @@ function installCommon_changePasswordApi() {
     #Change API password tool
     if [ -n "${changeall}" ]; then
         for i in "${!api_passwords[@]}"; do
-            if [ -n "${wazuh}" ] || [ -n "${AIO}" ]; then
+            if [ -n "${fortishield}" ] || [ -n "${AIO}" ]; then
                 passwords_getApiUserId "${api_users[i]}"
-                WAZUH_PASS_API='{\"password\":\"'"${api_passwords[i]}"'\"}'
-                eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$WAZUH_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
+                FORTISHIELD_PASS_API='{\"password\":\"'"${api_passwords[i]}"'\"}'
+                eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$FORTISHIELD_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
                 if [ "${api_users[i]}" == "${adminUser}" ]; then
                     sleep 1
                     adminPassword="${api_passwords[i]}"
                     passwords_getApiToken
                 fi
             fi
-            if [ "${api_users[i]}" == "wazuh-wui" ] && { [ -n "${dashboard}" ] || [ -n "${AIO}" ]; }; then
+            if [ "${api_users[i]}" == "fortishield-wui" ] && { [ -n "${dashboard}" ] || [ -n "${AIO}" ]; }; then
                 passwords_changeDashboardApiPassword "${api_passwords[i]}"
             fi
         done
     else
-        if [ -n "${wazuh}" ] || [ -n "${AIO}" ]; then
+        if [ -n "${fortishield}" ] || [ -n "${AIO}" ]; then
             passwords_getApiUserId "${nuser}"
-            WAZUH_PASS_API='{\"password\":\"'"${password}"'\"}'
-            eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$WAZUH_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
+            FORTISHIELD_PASS_API='{\"password\":\"'"${password}"'\"}'
+            eval 'common_curl -s -k -X PUT -H \"Authorization: Bearer $TOKEN_API\" -H \"Content-Type: application/json\" -d "$FORTISHIELD_PASS_API" "https://localhost:55000/security/users/${user_id}" -o /dev/null --max-time 300 --retry 5 --retry-delay 5 --fail'
         fi
-        if [ "${nuser}" == "wazuh-wui" ] && { [ -n "${dashboard}" ] || [ -n "${AIO}" ]; }; then
+        if [ "${nuser}" == "fortishield-wui" ] && { [ -n "${dashboard}" ] || [ -n "${AIO}" ]; }; then
                 passwords_changeDashboardApiPassword "${password}"
         fi
     fi
@@ -181,19 +181,19 @@ function installCommon_changePasswordApi() {
 
 function installCommon_createCertificates() {
 
-    common_logger -d "Creating Wazuh certificates."
+    common_logger -d "Creating Fortishield certificates."
     if [ -n "${AIO}" ]; then
         eval "installCommon_getConfig certificate/config_aio.yml ${config_file} ${debug}"
     fi
 
     cert_readConfig
 
-    if [ -d /tmp/wazuh-certificates/ ]; then
-        eval "rm -rf /tmp/wazuh-certificates/ ${debug}"
+    if [ -d /tmp/fortishield-certificates/ ]; then
+        eval "rm -rf /tmp/fortishield-certificates/ ${debug}"
     fi
-    eval "mkdir /tmp/wazuh-certificates/ ${debug}"
+    eval "mkdir /tmp/fortishield-certificates/ ${debug}"
 
-    cert_tmp_path="/tmp/wazuh-certificates/"
+    cert_tmp_path="/tmp/fortishield-certificates/"
 
     cert_generateRootCAcertificate
     cert_generateAdmincertificate
@@ -201,25 +201,25 @@ function installCommon_createCertificates() {
     cert_generateFilebeatcertificates
     cert_generateDashboardcertificates
     cert_cleanFiles
-    eval "chmod 400 /tmp/wazuh-certificates/* ${debug}"
-    eval "mv /tmp/wazuh-certificates/* /tmp/wazuh-install-files ${debug}"
-    eval "rm -rf /tmp/wazuh-certificates/ ${debug}"
+    eval "chmod 400 /tmp/fortishield-certificates/* ${debug}"
+    eval "mv /tmp/fortishield-certificates/* /tmp/fortishield-install-files ${debug}"
+    eval "rm -rf /tmp/fortishield-certificates/ ${debug}"
 
 }
 
 function installCommon_createClusterKey() {
 
-    openssl rand -hex 16 >> "/tmp/wazuh-install-files/clusterkey"
+    openssl rand -hex 16 >> "/tmp/fortishield-install-files/clusterkey"
 
 }
 
 function installCommon_createInstallFiles() {
 
-    if [ -d /tmp/wazuh-install-files ]; then
-        eval "rm -rf /tmp/wazuh-install-files ${debug}"
+    if [ -d /tmp/fortishield-install-files ]; then
+        eval "rm -rf /tmp/fortishield-install-files ${debug}"
     fi
 
-    if eval "mkdir /tmp/wazuh-install-files ${debug}"; then
+    if eval "mkdir /tmp/fortishield-install-files ${debug}"; then
         common_logger "Generating configuration files."
         if [ -n "${configurations}" ]; then
             cert_checkOpenSSL
@@ -228,26 +228,26 @@ function installCommon_createInstallFiles() {
         if [ -n "${server_node_types[*]}" ]; then
             installCommon_createClusterKey
         fi
-        gen_file="/tmp/wazuh-install-files/wazuh-passwords.txt"
+        gen_file="/tmp/fortishield-install-files/fortishield-passwords.txt"
         passwords_generatePasswordFile
-        eval "cp '${config_file}' '/tmp/wazuh-install-files/config.yml' ${debug}"
-        eval "chown root:root /tmp/wazuh-install-files/* ${debug}"
-        eval "tar -zcf '${tar_file}' -C '/tmp/' wazuh-install-files/ ${debug}"
-        eval "rm -rf '/tmp/wazuh-install-files' ${debug}"
+        eval "cp '${config_file}' '/tmp/fortishield-install-files/config.yml' ${debug}"
+        eval "chown root:root /tmp/fortishield-install-files/* ${debug}"
+        eval "tar -zcf '${tar_file}' -C '/tmp/' fortishield-install-files/ ${debug}"
+        eval "rm -rf '/tmp/fortishield-install-files' ${debug}"
 	    eval "rm -rf ${config_file} ${debug}"
-        common_logger "Created ${tar_file_name}. It contains the Wazuh cluster key, certificates, and passwords necessary for installation."
+        common_logger "Created ${tar_file_name}. It contains the Fortishield cluster key, certificates, and passwords necessary for installation."
     else
-        common_logger -e "Unable to create /tmp/wazuh-install-files"
+        common_logger -e "Unable to create /tmp/fortishield-install-files"
         exit 1
     fi
 }
 
 function installCommon_changePasswords() {
 
-    common_logger -d "Setting Wazuh indexer cluster passwords."
+    common_logger -d "Setting Fortishield indexer cluster passwords."
     if [ -f "${tar_file}" ]; then
-        eval "tar -xf ${tar_file} -C /tmp wazuh-install-files/wazuh-passwords.txt ${debug}"
-        p_file="/tmp/wazuh-install-files/wazuh-passwords.txt"
+        eval "tar -xf ${tar_file} -C /tmp fortishield-install-files/fortishield-passwords.txt ${debug}"
+        p_file="/tmp/fortishield-install-files/fortishield-passwords.txt"
         common_checkInstalled
         if [ -n "${start_indexer_cluster}" ] || [ -n "${AIO}" ]; then
             changeall=1
@@ -255,12 +255,12 @@ function installCommon_changePasswords() {
         else
             no_indexer_backup=1
         fi
-        if { [ -n "${wazuh}" ] || [ -n "${AIO}" ]; } && { [ "${server_node_types[pos]}" == "master" ] || [ "${#server_node_names[@]}" -eq 1 ]; }; then
+        if { [ -n "${fortishield}" ] || [ -n "${AIO}" ]; } && { [ "${server_node_types[pos]}" == "master" ] || [ "${#server_node_names[@]}" -eq 1 ]; }; then
             passwords_getApiToken
             passwords_getApiUsers
             passwords_getApiIds
         else
-            api_users=( wazuh wazuh-wui )
+            api_users=( fortishield fortishield-wui )
         fi
         installCommon_readPasswordFileUsers
     else
@@ -277,7 +277,7 @@ function installCommon_changePasswords() {
     if [ -n "${start_indexer_cluster}" ] || [ -n "${AIO}" ]; then
         passwords_runSecurityAdmin
     fi
-    if [ -n "${wazuh}" ] || [ -n "${dashboard}" ] || [ -n "${AIO}" ]; then
+    if [ -n "${fortishield}" ] || [ -n "${dashboard}" ] || [ -n "${AIO}" ]; then
         if [ "${server_node_types[pos]}" == "master" ] || [ "${#server_node_names[@]}" -eq 1 ] || [ -n "${dashboard_installed}" ]; then
             installCommon_changePasswordApi
         fi
@@ -315,12 +315,12 @@ function installCommon_configureCentOSRepositories() {
 
 function installCommon_extractConfig() {
 
-    common_logger -d "Extracting Wazuh configuration."
-    if ! tar -tf "${tar_file}" | grep -q wazuh-install-files/config.yml; then
+    common_logger -d "Extracting Fortishield configuration."
+    if ! tar -tf "${tar_file}" | grep -q fortishield-install-files/config.yml; then
         common_logger -e "There is no config.yml file in ${tar_file}."
         exit 1
     fi
-    eval "tar -xf ${tar_file} -C /tmp wazuh-install-files/config.yml ${debug}"
+    eval "tar -xf ${tar_file} -C /tmp fortishield-install-files/config.yml ${debug}"
 
 }
 
@@ -390,7 +390,7 @@ function installCommon_installPrerequisites() {
     elif [ "${sys_type}" == "apt-get" ]; then
         eval "apt-get update -q ${debug}"
         if [ "${1}" == "AIO" ]; then
-            deps=($(echo "${wazuh_apt_dependencies[@]}" "${indexer_apt_dependencies[@]}" "${dashboard_apt_dependencies[@]}" | tr ' ' '\n' | sort -u))
+            deps=($(echo "${fortishield_apt_dependencies[@]}" "${indexer_apt_dependencies[@]}" "${dashboard_apt_dependencies[@]}" | tr ' ' '\n' | sort -u))
             common_logger -d "${message}"
             installCommon_aptInstallList "${deps[@]}"
         fi
@@ -402,9 +402,9 @@ function installCommon_installPrerequisites() {
             common_logger -d "${message}"
             installCommon_aptInstallList "${dashboard_apt_dependencies[@]}"
         fi
-        if [ "${1}" == "wazuh" ]; then
+        if [ "${1}" == "fortishield" ]; then
             common_logger -d "${message}"
-            installCommon_aptInstallList "${wazuh_apt_dependencies[@]}"
+            installCommon_aptInstallList "${fortishield_apt_dependencies[@]}"
         fi
     fi
 
@@ -416,13 +416,13 @@ function installCommon_readPasswordFileUsers() {
     if [[ "${filecorrect}" -ne 1 ]]; then
         common_logger -e "The password file does not have a correct format or password uses invalid characters. Allowed characters: A-Za-z0-9.*+?
 
-For Wazuh indexer users, the file must have this format:
+For Fortishield indexer users, the file must have this format:
 
 # Description
   indexer_username: <user>
   indexer_password: <password>
 
-For Wazuh API users, the file must have this format:
+For Fortishield API users, the file must have this format:
 
 # Description
   api_username: <user>
@@ -470,7 +470,7 @@ For Wazuh API users, the file must have this format:
                 fi
             done
             if [ "${supported}" = false ] && [ -n "${indexer_installed}" ]; then
-                common_logger -e "The Wazuh API user ${fileapiusers[j]} does not exist"
+                common_logger -e "The Fortishield API user ${fileapiusers[j]} does not exist"
             fi
         done
     else
@@ -484,7 +484,7 @@ For Wazuh API users, the file must have this format:
             users=( kibanaserver admin )
         fi
 
-        if [ -n "${filebeat_installed}" ] && [ -n "${wazuh}" ]; then
+        if [ -n "${filebeat_installed}" ] && [ -n "${fortishield}" ]; then
             users=( admin )
         fi
 
@@ -514,7 +514,7 @@ For Wazuh API users, the file must have this format:
                 fi
             done
             if [ ${supported} = false ] && [ -n "${indexer_installed}" ]; then
-                common_logger -e "The Wazuh API user ${fileapiusers[j]} does not exist"
+                common_logger -e "The Fortishield API user ${fileapiusers[j]} does not exist"
             fi
         done
 
@@ -528,16 +528,16 @@ For Wazuh API users, the file must have this format:
 
 }
 
-function installCommon_restoreWazuhrepo() {
+function installCommon_restoreFortishieldrepo() {
 
-    common_logger -d "Restoring Wazuh repository."
+    common_logger -d "Restoring Fortishield repository."
     if [ -n "${development}" ]; then
-        if [ "${sys_type}" == "yum" ] && [ -f "/etc/yum.repos.d/wazuh.repo" ]; then
-            file="/etc/yum.repos.d/wazuh.repo"
-        elif [ "${sys_type}" == "apt-get" ] && [ -f "/etc/apt/sources.list.d/wazuh.list" ]; then
-            file="/etc/apt/sources.list.d/wazuh.list"
+        if [ "${sys_type}" == "yum" ] && [ -f "/etc/yum.repos.d/fortishield.repo" ]; then
+            file="/etc/yum.repos.d/fortishield.repo"
+        elif [ "${sys_type}" == "apt-get" ] && [ -f "/etc/apt/sources.list.d/fortishield.list" ]; then
+            file="/etc/apt/sources.list.d/fortishield.list"
         else
-            common_logger -w -d "Wazuh repository does not exists."
+            common_logger -w -d "Fortishield repository does not exists."
         fi
         eval "sed -i 's/-dev//g' ${file} ${debug}"
         eval "sed -i 's/pre-release/4.x/g' ${file} ${debug}"
@@ -559,71 +559,71 @@ function installCommon_removeCentOSrepositories() {
 function installCommon_rollBack() {
 
     if [ -z "${uninstall}" ]; then
-        common_logger "--- Removing existing Wazuh installation ---"
+        common_logger "--- Removing existing Fortishield installation ---"
     fi
 
-    if [ -f "/etc/yum.repos.d/wazuh.repo" ]; then
-        eval "rm /etc/yum.repos.d/wazuh.repo ${debug}"
-    elif [ -f "/etc/zypp/repos.d/wazuh.repo" ]; then
-        eval "rm /etc/zypp/repos.d/wazuh.repo ${debug}"
-    elif [ -f "/etc/apt/sources.list.d/wazuh.list" ]; then
-        eval "rm /etc/apt/sources.list.d/wazuh.list ${debug}"
+    if [ -f "/etc/yum.repos.d/fortishield.repo" ]; then
+        eval "rm /etc/yum.repos.d/fortishield.repo ${debug}"
+    elif [ -f "/etc/zypp/repos.d/fortishield.repo" ]; then
+        eval "rm /etc/zypp/repos.d/fortishield.repo ${debug}"
+    elif [ -f "/etc/apt/sources.list.d/fortishield.list" ]; then
+        eval "rm /etc/apt/sources.list.d/fortishield.list ${debug}"
     fi
 
-    if [[ -n "${wazuh_installed}" && ( -n "${wazuh}" || -n "${AIO}" || -n "${uninstall}" ) ]];then
-        common_logger "Removing Wazuh manager."
+    if [[ -n "${fortishield_installed}" && ( -n "${fortishield}" || -n "${AIO}" || -n "${uninstall}" ) ]];then
+        common_logger "Removing Fortishield manager."
         if [ "${sys_type}" == "yum" ]; then
             common_checkYumLock
             if [ "${attempt}" -ne "${max_attempts}" ]; then
-                eval "yum remove wazuh-manager -y ${debug}"
-                eval "rpm -q wazuh-manager --quiet && manager_installed=1"
+                eval "yum remove fortishield-manager -y ${debug}"
+                eval "rpm -q fortishield-manager --quiet && manager_installed=1"
             fi
         elif [ "${sys_type}" == "apt-get" ]; then
             common_checkAptLock
-            eval "apt-get remove --purge wazuh-manager -y ${debug}"
-            manager_installed=$(apt list --installed 2>/dev/null | grep wazuh-manager)
+            eval "apt-get remove --purge fortishield-manager -y ${debug}"
+            manager_installed=$(apt list --installed 2>/dev/null | grep fortishield-manager)
         fi
 
         if [ -n "${manager_installed}" ]; then
-            common_logger -w "The Wazuh manager package could not be removed."
+            common_logger -w "The Fortishield manager package could not be removed."
         else
-            common_logger "Wazuh manager removed."
+            common_logger "Fortishield manager removed."
         fi
 
     fi
 
-    if [[ ( -n "${wazuh_remaining_files}"  || -n "${wazuh_installed}" ) && ( -n "${wazuh}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
+    if [[ ( -n "${fortishield_remaining_files}"  || -n "${fortishield_installed}" ) && ( -n "${fortishield}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
         eval "rm -rf /var/ossec/ ${debug}"
     fi
 
     if [[ -n "${indexer_installed}" && ( -n "${indexer}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
-        common_logger "Removing Wazuh indexer."
+        common_logger "Removing Fortishield indexer."
         if [ "${sys_type}" == "yum" ]; then
             common_checkYumLock
             if [ "${attempt}" -ne "${max_attempts}" ]; then
-                eval "yum remove wazuh-indexer -y ${debug}"
-                eval "rpm -q wazuh-indexer --quiet && indexer_installed=1"
+                eval "yum remove fortishield-indexer -y ${debug}"
+                eval "rpm -q fortishield-indexer --quiet && indexer_installed=1"
             fi
         elif [ "${sys_type}" == "apt-get" ]; then
             common_checkAptLock
-            eval "apt-get remove --purge wazuh-indexer -y ${debug}"
-            indexer_installed=$(apt list --installed 2>/dev/null | grep wazuh-indexer)
+            eval "apt-get remove --purge fortishield-indexer -y ${debug}"
+            indexer_installed=$(apt list --installed 2>/dev/null | grep fortishield-indexer)
         fi
 
         if [ -n "${indexer_installed}" ]; then
-            common_logger -w "The Wazuh indexer package could not be removed."
+            common_logger -w "The Fortishield indexer package could not be removed."
         else
-            common_logger "Wazuh indexer removed."
+            common_logger "Fortishield indexer removed."
         fi
     fi
 
     if [[ ( -n "${indexer_remaining_files}" || -n "${indexer_installed}" ) && ( -n "${indexer}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
-        eval "rm -rf /var/lib/wazuh-indexer/ ${debug}"
-        eval "rm -rf /usr/share/wazuh-indexer/ ${debug}"
-        eval "rm -rf /etc/wazuh-indexer/ ${debug}"
+        eval "rm -rf /var/lib/fortishield-indexer/ ${debug}"
+        eval "rm -rf /usr/share/fortishield-indexer/ ${debug}"
+        eval "rm -rf /etc/fortishield-indexer/ ${debug}"
     fi
 
-    if [[ -n "${filebeat_installed}" && ( -n "${wazuh}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
+    if [[ -n "${filebeat_installed}" && ( -n "${fortishield}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
         common_logger "Removing Filebeat."
         if [ "${sys_type}" == "yum" ]; then
             common_checkYumLock
@@ -644,49 +644,49 @@ function installCommon_rollBack() {
         fi
     fi
 
-    if [[ ( -n "${filebeat_remaining_files}" || -n "${filebeat_installed}" ) && ( -n "${wazuh}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
+    if [[ ( -n "${filebeat_remaining_files}" || -n "${filebeat_installed}" ) && ( -n "${fortishield}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
         eval "rm -rf /var/lib/filebeat/ ${debug}"
         eval "rm -rf /usr/share/filebeat/ ${debug}"
         eval "rm -rf /etc/filebeat/ ${debug}"
     fi
 
     if [[ -n "${dashboard_installed}" && ( -n "${dashboard}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
-        common_logger "Removing Wazuh dashboard."
+        common_logger "Removing Fortishield dashboard."
         if [ "${sys_type}" == "yum" ]; then
             common_checkYumLock
             if [ "${attempt}" -ne "${max_attempts}" ]; then
-                eval "yum remove wazuh-dashboard -y ${debug}"
-                eval "rpm -q wazuh-dashboard --quiet && dashboard_installed=1"
+                eval "yum remove fortishield-dashboard -y ${debug}"
+                eval "rpm -q fortishield-dashboard --quiet && dashboard_installed=1"
             fi
         elif [ "${sys_type}" == "apt-get" ]; then
             common_checkAptLock
-            eval "apt-get remove --purge wazuh-dashboard -y ${debug}"
-            dashboard_installed=$(apt list --installed 2>/dev/null | grep wazuh-dashboard)
+            eval "apt-get remove --purge fortishield-dashboard -y ${debug}"
+            dashboard_installed=$(apt list --installed 2>/dev/null | grep fortishield-dashboard)
         fi
 
         if [ -n "${dashboard_installed}" ]; then
-            common_logger -w "The Wazuh dashboard package could not be removed."
+            common_logger -w "The Fortishield dashboard package could not be removed."
         else
-            common_logger "Wazuh dashboard removed."
+            common_logger "Fortishield dashboard removed."
         fi
     fi
 
     if [[ ( -n "${dashboard_remaining_files}" || -n "${dashboard_installed}" ) && ( -n "${dashboard}" || -n "${AIO}" || -n "${uninstall}" ) ]]; then
-        eval "rm -rf /var/lib/wazuh-dashboard/ ${debug}"
-        eval "rm -rf /usr/share/wazuh-dashboard/ ${debug}"
-        eval "rm -rf /etc/wazuh-dashboard/ ${debug}"
-        eval "rm -rf /run/wazuh-dashboard/ ${debug}"
+        eval "rm -rf /var/lib/fortishield-dashboard/ ${debug}"
+        eval "rm -rf /usr/share/fortishield-dashboard/ ${debug}"
+        eval "rm -rf /etc/fortishield-dashboard/ ${debug}"
+        eval "rm -rf /run/fortishield-dashboard/ ${debug}"
     fi
 
-    elements_to_remove=(    "/var/log/wazuh-indexer/"
+    elements_to_remove=(    "/var/log/fortishield-indexer/"
                             "/var/log/filebeat/"
                             "/etc/systemd/system/opensearch.service.wants/"
                             "/securityadmin_demo.sh"
-                            "/etc/systemd/system/multi-user.target.wants/wazuh-manager.service"
+                            "/etc/systemd/system/multi-user.target.wants/fortishield-manager.service"
                             "/etc/systemd/system/multi-user.target.wants/filebeat.service"
                             "/etc/systemd/system/multi-user.target.wants/opensearch.service"
-                            "/etc/systemd/system/multi-user.target.wants/wazuh-dashboard.service"
-                            "/etc/systemd/system/wazuh-dashboard.service"
+                            "/etc/systemd/system/multi-user.target.wants/fortishield-dashboard.service"
+                            "/etc/systemd/system/fortishield-dashboard.service"
                             "/lib/firewalld/services/dashboard.xml"
                             "/lib/firewalld/services/opensearch.xml" )
 

@@ -1,5 +1,5 @@
 # Certificate tool - Library functions
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -85,7 +85,7 @@ function cert_generateAdmincertificate() {
     common_logger -d "Converting Admin private key to PKCS8 format."
     cert_executeAndValidate "openssl pkcs8 -inform PEM -outform PEM -in ${cert_tmp_path}/admin-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out ${cert_tmp_path}/admin-key.pem"
     common_logger -d "Generating Admin CSR."
-    cert_executeAndValidate "openssl req -new -key ${cert_tmp_path}/admin-key.pem -out ${cert_tmp_path}/admin.csr -batch -subj '/C=US/L=California/O=Wazuh/OU=Wazuh/CN=admin'"
+    cert_executeAndValidate "openssl req -new -key ${cert_tmp_path}/admin-key.pem -out ${cert_tmp_path}/admin.csr -batch -subj '/C=US/L=California/O=Fortishield/OU=Fortishield/CN=admin'"
     common_logger -d "Creating Admin certificate."
     cert_executeAndValidate "openssl x509 -days 3650 -req -in ${cert_tmp_path}/admin.csr -CA ${cert_tmp_path}/root-ca.pem -CAkey ${cert_tmp_path}/root-ca.key -CAcreateserial -sha256 -out ${cert_tmp_path}/admin.pem"
 
@@ -105,8 +105,8 @@ function cert_generateCertificateconfiguration() {
         [req_distinguished_name]
         C = US
         L = California
-        O = Wazuh
-        OU = Wazuh
+        O = Fortishield
+        OU = Fortishield
         CN = cname
 
         [ v3_req ]
@@ -146,16 +146,16 @@ function cert_generateCertificateconfiguration() {
 
 function cert_generateIndexercertificates() {
 
-    common_logger "Generating Wazuh indexer certificates."
+    common_logger "Generating Fortishield indexer certificates."
     if [ ${#indexer_node_names[@]} -gt 0 ]; then
 
         for i in "${!indexer_node_names[@]}"; do
             indexer_node_name=${indexer_node_names[$i]}
             common_logger -d "Creating the certificates for ${indexer_node_name} indexer node."
             cert_generateCertificateconfiguration "${indexer_node_name}" "${indexer_node_ips[i]}"
-            common_logger -d "Creating the Wazuh indexer tmp key pair."
+            common_logger -d "Creating the Fortishield indexer tmp key pair."
             cert_executeAndValidate "openssl req -new -nodes -newkey rsa:2048 -keyout ${cert_tmp_path}/${indexer_node_name}-key.pem -out ${cert_tmp_path}/${indexer_node_name}.csr -config ${cert_tmp_path}/${indexer_node_name}.conf"
-            common_logger -d "Creating the Wazuh indexer certificates."
+            common_logger -d "Creating the Fortishield indexer certificates."
             cert_executeAndValidate "openssl x509 -req -in ${cert_tmp_path}/${indexer_node_name}.csr -CA ${cert_tmp_path}/root-ca.pem -CAkey ${cert_tmp_path}/root-ca.key -CAcreateserial -out ${cert_tmp_path}/${indexer_node_name}.pem -extfile ${cert_tmp_path}/${indexer_node_name}.conf -extensions v3_req -days 3650"
         done
     else
@@ -175,9 +175,9 @@ function cert_generateFilebeatcertificates() {
             j=$((i+1))
             declare -a server_ips=(server_node_ip_"$j"[@])
             cert_generateCertificateconfiguration "${server_name}" "${!server_ips}"
-            common_logger -d "Creating the Wazuh server tmp key pair."
+            common_logger -d "Creating the Fortishield server tmp key pair."
             cert_executeAndValidate "openssl req -new -nodes -newkey rsa:2048 -keyout ${cert_tmp_path}/${server_name}-key.pem -out ${cert_tmp_path}/${server_name}.csr  -config ${cert_tmp_path}/${server_name}.conf"
-            common_logger -d "Creating the Wazuh server certificates."
+            common_logger -d "Creating the Fortishield server certificates."
             cert_executeAndValidate "openssl x509 -req -in ${cert_tmp_path}/${server_name}.csr -CA ${cert_tmp_path}/root-ca.pem -CAkey ${cert_tmp_path}/root-ca.key -CAcreateserial -out ${cert_tmp_path}/${server_name}.pem -extfile ${cert_tmp_path}/${server_name}.conf -extensions v3_req -days 3650"
         done
     else
@@ -188,15 +188,15 @@ function cert_generateFilebeatcertificates() {
 
 function cert_generateDashboardcertificates() {
 
-    common_logger "Generating Wazuh dashboard certificates."
+    common_logger "Generating Fortishield dashboard certificates."
     if [ ${#dashboard_node_names[@]} -gt 0 ]; then
 
         for i in "${!dashboard_node_names[@]}"; do
             dashboard_node_name="${dashboard_node_names[i]}"
             cert_generateCertificateconfiguration "${dashboard_node_name}" "${dashboard_node_ips[i]}"
-            common_logger -d "Creating the Wazuh dashboard tmp key pair."
+            common_logger -d "Creating the Fortishield dashboard tmp key pair."
             cert_executeAndValidate "openssl req -new -nodes -newkey rsa:2048 -keyout ${cert_tmp_path}/${dashboard_node_name}-key.pem -out ${cert_tmp_path}/${dashboard_node_name}.csr -config ${cert_tmp_path}/${dashboard_node_name}.conf"
-            common_logger -d "Creating the Wazuh dashboard certificates."
+            common_logger -d "Creating the Fortishield dashboard certificates."
             cert_executeAndValidate "openssl x509 -req -in ${cert_tmp_path}/${dashboard_node_name}.csr -CA ${cert_tmp_path}/root-ca.pem -CAkey ${cert_tmp_path}/root-ca.key -CAcreateserial -out ${cert_tmp_path}/${dashboard_node_name}.pem -extfile ${cert_tmp_path}/${dashboard_node_name}.conf -extensions v3_req -days 3650"
         done
     else
@@ -208,7 +208,7 @@ function cert_generateDashboardcertificates() {
 function cert_generateRootCAcertificate() {
 
     common_logger "Generating the root certificate."
-    cert_executeAndValidate "openssl req -x509 -new -nodes -newkey rsa:2048 -keyout ${cert_tmp_path}/root-ca.key -out ${cert_tmp_path}/root-ca.pem -batch -subj '/OU=Wazuh/O=Wazuh/L=California/' -days 3650"
+    cert_executeAndValidate "openssl req -x509 -new -nodes -newkey rsa:2048 -keyout ${cert_tmp_path}/root-ca.key -out ${cert_tmp_path}/root-ca.pem -batch -subj '/OU=Fortishield/O=Fortishield/L=California/' -days 3650"
 
 }
 
@@ -396,13 +396,13 @@ function cert_readConfig() {
 
         unique_names=($(echo "${server_node_names[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
         if [ "${#unique_names[@]}" -ne "${#server_node_names[@]}" ]; then 
-            common_logger -e "Duplicated Wazuh server node names."
+            common_logger -e "Duplicated Fortishield server node names."
             exit 1
         fi
 
         unique_ips=($(echo "${server_node_ips[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
         if [ "${#unique_ips[@]}" -ne "${#server_node_ips[@]}" ]; then 
-            common_logger -e "Duplicated Wazuh server node ips."
+            common_logger -e "Duplicated Fortishield server node ips."
             exit 1
         fi
 
@@ -427,17 +427,17 @@ function cert_readConfig() {
 
         if [ "${#server_node_names[@]}" -le 1 ]; then
             if [ "${#server_node_types[@]}" -ne 0 ]; then
-                common_logger -e "The tag node_type can only be used with more than one Wazuh server."
+                common_logger -e "The tag node_type can only be used with more than one Fortishield server."
                 exit 1
             fi
         elif [ "${#server_node_names[@]}" -gt "${#server_node_types[@]}" ]; then
-            common_logger -e "The tag node_type needs to be specified for all Wazuh server nodes."
+            common_logger -e "The tag node_type needs to be specified for all Fortishield server nodes."
             exit 1
         elif [ "${#server_node_names[@]}" -lt "${#server_node_types[@]}" ]; then
             common_logger -e "Found extra node_type tags."
             exit 1
         elif [ "$(grep -io master <<< "${server_node_types[*]}" | wc -l)" -ne 1 ]; then
-            common_logger -e "Wazuh cluster needs a single master node."
+            common_logger -e "Fortishield cluster needs a single master node."
             exit 1
         elif [ "$(grep -io worker <<< "${server_node_types[*]}" | wc -l)" -ne $(( ${#server_node_types[@]} - 1 )) ]; then
             common_logger -e "Incorrect number of workers."
@@ -461,10 +461,10 @@ function cert_setpermisions() {
 }
 
 function cert_convertCRLFtoLF() {
-    if [[ ! -d "/tmp/wazuh-install-files" ]]; then
-        eval "mkdir /tmp/wazuh-install-files ${debug}"
+    if [[ ! -d "/tmp/fortishield-install-files" ]]; then
+        eval "mkdir /tmp/fortishield-install-files ${debug}"
     fi
-    eval "chmod -R 755 /tmp/wazuh-install-files ${debug}"
-    eval "tr -d '\015' < $1 > /tmp/wazuh-install-files/new_config.yml"
-    eval "mv /tmp/wazuh-install-files/new_config.yml $1 ${debug}"
+    eval "chmod -R 755 /tmp/fortishield-install-files ${debug}"
+    eval "tr -d '\015' < $1 > /tmp/fortishield-install-files/new_config.yml"
+    eval "mv /tmp/fortishield-install-files/new_config.yml $1 ${debug}"
 }

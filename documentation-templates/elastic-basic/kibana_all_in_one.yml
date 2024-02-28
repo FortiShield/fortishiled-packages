@@ -17,6 +17,6 @@ server.ssl.key: /etc/kibana/certs/kibana.key
 # Elasticsearch authentication
 xpack.security.enabled: true
 elasticsearch.username: elastic
-uiSettings.overrides.defaultRoute: "/app/wazuh"
+uiSettings.overrides.defaultRoute: "/app/fortishield"
 elasticsearch.ssl.verificationMode: certificate
 telemetry.banner: false

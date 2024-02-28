@@ -1,7 +1,7 @@
 {
     "/var/ossec": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -9,7 +9,7 @@
     },
     "/var/ossec/.ssh": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -17,7 +17,7 @@
     },
     "/var/ossec/active-response": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -25,7 +25,7 @@
     },
     "/var/ossec/active-response/bin": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -33,7 +33,7 @@
     },
     "/var/ossec/active-response/bin/default-firewall-drop": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -41,7 +41,7 @@
     },
     "/var/ossec/active-response/bin/disable-account": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -49,7 +49,7 @@
     },
     "/var/ossec/active-response/bin/firewall-drop": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -57,7 +57,7 @@
     },
     "/var/ossec/active-response/bin/firewalld-drop": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -65,7 +65,7 @@
     },
     "/var/ossec/active-response/bin/host-deny": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -73,7 +73,7 @@
     },
     "/var/ossec/active-response/bin/ip-customblock": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -81,7 +81,7 @@
     },
     "/var/ossec/active-response/bin/ipfw": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -89,7 +89,7 @@
     },
     "/var/ossec/active-response/bin/kaspersky.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -97,7 +97,7 @@
     },
     "/var/ossec/active-response/bin/kaspersky": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -105,15 +105,15 @@
     },
     "/var/ossec/active-response/bin/npf": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/active-response/bin/wazuh-slack": {
+    "/var/ossec/active-response/bin/fortishield-slack": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -121,15 +121,15 @@
     },
     "/var/ossec/active-response/bin/pf": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/active-response/bin/restart-wazuh": {
+    "/var/ossec/active-response/bin/restart-fortishield": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -137,7 +137,7 @@
     },
     "/var/ossec/active-response/bin/restart.sh": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -145,7 +145,7 @@
     },
     "/var/ossec/active-response/bin/route-null": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -153,7 +153,7 @@
     },
     "/var/ossec/agentless": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -161,7 +161,7 @@
     },
     "/var/ossec/agentless/main.exp": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -169,7 +169,7 @@
     },
     "/var/ossec/agentless/register_host.sh": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -177,7 +177,7 @@
     },
     "/var/ossec/agentless/ssh.exp": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -185,7 +185,7 @@
     },
     "/var/ossec/agentless/ssh_asa-fwsmconfig_diff": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -193,7 +193,7 @@
     },
     "/var/ossec/agentless/ssh_foundry_diff": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -201,7 +201,7 @@
     },
     "/var/ossec/agentless/ssh_generic_diff": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -209,7 +209,7 @@
     },
     "/var/ossec/agentless/ssh_integrity_check_bsd": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -217,7 +217,7 @@
     },
     "/var/ossec/agentless/ssh_integrity_check_linux": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -225,7 +225,7 @@
     },
     "/var/ossec/agentless/ssh_nopass.exp": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -233,7 +233,7 @@
     },
     "/var/ossec/agentless/ssh_pixconfig_diff": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -241,7 +241,7 @@
     },
     "/var/ossec/agentless/sshlogin.exp": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -249,7 +249,7 @@
     },
     "/var/ossec/agentless/su.exp": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -257,7 +257,7 @@
     },
     "/var/ossec/backup": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -287,7 +287,7 @@
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/bin/wazuh-agentd": {
+    "/var/ossec/bin/fortishield-agentd": {
         "class": "static",
         "group": "root",
         "mode": "0750",
@@ -295,7 +295,7 @@
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/bin/wazuh-control": {
+    "/var/ossec/bin/fortishield-control": {
         "class": "static",
         "group": "root",
         "mode": "0750",
@@ -303,7 +303,7 @@
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/bin/wazuh-execd": {
+    "/var/ossec/bin/fortishield-execd": {
         "class": "static",
         "group": "root",
         "mode": "0750",
@@ -311,7 +311,7 @@
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/bin/wazuh-logcollector": {
+    "/var/ossec/bin/fortishield-logcollector": {
         "class": "static",
         "group": "root",
         "mode": "0750",
@@ -319,7 +319,7 @@
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/bin/wazuh-syscheckd": {
+    "/var/ossec/bin/fortishield-syscheckd": {
         "class": "static",
         "group": "root",
         "mode": "0750",
@@ -335,7 +335,7 @@
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/bin/wazuh-modulesd": {
+    "/var/ossec/bin/fortishield-modulesd": {
         "class": "static",
         "group": "root",
         "mode": "0750",
@@ -345,15 +345,15 @@
     },
     "/var/ossec/etc": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/client.keys": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -361,7 +361,7 @@
     },
     "/var/ossec/etc/client.keys.rpmnew": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -369,7 +369,7 @@
     },
     "/var/ossec/etc/internal_options.conf": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -377,7 +377,7 @@
     },
     "/var/ossec/etc/local_internal_options.conf": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -385,7 +385,7 @@
     },
     "/var/ossec/etc/localtime": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -393,7 +393,7 @@
     },
     "/var/ossec/etc/ossec.conf": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -401,7 +401,7 @@
     },
     "/var/ossec/etc/ossec.conf.rpmnew": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -417,7 +417,7 @@
     },
     "/var/ossec/etc/shared": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -425,23 +425,23 @@
     },
     "/var/ossec/etc/shared/agent.conf": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/ar.conf": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/var/start-script-lock": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0755",
         "prot": "drwxr-xr-x",
         "type": "directory",
@@ -449,7 +449,7 @@
     },
     "/var/ossec/var/start-script-lock/pid": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
@@ -457,183 +457,183 @@
     },
     "/var/ossec/etc/shared/cis_apache2224_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_debian_linux_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_mysql5-6_community_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_mysql5-6_enterprise_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_rhel5_linux_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_rhel6_linux_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_rhel7_linux_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_rhel_linux_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_sles11_linux_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_sles12_linux_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_win2012r2_domainL1_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_win2012r2_domainL2_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_win2012r2_memberL1_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/cis_win2012r2_memberL2_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/merged.mg": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/rootkit_files.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/rootkit_trojans.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/system_audit_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/system_audit_ssh.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/win_applications_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/win_audit_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/shared/win_malware_rcl.txt": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/etc/wpk_root.pem": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -641,23 +641,23 @@
     },
     "/var/ossec/lib": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
         "user": "root"
     },
-    "/var/ossec/lib/libwazuhext.so": {
+    "/var/ossec/lib/libfortishieldext.so": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/lib/libwazuhshared.so": {
+    "/var/ossec/lib/libfortishieldshared.so": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -665,7 +665,7 @@
     },
     "/var/ossec/lib/libdbsync.so": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -673,7 +673,7 @@
     },
     "/var/ossec/lib/librsync.so": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -681,7 +681,7 @@
     },
     "/var/ossec/lib/libfimdb.so": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -689,7 +689,7 @@
     },
     "/var/ossec/lib/libsysinfo.so": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -697,7 +697,7 @@
     },
     "/var/ossec/lib/libsyscollector.so": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -705,27 +705,27 @@
     },
     "/var/ossec/logs": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/logs/active-responses.log": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh": {
+    "/var/ossec/logs/fortishield": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/logs/ossec": {
         "class": "static",
@@ -737,7 +737,7 @@
     },
     "/var/ossec/logs/ossec.log": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -745,307 +745,307 @@
     },
     "/var/ossec/logs/ossec.json": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jan": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jan": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Feb": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Feb": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Mar": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Mar": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Apr": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Apr": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/May": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/May": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jun": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jun": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jul": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jul": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Aug": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Aug": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Sep": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Sep": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Oct": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Oct": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Nov": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Nov": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Dec": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Dec": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jan/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jan/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jan/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jan/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Feb/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Feb/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Feb/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Feb/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Mar/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Mar/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Mar/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Mar/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Apr/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Apr/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Apr/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Apr/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/May/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/May/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/May/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/May/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jun/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jun/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jun/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jun/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jul/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jul/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Jul/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Jul/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Aug/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Aug/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Aug/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Aug/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Sep/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Sep/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Sep/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Sep/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Oct/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Oct/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Oct/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Oct/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Nov/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Nov/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Nov/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Nov/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Dec/ossec-[0-9][0-9].json.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Dec/ossec-[0-9][0-9].json.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/logs/wazuh/[0-9][0-9][0-9][0-9]/Dec/ossec-[0-9][0-9].log.gz": {
+    "/var/ossec/logs/fortishield/[0-9][0-9][0-9][0-9]/Dec/ossec-[0-9][0-9].log.gz": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/logs/ossec/[0-9][0-9][0-9][0-9]": {
         "class": "dynamic",
@@ -1345,7 +1345,7 @@
     },
     "/var/ossec/queue": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1353,15 +1353,15 @@
     },
     "/var/ossec/queue/alerts": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/alerts/cfgaq": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1369,7 +1369,7 @@
     },
     "/var/ossec/queue/alerts/execq": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1377,11 +1377,11 @@
     },
     "/var/ossec/queue/diff": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/diff/local": {
         "class": "dynamic",
@@ -1425,39 +1425,39 @@
     },
     "/var/ossec/queue/fim": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/fim/db": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/syscollector": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/syscollector/db": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/syscollector/norm_config.json": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -1481,7 +1481,7 @@
     },
     "/var/ossec/queue/ossec/logcollector": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1489,7 +1489,7 @@
     },
     "/var/ossec/queue/ossec/syscheck": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1497,7 +1497,7 @@
     },
     "/var/ossec/queue/ossec/wmodules": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1505,15 +1505,15 @@
     },
     "/var/ossec/queue/ossec/queue": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/ossec/com": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1521,7 +1521,7 @@
     },
     "/var/ossec/queue/ossec/control": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1529,23 +1529,23 @@
     },
     "/var/ossec/queue/sockets": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/sockets/.*": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/sockets/logcollector": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1553,7 +1553,7 @@
     },
     "/var/ossec/queue/sockets/syscheck": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1561,7 +1561,7 @@
     },
     "/var/ossec/queue/sockets/wmodules": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1569,15 +1569,15 @@
     },
     "/var/ossec/queue/sockets/queue": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/sockets/com": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1585,7 +1585,7 @@
     },
     "/var/ossec/queue/sockets/control": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1593,31 +1593,31 @@
     },
     "/var/ossec/queue/rids": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/logcollector": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/queue/rids/*": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/ruleset": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1625,7 +1625,7 @@
     },
     "/var/ossec/ruleset/sca": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1633,7 +1633,7 @@
     },
     "/var/ossec/tmp": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "1770",
         "prot": "drwxrwx--T",
         "type": "directory",
@@ -1641,7 +1641,7 @@
     },
     "/var/ossec/var": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1649,7 +1649,7 @@
     },
     "/var/ossec/var/db": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -1657,7 +1657,7 @@
     },
     "/var/ossec/var/db/agents": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -1665,7 +1665,7 @@
     },
     "/var/ossec/var/db/agents/001-*.db": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0660",
         "prot": "-rw-rw----",
         "type": "file",
@@ -1673,7 +1673,7 @@
     },
     "/var/ossec/var/incoming": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -1681,7 +1681,7 @@
     },
     "/var/ossec/var/run": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -1689,63 +1689,63 @@
     },
     "/var/ossec/var/run/.syscheck_run": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/var/run/wazuh-agentd.state": {
+    "/var/ossec/var/run/fortishield-agentd.state": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/var/run/wazuh-agentd-*.pid": {
+    "/var/ossec/var/run/fortishield-agentd-*.pid": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/var/run/wazuh-execd-*.pid": {
+    "/var/ossec/var/run/fortishield-execd-*.pid": {
         "class": "dynamic",
-        "group": "wazuh",
-        "mode": "0640",
-        "prot": "-rw-r-----",
-        "type": "file",
-        "user": "root"
-    },
-    "/var/ossec/var/run/wazuh-logcollector-*.pid": {
-        "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/var/run/wazuh-logcollector.state": {
+    "/var/ossec/var/run/fortishield-logcollector-*.pid": {
+        "class": "dynamic",
+        "group": "fortishield",
+        "mode": "0640",
+        "prot": "-rw-r-----",
+        "type": "file",
+        "user": "root"
+    },
+    "/var/ossec/var/run/fortishield-logcollector.state": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
-        "user": "wazuh"
+        "user": "fortishield"
     },
-    "/var/ossec/var/run/wazuh-syscheckd-*.pid": {
+    "/var/ossec/var/run/fortishield-syscheckd-*.pid": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/var/run/wazuh-modulesd-*.pid": {
+    "/var/ossec/var/run/fortishield-modulesd-*.pid": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -1753,7 +1753,7 @@
     },
     "/var/ossec/var/run/agent-auth-*.pid": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -1761,15 +1761,15 @@
     },
     "/var/ossec/var/selinux": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
         "user": "root"
     },
-    "/var/ossec/var/selinux/wazuh.pp": {
+    "/var/ossec/var/selinux/fortishield.pp": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -1777,7 +1777,7 @@
     },
     "/var/ossec/var/upgrade": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -1785,7 +1785,7 @@
     },
     "/var/ossec/var/wodles": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0770",
         "prot": "drwxrwx---",
         "type": "directory",
@@ -1793,7 +1793,7 @@
     },
     "/var/ossec/var/wodles/syscollector": {
         "class": "dynamic",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0644",
         "prot": "-rw-r--r--",
         "type": "file",
@@ -1801,7 +1801,7 @@
     },
     "/var/ossec/wodles": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1809,7 +1809,7 @@
     },
         "/var/ossec/wodles/__init__.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1817,7 +1817,7 @@
     },
         "/var/ossec/wodles/utils.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1825,7 +1825,7 @@
     },
     "/var/ossec/wodles/aws": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1833,7 +1833,7 @@
     },
     "/var/ossec/wodles/aws/aws-s3": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1841,7 +1841,7 @@
     },
     "/var/ossec/wodles/aws/__init__.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1849,15 +1849,15 @@
     },
     "/var/ossec/wodles/aws/aws_tools.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
         "user": "root"
     },
-    "/var/ossec/wodles/aws/wazuh_integration.py": {
+    "/var/ossec/wodles/aws/fortishield_integration.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1865,7 +1865,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1873,7 +1873,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/__init__.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1881,7 +1881,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/aws_bucket.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1889,7 +1889,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/cloudtrail.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1897,7 +1897,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/config.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1905,7 +1905,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/guardduty.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1913,7 +1913,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/load_balancers.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1921,7 +1921,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/server_access.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1929,7 +1929,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/umbrella.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1937,7 +1937,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/vpcflow.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1945,7 +1945,7 @@
     },
     "/var/ossec/wodles/aws/buckets_s3/waf.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1953,7 +1953,7 @@
     },
     "/var/ossec/wodles/aws/services": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -1961,7 +1961,7 @@
     },
     "/var/ossec/wodles/aws/services/__init__.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1969,7 +1969,7 @@
     },
     "/var/ossec/wodles/aws/services/aws_service.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1977,7 +1977,7 @@
     },
     "/var/ossec/wodles/aws/services/cloudwatchlogs.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1985,7 +1985,7 @@
     },
     "/var/ossec/wodles/aws/services/inspector.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -1993,7 +1993,7 @@
     },
     "/var/ossec/wodles/aws/subscribers": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -2001,7 +2001,7 @@
     },
     "/var/ossec/wodles/aws/subscribers/__init__.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2009,7 +2009,7 @@
     },
     "/var/ossec/wodles/aws/subscribers/s3_log_handler.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2017,7 +2017,7 @@
     },
     "/var/ossec/wodles/aws/subscribers/sqs_message_processor.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2025,7 +2025,7 @@
     },
     "/var/ossec/wodles/aws/subscribers/sqs_queue.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2033,7 +2033,7 @@
     },
     "/var/ossec/wodles/azure": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -2041,7 +2041,7 @@
     },
     "/var/ossec/wodles/azure/azure-logs": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2049,7 +2049,7 @@
     },
     "/var/ossec/wodles/azure/orm.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2057,7 +2057,7 @@
     },
     "/var/ossec/wodles/docker": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -2065,7 +2065,7 @@
     },
     "/var/ossec/wodles/docker/DockerListener": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2073,7 +2073,7 @@
     },
     "/var/ossec/wodles/gcloud": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -2081,7 +2081,7 @@
     },
     "/var/ossec/wodles/gcloud/gcloud": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2089,7 +2089,7 @@
     },
     "/var/ossec/wodles/gcloud/gcloud.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2097,7 +2097,7 @@
     },
     "/var/ossec/wodles/gcloud/integration.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2105,7 +2105,7 @@
     },
     "/var/ossec/wodles/gcloud/tools.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2113,7 +2113,7 @@
     },
     "/var/ossec/wodles/gcloud/exceptions.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2121,7 +2121,7 @@
     },
     "/var/ossec/wodles/gcloud/buckets": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "directory",
@@ -2129,7 +2129,7 @@
     },
     "/var/ossec/wodles/gcloud/buckets/access_logs.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2137,7 +2137,7 @@
     },
     "/var/ossec/wodles/gcloud/buckets/bucket.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2145,7 +2145,7 @@
     },
     "/var/ossec/wodles/gcloud/pubsub": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "directory",
@@ -2153,7 +2153,7 @@
     },
     "/var/ossec/wodles/gcloud/pubsub/subscriber.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2161,7 +2161,7 @@
     },
     "/var/ossec/wodles/oscap": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -2169,7 +2169,7 @@
     },
     "/var/ossec/wodles/oscap/content": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
@@ -2177,7 +2177,7 @@
     },
     "/var/ossec/wodles/oscap/content/cve-debian-8-oval.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2185,7 +2185,7 @@
     },
     "/var/ossec/wodles/oscap/content/cve-debian-9-oval.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2193,7 +2193,7 @@
     },
     "/var/ossec/wodles/oscap/content/cve-redhat-6-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2201,7 +2201,7 @@
     },
     "/var/ossec/wodles/oscap/content/cve-redhat-7-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2209,7 +2209,7 @@
     },
     "/var/ossec/wodles/oscap/content/cve-ubuntu-xenial-oval.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2217,7 +2217,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-centos-6-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2225,7 +2225,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-centos-7-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2233,7 +2233,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-debian-8-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2241,7 +2241,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-fedora-24-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2249,7 +2249,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-rhel-6-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2257,7 +2257,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-rhel-7-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2265,7 +2265,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-ubuntu-1404-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2273,7 +2273,7 @@
     },
     "/var/ossec/wodles/oscap/content/ssg-ubuntu-1604-ds.xml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0640",
         "prot": "-rw-r-----",
         "type": "file",
@@ -2281,7 +2281,7 @@
     },
     "/var/ossec/wodles/oscap/oscap.py": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2289,7 +2289,7 @@
     },
     "/var/ossec/wodles/oscap/template_oval.xsl": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2297,7 +2297,7 @@
     },
     "/var/ossec/wodles/oscap/template_xccdf.xsl": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2305,47 +2305,47 @@
     },
     "/var/ossec/tmp/sca": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/tmp/sca/sunos": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/tmp/sca/sunos/5": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/tmp/sca/sunos/5/11": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/tmp/sca/sunos/5/11.4": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "drwxr-x---",
         "type": "directory",
-        "user": "wazuh"
+        "user": "fortishield"
     },
     "/var/ossec/tmp/sca/sunos/5/11/sca.files": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2353,7 +2353,7 @@
     },
     "/var/ossec/tmp/sca/sunos/5/11.4/sca.files": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2361,7 +2361,7 @@
     },
     "/var/ossec/tmp/sca/sunos/cis_solaris11.4.yml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",
@@ -2369,7 +2369,7 @@
     },
     "/var/ossec/tmp/sca/sunos/cis_solaris11.yml": {
         "class": "static",
-        "group": "wazuh",
+        "group": "fortishield",
         "mode": "0750",
         "prot": "-rwxr-x---",
         "type": "file",

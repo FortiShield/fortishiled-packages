@@ -10,8 +10,8 @@
 # Modified to make a template file for a multi-binary package with separated
 # build-arch and build-indep targets by Bill Allombert 2001
 #
-# Modified by Wazuh
-# Copyright (C) 2021, Wazuh Inc.
+# Modified by Fortishield
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -24,7 +24,7 @@ export DH_VERBOSE=1
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
-export NAME=wazuh-indexer
+export NAME=fortishield-indexer
 export TARGET_DIR=${CURDIR}/debian/${NAME}
 
 # Package build options
@@ -36,7 +36,7 @@ export LIB_DIR=/var/lib/${NAME}
 export PID_DIR=/run/${NAME}
 export SYS_DIR=/usr/lib
 export BASE_DIR=${NAME}-*
-export INDEXER_FILE=wazuh-indexer-base-$(VERSION)-$(REVISION)-linux-x64.tar.xz
+export INDEXER_FILE=fortishield-indexer-base-$(VERSION)-$(REVISION)-linux-x64.tar.xz
 export REPO_DIR=/root/unattended_installer
 
 # -----------------------------------------------------------------------------
@@ -75,9 +75,9 @@ override_dh_install:
 	mkdir -p $(TARGET_DIR)/usr/lib/sysctl.d
 	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system
 
-	# Move configuration files for wazuh-indexer
+	# Move configuration files for fortishield-indexer
 	mv -f $(BASE_DIR)/etc/init.d/$(NAME) $(TARGET_DIR)/etc/init.d/$(NAME)
-	mv -f $(BASE_DIR)/etc/wazuh-indexer/* $(TARGET_DIR)$(CONFIG_DIR)
+	mv -f $(BASE_DIR)/etc/fortishield-indexer/* $(TARGET_DIR)$(CONFIG_DIR)
 	mv -f $(BASE_DIR)/etc/sysconfig/$(NAME) $(TARGET_DIR)/etc/default/
 	mv -f $(BASE_DIR)/usr/lib/tmpfiles.d/* $(TARGET_DIR)/usr/lib/tmpfiles.d/
 	mv -f $(BASE_DIR)/usr/lib/sysctl.d/* $(TARGET_DIR)/usr/lib/sysctl.d/
@@ -88,18 +88,18 @@ override_dh_install:
 	# Copy installation files to final location
 	cp -pr $(BASE_DIR)/* $(TARGET_DIR)$(INSTALLATION_DIR)
 
-	# Build wazuh-certs-tool
+	# Build fortishield-certs-tool
 	$(REPO_DIR)/builder.sh -c
 
-	# Build wazuh-passwords-tool
+	# Build fortishield-passwords-tool
 	$(REPO_DIR)/builder.sh -p
 
 	# Copy the security tools
-	cp $(REPO_DIR)/wazuh-certs-tool.sh $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/
-	cp $(REPO_DIR)/wazuh-passwords-tool.sh $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/
-	cp /root/documentation-templates/wazuh/config.yml $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/config.yml
+	cp $(REPO_DIR)/fortishield-certs-tool.sh $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/
+	cp $(REPO_DIR)/fortishield-passwords-tool.sh $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/
+	cp /root/documentation-templates/fortishield/config.yml $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/config.yml
 
-	# Copy Wazuh's config files for the security plugin
+	# Copy Fortishield's config files for the security plugin
 	cp -pr $(REPO_DIR)/config/indexer/roles/action_groups.yml $(TARGET_DIR)$(CONFIG_DIR)/opensearch-security/
 	cp -pr $(REPO_DIR)/config/indexer/roles/roles_mapping.yml $(TARGET_DIR)$(CONFIG_DIR)/opensearch-security/
 	cp -pr $(REPO_DIR)/config/indexer/roles/roles.yml $(TARGET_DIR)$(CONFIG_DIR)/opensearch-security/
@@ -153,7 +153,7 @@ override_dh_fixperms:
 	chmod 660 $(TARGET_DIR)$(CONFIG_DIR)/jvm.options
 	chmod 750 $(TARGET_DIR)$(INSTALLATION_DIR)/modules/aggs-matrix-stats
 	chmod 660 $(TARGET_DIR)$(CONFIG_DIR)/opensearch.yml
-	chmod 660 $(TARGET_DIR)$(CONFIG_DIR)/wazuh-template.json
+	chmod 660 $(TARGET_DIR)$(CONFIG_DIR)/fortishield-template.json
 	chmod 640 $(TARGET_DIR)$(CONFIG_DIR)/opensearch-security/roles_mapping.yml
 	chmod 640 $(TARGET_DIR)$(CONFIG_DIR)/opensearch-security/internal_users.yml
 	chmod 640 $(TARGET_DIR)$(CONFIG_DIR)/opensearch-security/roles.yml
@@ -166,8 +166,8 @@ override_dh_fixperms:
 	chmod 740 $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/audit_config_migrater.sh
 	chmod 740 $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/hash.sh
 	chmod 740 $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/securityadmin.sh
-	chmod 740 $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/wazuh-certs-tool.sh
-	chmod 740 $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/wazuh-passwords-tool.sh
+	chmod 740 $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/fortishield-certs-tool.sh
+	chmod 740 $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/opensearch-security/tools/fortishield-passwords-tool.sh
 	chmod 750 $(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-performance-analyzer/performance-analyzer-agent-cli
 	chmod 750 $(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-performance-analyzer/performance-analyzer-agent
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2022, Wazuh Inc.
+# Fortishield package generator
+# Copyright (C) 2022, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -37,7 +37,7 @@ clean() {
     exit_code=$1
 
     # Clean the files
-    rm -rf ${dockerfile_path}/{*.sh,*.tar.gz,wazuh-*}
+    rm -rf ${dockerfile_path}/{*.sh,*.tar.gz,fortishield-*}
 
     exit ${exit_code}
 }
@@ -60,14 +60,14 @@ build_apk() {
     fi
 
     # Build the Alpine package with a Docker container
-    volumes="-v ${outdir}/:/var/local/wazuh:Z"
+    volumes="-v ${outdir}/:/var/local/fortishield:Z"
     if [ "${local_spec}" = "yes" ];then
         volumes="${volumes} -v ${current_path}/..:/root/repository:Z"
         #packages_private_key packages_public_key us-east-1 
     fi
 
     if [ "${local_source}" != "no" ];then
-        volumes="${volumes} -v ${local_source}:/wazuh:Z"
+        volumes="${volumes} -v ${local_source}:/fortishield:Z"
     fi
 
     if [ "${architecture}" = "armhf" ] || [ "${architecture}" = "armv7" ]; then
@@ -128,7 +128,7 @@ help() {
     echo -e ""
     echo -e "OPTIONS"
     echo -e "       -b, --reference <ref>"
-    echo -e "               [Required] Select Git branch or tag from wazuh repository."
+    echo -e "               [Required] Select Git branch or tag from fortishield repository."
     echo -e ""
     echo -e "       -a, --architecture <arch>"
     echo -e "               [Optional] Target architecture of the package [x86_64/x86/armhf/armv7/aarch64/ppc64le]."
@@ -152,10 +152,10 @@ help() {
     echo -e "               [Optional] Locally built docker image will be used instead of generating a new one."
     echo -e ""
     echo -e "       --sources <path>"
-    echo -e "               [Optional] Absolute path containing wazuh source code. This option will use local source code instead of downloading it from GitHub."
+    echo -e "               [Optional] Absolute path containing fortishield source code. This option will use local source code instead of downloading it from GitHub."
     echo -e ""
     echo -e "       --packages-reference <ref>"
-    echo -e "               [Optional] Select Git branch or tag from wazuh-packages repository. e.g ${spec_reference}"
+    echo -e "               [Optional] Select Git branch or tag from fortishield-packages repository. e.g ${spec_reference}"
     echo -e ""
     echo -e "       --dev"
     echo -e "               [Optional] Use the SPECS files stored in the host instead of downloading them from GitHub."

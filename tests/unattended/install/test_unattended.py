@@ -18,7 +18,7 @@ warnings.filterwarnings('ignore', message='Unverified HTTPS request')
 
 def read_services():
     services = None
-    p = Popen(['/var/ossec/bin/wazuh-control', 'status'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    p = Popen(['/var/ossec/bin/fortishield-control', 'status'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     if sys.version_info[0] < 3:
         services = p.stdout.read()
     else:
@@ -29,10 +29,10 @@ def get_password(username):
     pass_dict={'username': 'tmp_user', 'password': 'tmp_pass'}
     tmp_yaml=""
 
-    with tarfile.open("../../../unattended_installer/wazuh-install-files.tar") as configurations:
-        configurations.extract("wazuh-install-files/wazuh-passwords.txt")
+    with tarfile.open("../../../unattended_installer/fortishield-install-files.tar") as configurations:
+        configurations.extract("fortishield-install-files/fortishield-passwords.txt")
 
-    with open("wazuh-install-files/wazuh-passwords.txt", 'r') as pass_file:
+    with open("fortishield-install-files/fortishield-passwords.txt", 'r') as pass_file:
         while pass_dict["username"] != username:
             for i in range(4):
                 tmp_yaml+=pass_file.readline()
@@ -45,20 +45,20 @@ def get_password(username):
                 pass_dict["password"]=tmp_dict["api_password"]
     return pass_dict["password"]
 
-def get_wazuh_version():
-    wazuh_version = None
-    wazuh_version = subprocess.getoutput('/var/ossec/bin/wazuh-control info | grep VERSION | cut -d "=" -f2 | sed s/\\"//g')
-    return wazuh_version
+def get_fortishield_version():
+    fortishield_version = None
+    fortishield_version = subprocess.getoutput('/var/ossec/bin/fortishield-control info | grep VERSION | cut -d "=" -f2 | sed s/\\"//g')
+    return fortishield_version
 
 def get_indexer_ip():
 
-    with open("/etc/wazuh-indexer/opensearch.yml", 'r') as stream:
+    with open("/etc/fortishield-indexer/opensearch.yml", 'r') as stream:
         dictionary = yaml.safe_load(stream)
     return (dictionary.get('network.host'))
 
 def get_dashboard_ip():
 
-    with open("/etc/wazuh-dashboard/opensearch_dashboards.yml", 'r') as stream:
+    with open("/etc/fortishield-dashboard/opensearch_dashboards.yml", 'r') as stream:
         dictionary = yaml.safe_load(stream)
     return (dictionary.get('server.host'))
 
@@ -85,7 +85,7 @@ def api_call_indexer(host,query,address,api_protocol,api_user,api_pass,api_port)
 
     else: # Executing query search
         if (api_pass != "" and api_pass != ""):
-            resp = requests.post(api_protocol + '://' + address + ':' + api_port + "/wazuh-alerts-4.x-*/_search",
+            resp = requests.post(api_protocol + '://' + address + ':' + api_port + "/fortishield-alerts-4.x-*/_search",
                         json=query,
                         auth=(api_user,
                         api_pass),
@@ -111,13 +111,13 @@ def get_dashboard_status():
                         verify=False)
     return (resp.status_code)
 
-def get_wazuh_api_status():
+def get_fortishield_api_status():
 
     protocol = 'https'
     host = get_api_ip()
     port = 55000
-    user = 'wazuh'
-    password = get_password('wazuh')
+    user = 'fortishield'
+    password = get_password('fortishield')
     login_endpoint = 'security/user/authenticate'
 
     login_url = f"{protocol}://{host}:{port}/{login_endpoint}"
@@ -133,61 +133,61 @@ def get_wazuh_api_status():
 
 # ----------------------------- Tests -----------------------------
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_authd():
-    assert check_call("ps -xa | grep wazuh-authd | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_authd():
+    assert check_call("ps -xa | grep fortishield-authd | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_db():
-    assert check_call("ps -xa | grep wazuh-db | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_db():
+    assert check_call("ps -xa | grep fortishield-db | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_execd():
-    assert check_call("ps -xa | grep wazuh-execd | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_execd():
+    assert check_call("ps -xa | grep fortishield-execd | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_analysisd():
-    assert check_call("ps -xa | grep wazuh-analysisd | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_analysisd():
+    assert check_call("ps -xa | grep fortishield-analysisd | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_syscheckd():
-    assert check_call("ps -xa | grep wazuh-syscheckd | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_syscheckd():
+    assert check_call("ps -xa | grep fortishield-syscheckd | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_remoted():
-    assert check_call("ps -xa | grep wazuh-remoted | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_remoted():
+    assert check_call("ps -xa | grep fortishield-remoted | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_logcollec():
-    assert check_call("ps -xa | grep wazuh-logcollec | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_logcollec():
+    assert check_call("ps -xa | grep fortishield-logcollec | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_monitord():
-    assert check_call("ps -xa | grep wazuh-monitord | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_monitord():
+    assert check_call("ps -xa | grep fortishield-monitord | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_modulesd():
-    assert check_call("ps -xa | grep wazuh-modulesd | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_modulesd():
+    assert check_call("ps -xa | grep fortishield-modulesd | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
-def test_check_wazuh_manager_apid():
-    assert check_call("ps -xa | grep wazuh-apid | grep -v grep", shell=True) != ""
+@pytest.mark.fortishield
+def test_check_fortishield_manager_apid():
+    assert check_call("ps -xa | grep fortishield-apid | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh_cluster
-def test_check_wazuh_manager_clusterd():
+@pytest.mark.fortishield_cluster
+def test_check_fortishield_manager_clusterd():
     assert check_call("ps -xa | grep clusterd.py | grep -v grep", shell=True) != ""
 
-@pytest.mark.wazuh
+@pytest.mark.fortishield
 def test_check_filebeat_process():
     assert check_call("ps -xa | grep \"/usr/share/filebeat/bin/filebeat\" | grep -v grep", shell=True) != ""
 
 @pytest.mark.indexer
 def test_check_indexer_process():
-    assert check_call("ps -xa | grep wazuh-indexer | grep -v grep | cut -d \" \" -f15", shell=True) != ""
+    assert check_call("ps -xa | grep fortishield-indexer | grep -v grep | cut -d \" \" -f15", shell=True) != ""
 
 @pytest.mark.dashboard
 def test_check_dashboard_process():
-    assert check_call("ps -xa | grep wazuh-dashboard | grep -v grep", shell=True) != ""
+    assert check_call("ps -xa | grep fortishield-dashboard | grep -v grep", shell=True) != ""
 
 @pytest.mark.indexer
 def test_check_indexer_cluster_status_not_red():
@@ -201,11 +201,11 @@ def test_check_indexer_cluster_status_not_yellow():
 def test_check_dashboard_status():
     assert get_dashboard_status() == 200
 
-@pytest.mark.wazuh
-def test_check_wazuh_api_status():
-    assert get_wazuh_api_status() == "Wazuh API REST"
+@pytest.mark.fortishield
+def test_check_fortishield_api_status():
+    assert get_fortishield_api_status() == "Fortishield API REST"
 
-@pytest.mark.wazuh
+@pytest.mark.fortishield
 def test_check_log_errors():
     found_error = False
     with open('/var/ossec/logs/ossec.log', 'r') as f:
@@ -216,7 +216,7 @@ def test_check_log_errors():
                     break
     assert found_error == False, line
 
-@pytest.mark.wazuh_cluster
+@pytest.mark.fortishield_cluster
 def test_check_cluster_log_errors():
     found_error = False
     with open('/var/ossec/logs/cluster.log', 'r') as f:
@@ -226,7 +226,7 @@ def test_check_cluster_log_errors():
                 break
     assert found_error == False, line
 
-@pytest.mark.wazuh_worker
+@pytest.mark.fortishield_worker
 def test_check_cluster_log_errors():
     found_error = False
     with open('/var/ossec/logs/cluster.log', 'r') as f:
@@ -237,7 +237,7 @@ def test_check_cluster_log_errors():
                     break
     assert found_error == False, line
 
-@pytest.mark.wazuh_cluster
+@pytest.mark.fortishield_cluster
 def test_check_api_log_errors():
     found_error = False
     with open('/var/ossec/logs/api.log', 'r') as f:

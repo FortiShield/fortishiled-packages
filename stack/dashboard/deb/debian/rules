@@ -10,8 +10,8 @@
 # Modified to make a template file for a multi-binary package with separated
 # build-arch and build-indep targets by Bill Allombert 2001
 #
-# Modified by Wazuh
-# Copyright (C) 2021, Wazuh Inc.
+# Modified by Fortishield
+# Copyright (C) 2021, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -24,13 +24,13 @@ export DH_VERBOSE=1
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
-export TARGET_DIR=${CURDIR}/debian/wazuh-dashboard
-export NAME=wazuh-dashboard
+export TARGET_DIR=${CURDIR}/debian/fortishield-dashboard
+export NAME=fortishield-dashboard
 export CONFIG_DIR=/etc/$(NAME)
 export INSTALLATION_DIR=$(INSTALLATION_DIR)
 export USER=$(NAME)
 export GROUP=$(NAME)
-export DASHBOARD_FILE=wazuh-dashboard-base-$(VERSION)-$(REVISION)-linux-x64.tar.xz
+export DASHBOARD_FILE=fortishield-dashboard-base-$(VERSION)-$(REVISION)-linux-x64.tar.xz
 
 # -----------------------------------------------------------------------------
 
@@ -58,22 +58,22 @@ override_dh_install:
 	useradd -g $(GROUP) $(USER)
 
 	tar -xf $(DASHBOARD_FILE)
-	sed -i 's/OSD_NODE_OPTS_PREFIX/OSD_PATH_CONF="\/etc\/wazuh-dashboard" OSD_NODE_OPTS_PREFIX/g' "wazuh-dashboard-base/bin/opensearch-dashboards"
-	sed -i 's/OSD_USE_NODE_JS_FILE_PATH/OSD_PATH_CONF="\/etc\/wazuh-dashboard" OSD_USE_NODE_JS_FILE_PATH/g' "wazuh-dashboard-base/bin/opensearch-dashboards-keystore"
+	sed -i 's/OSD_NODE_OPTS_PREFIX/OSD_PATH_CONF="\/etc\/fortishield-dashboard" OSD_NODE_OPTS_PREFIX/g' "fortishield-dashboard-base/bin/opensearch-dashboards"
+	sed -i 's/OSD_USE_NODE_JS_FILE_PATH/OSD_PATH_CONF="\/etc\/fortishield-dashboard" OSD_USE_NODE_JS_FILE_PATH/g' "fortishield-dashboard-base/bin/opensearch-dashboards-keystore"
 
 	mkdir -p $(TARGET_DIR)$(CONFIG_DIR)
 	mkdir -p $(TARGET_DIR)$(INSTALLATION_DIR)
 	mkdir -p $(TARGET_DIR)/etc/systemd/system
 	mkdir -p $(TARGET_DIR)/etc/default
 
-	cp wazuh-dashboard-base/etc/node.options $(TARGET_DIR)$(CONFIG_DIR)
-	cp wazuh-dashboard-base/etc/opensearch_dashboards.yml $(TARGET_DIR)$(CONFIG_DIR)
-	mv wazuh-dashboard-base/* $(TARGET_DIR)$(INSTALLATION_DIR)
+	cp fortishield-dashboard-base/etc/node.options $(TARGET_DIR)$(CONFIG_DIR)
+	cp fortishield-dashboard-base/etc/opensearch_dashboards.yml $(TARGET_DIR)$(CONFIG_DIR)
+	mv fortishield-dashboard-base/* $(TARGET_DIR)$(INSTALLATION_DIR)
 
 	mkdir -p $(TARGET_DIR)$(INSTALLATION_DIR)/config
 
-	cp $(TARGET_DIR)$(INSTALLATION_DIR)/etc/services/wazuh-dashboard.service $(TARGET_DIR)/etc/systemd/system/wazuh-dashboard.service
-	cp $(TARGET_DIR)$(INSTALLATION_DIR)/etc/services/wazuh-dashboard $(TARGET_DIR)/etc/systemd/system/$(NAME)
+	cp $(TARGET_DIR)$(INSTALLATION_DIR)/etc/services/fortishield-dashboard.service $(TARGET_DIR)/etc/systemd/system/fortishield-dashboard.service
+	cp $(TARGET_DIR)$(INSTALLATION_DIR)/etc/services/fortishield-dashboard $(TARGET_DIR)/etc/systemd/system/$(NAME)
 	cp $(TARGET_DIR)$(INSTALLATION_DIR)/etc/services/default $(TARGET_DIR)/etc/default/$(NAME)
 
 	rm -rf $(TARGET_DIR)$(INSTALLATION_DIR)/etc
@@ -82,16 +82,16 @@ override_dh_install:
 	chown -R $(USER):$(GROUP) $(TARGET_DIR)$(CONFIG_DIR)
 
 	if [ "$(VERSION)" = "99.99.0" ]; then \
-		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install https://packages-dev.wazuh.com/futures/ui/dashboard/wazuh-99.99.0-$(REVISION).zip" ;\
-		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install https://packages-dev.wazuh.com/futures/ui/dashboard/wazuhCheckUpdates-99.99.0-$(REVISION).zip" ;\
-		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install https://packages-dev.wazuh.com/futures/ui/dashboard/wazuhCore-99.99.0-$(REVISION).zip" ;\
+		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install https://fortishield.github.io/packages-dev/futures/ui/dashboard/fortishield-99.99.0-$(REVISION).zip" ;\
+		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install https://fortishield.github.io/packages-dev/futures/ui/dashboard/fortishieldCheckUpdates-99.99.0-$(REVISION).zip" ;\
+		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install https://fortishield.github.io/packages-dev/futures/ui/dashboard/fortishieldCore-99.99.0-$(REVISION).zip" ;\
 	else \
 		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install $(URLPLUGINMAIN)" ;\
 		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install $(URLPLUGINUPDATES)" ;\
 		runuser $(USER) --shell="/bin/bash" --command="$(TARGET_DIR)$(INSTALLATION_DIR)/bin/opensearch-dashboards-plugin install $(URLPLUGINCORE)" ;\
 	fi
 
-	find $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/wazuh/ -exec chown $(USER):$(GROUP) {} \;
+	find $(TARGET_DIR)$(INSTALLATION_DIR)/plugins/fortishield/ -exec chown $(USER):$(GROUP) {} \;
 
 # -----------------------------------------------------------------------------
 
@@ -101,16 +101,16 @@ override_dh_fixperms:
 	chown -R $(USER):$(GROUP) $(TARGET_DIR)$(CONFIG_DIR)
 	chmod 750 $(TARGET_DIR)$(INSTALLATION_DIR)
 	chown -R $(USER):$(GROUP) $(TARGET_DIR)$(INSTALLATION_DIR)
-	chown root:root $(TARGET_DIR)/etc/systemd/system/wazuh-dashboard.service
+	chown root:root $(TARGET_DIR)/etc/systemd/system/fortishield-dashboard.service
 	chown root:root $(TARGET_DIR)/etc/systemd/system/"$(NAME)"
 	chown $(USER):$(GROUP) $(TARGET_DIR)/etc/default/"$(NAME)"
 	chown $(USER):$(GROUP) $(TARGET_DIR)$(INSTALLATION_DIR)/VERSION
 	chmod 440 $(TARGET_DIR)$(INSTALLATION_DIR)/VERSION
-	chmod 750 $(TARGET_DIR)/etc/systemd/system/wazuh-dashboard
-	chmod 750 $(TARGET_DIR)/etc/default/wazuh-dashboard
+	chmod 750 $(TARGET_DIR)/etc/systemd/system/fortishield-dashboard
+	chmod 750 $(TARGET_DIR)/etc/default/fortishield-dashboard
 	chmod 640 "$(TARGET_DIR)$(CONFIG_DIR)"/opensearch_dashboards.yml
 	chmod 640 "$(TARGET_DIR)$(CONFIG_DIR)"/node.options
-	chmod 640 "$(TARGET_DIR)"/etc/systemd/system/wazuh-dashboard.service
+	chmod 640 "$(TARGET_DIR)"/etc/systemd/system/fortishield-dashboard.service
 	find "$(TARGET_DIR)$(INSTALLATION_DIR)" -type d -exec chmod 750 {} \;
 	find "$(TARGET_DIR)$(INSTALLATION_DIR)" -type f -perm 644 -exec chmod 640 {} \;
 	find "$(TARGET_DIR)$(INSTALLATION_DIR)" -type f -perm 755 -exec chmod 750 {} \;

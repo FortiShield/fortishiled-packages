@@ -7,12 +7,12 @@ ABSOLUTE_PATH="$( cd $(dirname ${0}) ; pwd -P )"
 check_system
 check_version
 
-echo "Installing old version of Wazuh indexer..."
+echo "Installing old version of Fortishield indexer..."
 if [ ${sys_type} == "deb" ]; then
-    apt-get -y install wazuh-indexer
+    apt-get -y install fortishield-indexer
 elif [ ${sys_type} == "rpm" ]; then
     add_production_repository
-    yum -y install wazuh-indexer
+    yum -y install fortishield-indexer
 else
     echo "Error: No system detected."
     exit 1
@@ -22,7 +22,7 @@ read_files "${FILES_OLD}" "old"
 echo "Old files..."
 print_files "files_old"
 
-echo "Installing new version of Wazuh indexer..."
+echo "Installing new version of Fortishield indexer..."
 if [ ${sys_type} == "deb" ]; then
     apt-get install $PACKAGE_NAME
 elif [ ${sys_type} == "rpm" ]; then

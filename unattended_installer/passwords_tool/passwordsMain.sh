@@ -1,5 +1,5 @@
 # Passwords tool - main functions
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -10,25 +10,25 @@ function getHelp() {
 
     echo -e ""
     echo -e "NAME"
-    echo -e "        $(basename "${0}") - Manage passwords for Wazuh indexer users."
+    echo -e "        $(basename "${0}") - Manage passwords for Fortishield indexer users."
     echo -e ""
     echo -e "SYNOPSIS"
     echo -e "        $(basename "${0}") [OPTIONS]"
     echo -e ""
     echo -e "DESCRIPTION"
     echo -e "        -a,  --change-all"
-    echo -e "                Changes all the Wazuh indexer and Wazuh API user passwords and prints them on screen."
+    echo -e "                Changes all the Fortishield indexer and Fortishield API user passwords and prints them on screen."
     echo -e "                To change API passwords -au|--admin-user and -ap|--admin-password are required."
     echo -e ""
     echo -e "        -A,  --api"
-    echo -e "                Change the Wazuh API password."
+    echo -e "                Change the Fortishield API password."
     echo -e "                Requires -u|--user, and -p|--password, -au|--admin-user and -ap|--admin-password."
     echo -e ""
     echo -e "        -au,  --admin-user <adminUser>"
-    echo -e "                Admin user for Wazuh API, Required to change Wazuh API passwords."
+    echo -e "                Admin user for Fortishield API, Required to change Fortishield API passwords."
     echo -e ""
     echo -e "        -ap,  --admin-password <adminPassword>"
-    echo -e "                Password for Wazuh API admin user, Required to change Wazuh API passwords."
+    echo -e "                Password for Fortishield API admin user, Required to change Fortishield API passwords."
     echo -e ""
     echo -e "        -u,  --user <user>"
     echo -e "                Indicates the name of the user whose password will be changed."
@@ -46,22 +46,22 @@ function getHelp() {
     echo -e "        -v,  --verbose"
     echo -e "                Shows the complete script execution output."
     echo -e ""
-    echo -e "        -f,  --file <wazuh-passwords.txt>"
+    echo -e "        -f,  --file <fortishield-passwords.txt>"
     echo -e "                Changes the passwords for the ones given in the file."
     echo -e ""
-    echo -e "                Wazuh indexer users must have this format:"
+    echo -e "                Fortishield indexer users must have this format:"
     echo -e ""
     echo -e "                    # Description"
     echo -e "                      indexer_username: <user>"
     echo -e "                      indexer_password: <password>"
     echo -e ""
-    echo -e "                Wazuh API users must have this format:"
+    echo -e "                Fortishield API users must have this format:"
     echo -e ""
     echo -e "                    # Description"
     echo -e "                      api_username: <user>"
     echo -e "                      api_password: <password>"
     echo -e ""
-    echo -e "        -gf, --generate-file <wazuh-passwords.txt>"
+    echo -e "        -gf, --generate-file <fortishield-passwords.txt>"
     echo -e "                Generate password file with random passwords for standard users."
     echo -e ""
     echo -e "        -h,  --help"
@@ -173,7 +173,7 @@ function main() {
             esac
         done
 
-        export JAVA_HOME=/usr/share/wazuh-indexer/jdk/
+        export JAVA_HOME=/usr/share/fortishield-indexer/jdk/
 
         if [ -n "${verboseenabled}" ]; then
             debug="2>&1 | tee -a ${logfile}"
@@ -247,7 +247,7 @@ function main() {
                 passwords_getApiUsers
                 passwords_getApiIds
             else
-                common_logger "Wazuh API admin credentials not provided, Wazuh API passwords not changed."
+                common_logger "Fortishield API admin credentials not provided, Fortishield API passwords not changed."
             fi
             if [ -n "${changeall}" ]; then
                 passwords_generatePassword

@@ -2,8 +2,8 @@
 
 set -x
 
-# Wazuh-indexer base builder
-# Copyright (C) 2022, Wazuh Inc.
+# Fortishield-indexer base builder
+# Copyright (C) 2022, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -18,7 +18,7 @@ filebeat_module_reference="$3"
 future="$4"
 reference="$5"
 opensearch_version="2.10.0"
-base_dir=/opt/wazuh-indexer-base
+base_dir=/opt/fortishield-indexer-base
 
 # -----------------------------------------------------------------------------
 
@@ -32,9 +32,9 @@ fi
 
 # Including files
 if [ "${reference}" ];then
-    curl -sL https://github.com/wazuh/wazuh-packages/tarball/"${reference}" | tar xz
-    cp -r ./wazuh*/* /root/
-    version=$(curl -sL https://raw.githubusercontent.com/wazuh/wazuh-packages/${reference}/VERSION | cat)
+    curl -sL https://github.com/fortishield/fortishield-packages/tarball/"${reference}" | tar xz
+    cp -r ./fortishield*/* /root/
+    version=$(curl -sL https://raw.githubusercontent.com/fortishield/fortishield-packages/${reference}/VERSION | cat)
 else
     version=$(cat /root/VERSION)
 fi
@@ -59,13 +59,13 @@ find -type l -exec rm -rf {} \;
 find -name "*.bat" -exec rm -rf {} \;
 rm -rf README.md manifest.yml opensearch-tar-install.sh logs
 sed -i 's|OPENSEARCH_DISTRIBUTION_TYPE=tar|OPENSEARCH_DISTRIBUTION_TYPE=rpm|g' bin/opensearch-env
-sed -i 's|"$OPENSEARCH_HOME"/config|/etc/wazuh-indexer|g' bin/opensearch-env
+sed -i 's|"$OPENSEARCH_HOME"/config|/etc/fortishield-indexer|g' bin/opensearch-env
 cp -r /root/stack/indexer/base/files/systemd-entrypoint bin/
-mkdir -p ./etc/wazuh-indexer/
-cp -r ./config/* ./etc/wazuh-indexer/
+mkdir -p ./etc/fortishield-indexer/
+cp -r ./config/* ./etc/fortishield-indexer/
 rm -rf ./config
-cp -r /root/stack/indexer/base/files/etc/wazuh-indexer/* ./etc/wazuh-indexer/
-curl -so ./etc/wazuh-indexer/wazuh-template.json "https://raw.githubusercontent.com/wazuh/wazuh/${filebeat_module_reference}/extensions/elasticsearch/7.x/wazuh-template.json"
+cp -r /root/stack/indexer/base/files/etc/fortishield-indexer/* ./etc/fortishield-indexer/
+curl -so ./etc/fortishield-indexer/fortishield-template.json "https://raw.githubusercontent.com/fortishield/fortishield/${filebeat_module_reference}/extensions/elasticsearch/7.x/fortishield-template.json"
 cp -r /root/stack/indexer/base/files/etc/sysconfig ./etc/
 cp -r /root/stack/indexer/base/files/etc/init.d ./etc/
 cp -r /root/stack/indexer/base/files/usr ./
@@ -101,5 +101,5 @@ find -type f -perm 744 -exec chmod 740 {} \;
 
 # Base output
 cd /opt
-tar -Jcvf wazuh-indexer-base-"${version}"-"${revision}"-linux-${architecture}.tar.xz wazuh-indexer-base
-cp wazuh-indexer-base-"${version}"-"${revision}"-linux-${architecture}.tar.xz /tmp/output
+tar -Jcvf fortishield-indexer-base-"${version}"-"${revision}"-linux-${architecture}.tar.xz fortishield-indexer-base
+cp fortishield-indexer-base-"${version}"-"${revision}"-linux-${architecture}.tar.xz /tmp/output

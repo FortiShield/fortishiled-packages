@@ -1,6 +1,6 @@
 #!/bin/sh
-# preinstall script for wazuh-agent
-# Wazuh, Inc 2015
+# preinstall script for fortishield-agent
+# Fortishield, Inc 2015
 
 if [ ! -f /etc/ossec-init.conf ]; then
     DIR="/var/ossec"
@@ -18,9 +18,9 @@ else
     type=upgrade
 fi
 
-USER="wazuh"
-GROUP="wazuh"
-OSSEC_HIDS_TMP_DIR="/tmp/wazuh-agent"
+USER="fortishield"
+GROUP="fortishield"
+OSSEC_HIDS_TMP_DIR="/tmp/fortishield-agent"
 OSMYSHELL="/sbin/nologin"
 
 # environment configuration
@@ -34,12 +34,12 @@ if [ ! -f ${OSMYSHELL} ]; then
     fi
 fi
 
-getent group wazuh > /dev/null 2>&1
+getent group fortishield > /dev/null 2>&1
 if [ "$?" -ne 0 ]; then
     groupadd ${GROUP}
 fi
 
-getent passwd wazuh > /dev/null 2>&1
+getent passwd fortishield > /dev/null 2>&1
 if [ "$?" -ne 0 ]; then
     useradd -d ${DIR} -s ${OSMYSHELL} -g ${GROUP} ${USER} > /dev/null 2>&1
 fi
@@ -59,8 +59,8 @@ case $type in
         fi
     fi
     # Delete old service
-    if [ -f /etc/init.d/wazuh-agent ]; then
-        rm /etc/init.d/wazuh-agent
+    if [ -f /etc/init.d/fortishield-agent ]; then
+        rm /etc/init.d/fortishield-agent
     fi
     # back up the current user rules
     if [ -f ${DIR}/etc/client.keys ]; then

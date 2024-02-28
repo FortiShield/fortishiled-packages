@@ -1,0 +1,15 @@
+[Unit]
+Description=fortishield-dashboard
+
+[Service]
+Type=simple
+User=fortishield-dashboard
+Group=fortishield-dashboard
+EnvironmentFile=-/etc/default/fortishield-dashboard
+EnvironmentFile=-/etc/sysconfig/fortishield-dashboard
+ExecStart=/usr/share/fortishield-dashboard/bin/opensearch-dashboards
+WorkingDirectory=/usr/share/fortishield-dashboard
+
+[Install]
+WantedBy=multi-user.target
+

@@ -6,10 +6,10 @@ source "${base_dir}"/bach.sh
 @setup-test {
     @ignore common_logger
     filebeat_cert_path="/etc/filebeat/certs/"
-    wazuh_major="4.3"
-    filebeat_wazuh_template="https://raw.githubusercontent.com/wazuh/wazuh/${wazuh_major}/extensions/elasticsearch/7.x/wazuh-template.json"
-    repobaseurl="https://packages.wazuh.com/4.x"
-    filebeat_wazuh_module="${repobaseurl}/filebeat/wazuh-filebeat-0.1.tar.gz"
+    fortishield_major="4.3"
+    filebeat_fortishield_template="https://raw.githubusercontent.com/fortishield/fortishield/${fortishield_major}/extensions/elasticsearch/7.x/fortishield-template.json"
+    repobaseurl="https://fortishield.github.io/packages/4.x"
+    filebeat_fortishield_module="${repobaseurl}/filebeat/fortishield-filebeat-0.1.tar.gz"
 }
 
 function load-filebeat_copyCertificates() {
@@ -45,15 +45,15 @@ test-03-filebeat_copyCertificates-distributed() {
     @touch ${tar_file}
     AIO=
     debug=
-    winame="wazuh1"
+    winame="fortishield1"
     filebeat_copyCertificates
 }
 
 test-03-filebeat_copyCertificates-distributed-assert() {
-    tar -xf /tmp/tarfile.tar -C /etc/filebeat/certs/ ./wazuh1.pem
-    mv /etc/filebeat/certs/wazuh1.pem /etc/filebeat/certs/filebeat.pem
-    tar -xf /tmp/tarfile.tar -C /etc/filebeat/certs/ ./wazuh1-key.pem
-    mv /etc/filebeat/certs/wazuh1-key.pem /etc/filebeat/certs/filebeat-key.pem
+    tar -xf /tmp/tarfile.tar -C /etc/filebeat/certs/ ./fortishield1.pem
+    mv /etc/filebeat/certs/fortishield1.pem /etc/filebeat/certs/filebeat.pem
+    tar -xf /tmp/tarfile.tar -C /etc/filebeat/certs/ ./fortishield1-key.pem
+    mv /etc/filebeat/certs/fortishield1-key.pem /etc/filebeat/certs/filebeat-key.pem
     tar -xf /tmp/tarfile.tar -C /etc/filebeat/certs/ ./root-ca.pem
 }
 
@@ -109,8 +109,8 @@ function load-filebeat_configure() {
 
 test-08-filebeat_configure-no-previous-variables() {
     load-filebeat_configure
-    filebeat_wazuh_template=""
-    filebeat_wazuh_module=""
+    filebeat_fortishield_template=""
+    filebeat_fortishield_module=""
     @mocktrue curl -s --max-time 300
     @mock tar -xvz -C /usr/share/filebeat/module
     @mocktrue echo admin
@@ -118,8 +118,8 @@ test-08-filebeat_configure-no-previous-variables() {
 }
 
 test-08-filebeat_configure-no-previous-variables-assert() {
-    curl -so /etc/filebeat/wazuh-template.json --max-time 300
-    chmod go+r /etc/filebeat/wazuh-template.json
+    curl -so /etc/filebeat/fortishield-template.json --max-time 300
+    chmod go+r /etc/filebeat/fortishield-template.json
     installCommon_getConfig filebeat/filebeat_distributed.yml /etc/filebeat/filebeat.yml
     echo "output.elasticsearch.hosts:" >> /etc/filebeat/filebeat.yml
     mkdir /etc/filebeat/certs
@@ -131,7 +131,7 @@ test-08-filebeat_configure-no-previous-variables-assert() {
 
 test-09-filebeat_configure-one-elastic-node() {
     load-filebeat_configure
-    @mocktrue curl -s ${filebeat_wazuh_module} --max-time 300
+    @mocktrue curl -s ${filebeat_fortishield_module} --max-time 300
     @mock tar -xvz -C /usr/share/filebeat/module
     @mocktrue echo admin
     indexer_node_names=("elastic1")
@@ -140,8 +140,8 @@ test-09-filebeat_configure-one-elastic-node() {
 }
 
 test-09-filebeat_configure-one-elastic-node-assert() {
-    curl -so /etc/filebeat/wazuh-template.json https://raw.githubusercontent.com/wazuh/wazuh/4.3/extensions/elasticsearch/7.x/wazuh-template.json --max-time 300
-    chmod go+r /etc/filebeat/wazuh-template.json
+    curl -so /etc/filebeat/fortishield-template.json https://raw.githubusercontent.com/fortishield/fortishield/4.3/extensions/elasticsearch/7.x/fortishield-template.json --max-time 300
+    chmod go+r /etc/filebeat/fortishield-template.json
     installCommon_getConfig filebeat/filebeat_distributed.yml /etc/filebeat/filebeat.yml
     echo "output.elasticsearch.hosts:" >> /etc/filebeat/filebeat.yml
     echo "  - 1.1.1.1" >> /etc/filebeat/filebeat.yml
@@ -154,7 +154,7 @@ test-09-filebeat_configure-one-elastic-node-assert() {
 
 test-10-filebeat_configure-more-than-one-elastic-node() {
     load-filebeat_configure
-    @mocktrue curl -s ${filebeat_wazuh_module} --max-time 300
+    @mocktrue curl -s ${filebeat_fortishield_module} --max-time 300
     @mock tar -xvz -C /usr/share/filebeat/module
     @mocktrue echo admin
     indexer_node_names=("elastic1" "elastic2")
@@ -163,8 +163,8 @@ test-10-filebeat_configure-more-than-one-elastic-node() {
 }
 
 test-10-filebeat_configure-more-than-one-elastic-node-assert() {
-    curl -so /etc/filebeat/wazuh-template.json https://raw.githubusercontent.com/wazuh/wazuh/4.3/extensions/elasticsearch/7.x/wazuh-template.json --max-time 300
-    chmod go+r /etc/filebeat/wazuh-template.json
+    curl -so /etc/filebeat/fortishield-template.json https://raw.githubusercontent.com/fortishield/fortishield/4.3/extensions/elasticsearch/7.x/fortishield-template.json --max-time 300
+    chmod go+r /etc/filebeat/fortishield-template.json
     installCommon_getConfig filebeat/filebeat_distributed.yml /etc/filebeat/filebeat.yml
     echo "output.elasticsearch.hosts:" >> /etc/filebeat/filebeat.yml
     echo "  - 1.1.1.1" >> /etc/filebeat/filebeat.yml
@@ -178,8 +178,8 @@ test-10-filebeat_configure-more-than-one-elastic-node-assert() {
 
 test-11-filebeat_configure-AIO-no-previous-variables() {
     load-filebeat_configure
-    filebeat_wazuh_template=""
-    filebeat_wazuh_module=""
+    filebeat_fortishield_template=""
+    filebeat_fortishield_module=""
     @mocktrue curl -s --max-time 300
     @mock tar -xvz -C /usr/share/filebeat/module
     @mocktrue echo admin
@@ -188,8 +188,8 @@ test-11-filebeat_configure-AIO-no-previous-variables() {
 }
 
 test-11-filebeat_configure-AIO-no-previous-variables-assert() {
-    curl -so /etc/filebeat/wazuh-template.json --max-time 300
-    chmod go+r /etc/filebeat/wazuh-template.json
+    curl -so /etc/filebeat/fortishield-template.json --max-time 300
+    chmod go+r /etc/filebeat/fortishield-template.json
     installCommon_getConfig filebeat/filebeat_unattended.yml /etc/filebeat/filebeat.yml
     mkdir /etc/filebeat/certs
     filebeat_copyCertificates
@@ -200,7 +200,7 @@ test-11-filebeat_configure-AIO-no-previous-variables-assert() {
 
 test-12-filebeat_configure-AIO() {
     load-filebeat_configure
-    @mocktrue curl -s ${filebeat_wazuh_module} --max-time 300
+    @mocktrue curl -s ${filebeat_fortishield_module} --max-time 300
     @mock tar -xvz -C /usr/share/filebeat/module
     @mocktrue echo admin
     AIO=1
@@ -208,8 +208,8 @@ test-12-filebeat_configure-AIO() {
 }
 
 test-12-filebeat_configure-AIO-assert() {
-    curl -so /etc/filebeat/wazuh-template.json https://raw.githubusercontent.com/wazuh/wazuh/4.3/extensions/elasticsearch/7.x/wazuh-template.json --max-time 300
-    chmod go+r /etc/filebeat/wazuh-template.json
+    curl -so /etc/filebeat/fortishield-template.json https://raw.githubusercontent.com/fortishield/fortishield/4.3/extensions/elasticsearch/7.x/fortishield-template.json --max-time 300
+    chmod go+r /etc/filebeat/fortishield-template.json
     installCommon_getConfig filebeat/filebeat_unattended.yml /etc/filebeat/filebeat.yml
     mkdir /etc/filebeat/certs
     filebeat_copyCertificates

@@ -1,0 +1,16 @@
+[Unit]
+Description=Fortishield-indexer Performance Analyzer
+PartOf=fortishield-indexer.service
+After=fortishield-indexer.service
+
+[Service]
+ExecStart=/usr/share/fortishield-indexer/bin/opensearch-performance-analyzer/performance-analyzer-agent-cli
+Restart=on-failure
+User=fortishield-indexer
+Group=fortishield-indexer
+Environment=OPENSEARCH_HOME=/usr/share/fortishield-indexer
+Environment=OPENSEARCH_PATH_CONF=/etc/fortishield-indexer/
+WorkingDirectory=/usr/share/fortishield-indexer
+
+[Install]
+WantedBy=fortishield-indexer.service

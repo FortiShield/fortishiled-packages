@@ -5,7 +5,7 @@ In this repository, you can find the necessary tools to build a Vagrant box for 
 
 ## Tools needed to build the package
 
-To build a Wazuh package you need to install the following tools:
+To build a Fortishield package you need to install the following tools:
 - `Virtual Box`: [installation guide](https://www.virtualbox.org/manual/UserManual.html#installation)
 - `Vagrant`: [installation guide](https://www.vagrantup.com/docs/installation/)
 - `Git`:  [installation guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
@@ -23,7 +23,7 @@ To build a Wazuh package you need to install the following tools:
 - [AIX](/aix/README.md)
 - [Debian](/debs/README.md)
 - [HP-UX](/hp-ux/README.md)
-- [KibanaApp](/wazuhapp/README.md)
+- [KibanaApp](/fortishieldapp/README.md)
 - [macOS](/macos/README.md)
 - [OVA](/ova/README.md)
 - [RPM](/rpms/README.md)
@@ -37,9 +37,9 @@ https://github.com/BigAl/solaris-packer
 
 ## Contribute
 
-If you want to contribute to our project please don't hesitate to send a pull request. You can also join our users [mailing list](https://groups.google.com/d/forum/wazuh) by sending an email to [wazuh+subscribe@googlegroups.com](mailto:wazuh+subscribe@googlegroups.com)or join our Slack channel by filling this [form](https://wazuh.com/community/join-us-on-slack/) to ask questions and participate in discussions.
+If you want to contribute to our project please don't hesitate to send a pull request. You can also join our users [mailing list](https://groups.google.com/d/forum/fortishield) by sending an email to [fortishield+subscribe@googlegroups.com](mailto:fortishield+subscribe@googlegroups.com)or join our Slack channel by filling this [form](https://fortishield.github.io/community/join-us-on-slack/) to ask questions and participate in discussions.
 
 ## License and copyright
 
-WAZUH
-Copyright (C) 2015 Wazuh Inc.  (License GPLv2)
+FORTISHIELD
+Copyright (C) 2015 Fortishield Inc.  (License GPLv2)

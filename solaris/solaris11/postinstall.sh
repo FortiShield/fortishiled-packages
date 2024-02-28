@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for wazuh-agent
-# Wazuh, Inc 2015
+# postinst script for fortishield-agent
+# Fortishield, Inc 2015
 
 install_path="<INSTALL_PATH>"
 osversion=$(uname -v)
@@ -11,8 +11,8 @@ if [ -d ${install_path}/logs/ossec ]; then
   if [ -z "$(ls -A ${install_path}/logs/ossec)" ]; then
     rm -rf ${install_path}/logs/ossec
   else 
-    rm -rf ${install_path}/logs/wazuh
-    mv ${install_path}/logs/ossec ${install_path}/logs/wazuh
+    rm -rf ${install_path}/logs/fortishield
+    mv ${install_path}/logs/ossec ${install_path}/logs/fortishield
   fi
 fi  
 if [ -d ${install_path}/queue/ossec ]; then
@@ -26,17 +26,17 @@ fi
 
 # Remove old ossec user and group if exists and change ownwership of files
 if grep "^ossec:" /etc/group > /dev/null 2>&1; then
-  find ${install_path}/ -group ossec -user root -exec chown root:wazuh {} \; > /dev/null 2>&1 || true
+  find ${install_path}/ -group ossec -user root -exec chown root:fortishield {} \; > /dev/null 2>&1 || true
   if grep "^ossec" /etc/passwd > /dev/null 2>&1; then
-    find ${install_path}/ -group ossec -user ossec -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+    find ${install_path}/ -group ossec -user ossec -exec chown fortishield:fortishield {} \; > /dev/null 2>&1 || true
     userdel ossec
   fi
   if grep "^ossecm" /etc/passwd > /dev/null 2>&1; then
-    find ${install_path}/ -group ossec -user ossecm -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+    find ${install_path}/ -group ossec -user ossecm -exec chown fortishield:fortishield {} \; > /dev/null 2>&1 || true
     userdel ossecm
   fi
   if grep "^ossecr" /etc/passwd > /dev/null 2>&1; then
-    find ${install_path}/ -group ossec -user ossecr -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+    find ${install_path}/ -group ossec -user ossecr -exec chown fortishield:fortishield {} \; > /dev/null 2>&1 || true
     userdel ossecr
   fi
   groupdel ossec

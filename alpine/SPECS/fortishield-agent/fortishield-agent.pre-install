@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# add something which happens before install
+
+directory_base="DIRECTORY_BASE"
+
+# Create the fortishield group if it doesn't exists
+if command -v getent > /dev/null 2>&1 && ! getent group fortishield > /dev/null 2>&1; then
+  addgroup -S fortishield
+elif ! id -g fortishield > /dev/null 2>&1; then
+  addgroup -S fortishield
+fi
+# Create the fortishield user if it doesn't exists
+if ! id -u fortishield > /dev/null 2>&1; then
+  adduser -S -G fortishield -h ${directory_base} -s /sbin/nologin fortishield
+fi
+
+exit 0

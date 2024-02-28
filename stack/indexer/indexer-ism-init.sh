@@ -1,25 +1,25 @@
 #!/bin/bash
-# Wazuh Copyright (C) 2023 Wazuh Inc. (License GPLv2)
-# Wazuh - Indexer set rollover policy and templates
+# Fortishield Copyright (C) 2023 Fortishield Inc. (License GPLv2)
+# Fortishield - Indexer set rollover policy and templates
 
 # Policy settings
 MIN_SHARD_SIZE="25"
 MIN_INDEX_AGE="7d"
 MIN_DOC_COUNT="600000000"
-ISM_INDEX_PATTERNS='["wazuh-alerts-*", "wazuh-archives-*", "-wazuh-alerts-4.x-sample*"]'
+ISM_INDEX_PATTERNS='["fortishield-alerts-*", "fortishield-archives-*", "-fortishield-alerts-4.x-sample*"]'
 ISM_PRIORITY="50"
 INDEXER_PASSWORD="admin"
 INDEXER_HOSTNAME="localhost"
 
 POLICY_NAME="rollover_policy"
-LOG_FILE="/var/log/wazuh-indexer/ism-init.log"
+LOG_FILE="/var/log/fortishield-indexer/ism-init.log"
 
 INDEXER_URL="https://${INDEXER_HOSTNAME}:9200"
 
 # curl settings shortcuts
 C_AUTH="-u admin:${INDEXER_PASSWORD}"
 
-ALERTS_TEMPLATE="/etc/wazuh-indexer/wazuh-template.json"
+ALERTS_TEMPLATE="/etc/fortishield-indexer/fortishield-template.json"
 
 #########################################################################
 # Creates the rollover_policy ISM policy.
@@ -38,7 +38,7 @@ function generate_rollover_policy() {
     cat <<-EOF
         {
             "policy": {
-                "description": "Wazuh rollover and alias policy",
+                "description": "Fortishield rollover and alias policy",
                 "default_state": "active",
                 "states": [
                     {
@@ -128,18 +128,18 @@ function generate_ism_config() {
 # Loads the index templates for the rollover policy to the indexer.
 #########################################################################
 function load_templates() {
-    # Load wazuh-template.json, needed for initial indices creation.
-    echo "Will create 'wazuh' index template"
+    # Load fortishield-template.json, needed for initial indices creation.
+    echo "Will create 'fortishield' index template"
     if [ -f "${ALERTS_TEMPLATE}" ]; then
         cat "${ALERTS_TEMPLATE}" |
             if ! curl -s -k ${C_AUTH} \
-                -X PUT "${INDEXER_URL}/_template/wazuh" \
+                -X PUT "${INDEXER_URL}/_template/fortishield" \
                 -o "${LOG_FILE}" --create-dirs \
                 -H 'Content-Type: application/json' -d @-; then
-                echo "  ERROR: 'wazuh' template creation failed"
+                echo "  ERROR: 'fortishield' template creation failed"
                 return 1
             else
-                echo " SUCC: 'wazuh' template created or updated"
+                echo " SUCC: 'fortishield' template created or updated"
             fi
     else
         echo "  ERROR: ${ALERTS_TEMPLATE} not found"
@@ -302,7 +302,7 @@ function create_indices() {
 function show_help() {
     echo -e ""
     echo -e "NAME"
-    echo -e "        indexer-ism-init.sh - Manages the Index State Management plugin for Wazuh indexer index rollovers policies."
+    echo -e "        indexer-ism-init.sh - Manages the Index State Management plugin for Fortishield indexer index rollovers policies."
     echo -e ""
     echo -e "SYNOPSIS"
     echo -e "        indexer-ism-init.sh [OPTIONS]"
@@ -318,10 +318,10 @@ function show_help() {
     echo -e "                Shows help."
     echo -e ""
     echo -e "        -i, --indexer-hostname <hostname>"
-    echo -e "                Specifies the Wazuh indexer hostname or IP."
+    echo -e "                Specifies the Fortishield indexer hostname or IP."
     echo -e ""
     echo -e "        -p, --indexer-password <password>"
-    echo -e "                Specifies the Wazuh indexer admin user password."
+    echo -e "                Specifies the Fortishield indexer admin user password."
     echo -e ""
     echo -e "        -P, --priority <priority>"
     echo -e "                Specifies the policy's priority."
@@ -341,7 +341,7 @@ function show_help() {
 function main() {
     # The list should contain every alias which indices implement the
     # rollover policy
-    aliases=("wazuh-alerts" "wazuh-archives")
+    aliases=("fortishield-alerts" "fortishield-archives")
 
     while [ -n "${1}" ]; do
         case "${1}" in
@@ -424,7 +424,7 @@ function main() {
         esac
     done
 
-    # Load the Wazuh Indexer templates
+    # Load the Fortishield Indexer templates
     # Upload the rollover policy
     # Create the initial write indices
     if load_templates && upload_rollover_policy && create_indices "${aliases[@]}"; then

@@ -8,7 +8,7 @@ source "${base_dir}"/bach.sh
 }
 
 function load-passwords-readFileUsers() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-readFileUsers
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-readFileUsers
 }
 
 test-ASSERT-FAIL-01-passwords-readFileUsers-file-incorrect() {
@@ -22,12 +22,12 @@ test-02-passwords-readFileUsers-changeall-correct() {
     load-passwords-readFileUsers
     p_file=/tmp/passfile.yml
     @mock grep -Pzc '\A(User:\s*name:\s*\w+\s*password:\s*[A-Za-z0-9_\-]+\s*)+\Z' /tmp/passfile.yml === @echo 1
-    @mock grep name: /tmp/passfile.yml === @echo wazuh kibanaserver
+    @mock grep name: /tmp/passfile.yml === @echo fortishield kibanaserver
     @mock awk '{ print substr( $2, 1, length($2) ) }'
-    @mock grep password: /tmp/passfile.yml === @echo wazuhpassword kibanaserverpassword
+    @mock grep password: /tmp/passfile.yml === @echo fortishieldpassword kibanaserverpassword
     @mock awk '{ print substr( $2, 1, length($2) ) }'
     changeall=1
-    users=( wazuh kibanaserver )
+    users=( fortishield kibanaserver )
     passwords-readFileUsers
     @echo ${fileusers[*]}
     @echo ${filepasswords[*]}
@@ -36,22 +36,22 @@ test-02-passwords-readFileUsers-changeall-correct() {
 }
 
 test-02-passwords-readFileUsers-changeall-correct-assert() {
-    @echo wazuh kibanaserver
-    @echo wazuhpassword kibanaserverpassword
-    @echo wazuh kibanaserver
-    @echo wazuhpassword kibanaserverpassword
+    @echo fortishield kibanaserver
+    @echo fortishieldpassword kibanaserverpassword
+    @echo fortishield kibanaserver
+    @echo fortishieldpassword kibanaserverpassword
 }
 
 test-03-passwords-readFileUsers-changeall-user-doesnt-exist() {
     load-passwords-readFileUsers
     p_file=/tmp/passfile.yml
     @mock grep -Pzc '\A(User:\s*name:\s*\w+\s*password:\s*[A-Za-z0-9_\-]+\s*)+\Z' /tmp/passfile.yml === @echo 1
-    @mock grep name: /tmp/passfile.yml === @out wazuh kibanaserver admin
+    @mock grep name: /tmp/passfile.yml === @out fortishield kibanaserver admin
     @mock awk '{ print substr( $2, 1, length($2) ) }'
-    @mock grep password: /tmp/passfile.yml === @out wazuhpassword kibanaserverpassword
+    @mock grep password: /tmp/passfile.yml === @out fortishieldpassword kibanaserverpassword
     @mock awk '{ print substr( $2, 1, length($2) ) }'
     changeall=1
-    users=( wazuh kibanaserver )
+    users=( fortishield kibanaserver )
     passwords-readFileUsers
     @echo ${fileusers[*]}
     @echo ${filepasswords[*]}
@@ -60,19 +60,19 @@ test-03-passwords-readFileUsers-changeall-user-doesnt-exist() {
 }
 
 test-03-passwords-readFileUsers-changeall-user-doesnt-exist-assert() {
-    @echo wazuh kibanaserver admin
-    @echo wazuhpassword kibanaserverpassword
-    @echo wazuh kibanaserver
-    @echo wazuhpassword kibanaserverpassword
+    @echo fortishield kibanaserver admin
+    @echo fortishieldpassword kibanaserverpassword
+    @echo fortishield kibanaserver
+    @echo fortishieldpassword kibanaserverpassword
 }
 
 test-04-passwords-readFileUsers-no-changeall-correct() {
     load-passwords-readFileUsers
     p_file=/tmp/passfile.yml
     @mock grep -Pzc '\A(User:\s*name:\s*\w+\s*password:\s*[A-Za-z0-9_\-]+\s*)+\Z' /tmp/passfile.yml === @echo 1
-    @mock grep name: /tmp/passfile.yml === @out wazuh kibanaserver admin
+    @mock grep name: /tmp/passfile.yml === @out fortishield kibanaserver admin
     @mock awk '{ print substr( $2, 1, length($2) ) }'
-    @mock grep password: /tmp/passfile.yml === @out wazuhpassword kibanaserverpassword adminpassword
+    @mock grep password: /tmp/passfile.yml === @out fortishieldpassword kibanaserverpassword adminpassword
     @mock awk '{ print substr( $2, 1, length($2) ) }'
     changeall=
     kibanainstalled=1
@@ -86,14 +86,14 @@ test-04-passwords-readFileUsers-no-changeall-correct() {
 }
 
 test-04-passwords-readFileUsers-no-changeall-correct-assert() {
-    @echo wazuh kibanaserver admin
-    @echo wazuhpassword kibanaserverpassword adminpassword
+    @echo fortishield kibanaserver admin
+    @echo fortishieldpassword kibanaserverpassword adminpassword
     @echo kibanaserver admin
     @echo kibanaserverpassword adminpassword
 }
 
 function load-passwords-changePassword() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-changePassword
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-changePassword
 }
 
 test-05-passwords-changePassword-changeall-all-users-all-installed() {
@@ -105,27 +105,27 @@ test-05-passwords-changePassword-changeall-all-users-all-installed() {
     users=( "kibanaserver" "admin" )
     passwords=( "kibanaserverpassword" "adminpassword" )
     hashes=( "11" "22")
-    @mkdir -p /usr/share/wazuh-indexer/backup/
-    @touch /usr/share/wazuh-indexer/backup/internal_users.yml
+    @mkdir -p /usr/share/fortishield-indexer/backup/
+    @touch /usr/share/fortishield-indexer/backup/internal_users.yml
     @mkdir -p /etc/filebeat
     @touch /etc/filebeat/filebeat.yml
     @mkdir -p /etc/kibana
     @touch /etc/kibana/kibana.yml
-    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "wazuhpasswordold"
+    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "fortishieldpasswordold"
     @mock awk '{sub("password: .*", "password: adminpassword")}1' /etc/filebeat/filebeat.yml === @out "admin_configuration_string"
     @mock grep "password:" /etc/kibana/kibana.yml === @out "kibanapasswordold"
     @mock awk '{sub("elasticsearch.password: .*", "elasticsearch.password: kibanaserverpassword")}1' /etc/kibana/kibana.yml === @out "kibanaserver_configuration_string"
     passwords-changePassword
-    @rm /usr/share/wazuh-indexer/backup/internal_users.yml
+    @rm /usr/share/fortishield-indexer/backup/internal_users.yml
     @rm /etc/filebeat/filebeat.yml
     @rm /etc/kibana/kibana.yml
 }
 
 test-05-passwords-changePassword-changeall-all-users-all-installed-assert() {
-    awk -v new=11 'prev=="kibanaserver:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/wazuh-indexer/backup/internal_users.yml
-    mv -f internal_users.yml_tmp /usr/share/wazuh-indexer/backup/internal_users.yml
-    awk -v new=22 'prev=="admin:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/wazuh-indexer/backup/internal_users.yml
-    mv -f internal_users.yml_tmp /usr/share/wazuh-indexer/backup/internal_users.yml
+    awk -v new=11 'prev=="kibanaserver:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/fortishield-indexer/backup/internal_users.yml
+    mv -f internal_users.yml_tmp /usr/share/fortishield-indexer/backup/internal_users.yml
+    awk -v new=22 'prev=="admin:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/fortishield-indexer/backup/internal_users.yml
+    mv -f internal_users.yml_tmp /usr/share/fortishield-indexer/backup/internal_users.yml
     echo "admin_configuration_string"
     recommon_startService "filebeat"
     echo "kibanaserver_configuration_string"
@@ -134,8 +134,8 @@ test-05-passwords-changePassword-changeall-all-users-all-installed-assert() {
 
 test-06-passwords-changePassword-nuser-kibanaserver-kibana-installed() {
     load-passwords-changePassword
-    @mkdir -p /usr/share/wazuh-indexer/backup/
-    @touch /usr/share/wazuh-indexer/backup/internal_users.yml
+    @mkdir -p /usr/share/fortishield-indexer/backup/
+    @touch /usr/share/fortishield-indexer/backup/internal_users.yml
     @mkdir -p /etc/kibana
     @touch /etc/kibana/kibana.yml
     nuser="kibanaserver"
@@ -146,21 +146,21 @@ test-06-passwords-changePassword-nuser-kibanaserver-kibana-installed() {
     @mock grep "password:" /etc/kibana/kibana.yml === @out "kibanapasswordold"
     @mock awk '{sub("elasticsearch.password: .*", "elasticsearch.password: kibanaserverpassword")}1' /etc/kibana/kibana.yml === @out "kibanaserver_configuration_string"
     passwords-changePassword
-    @rm /usr/share/wazuh-indexer/backup/internal_users.yml
+    @rm /usr/share/fortishield-indexer/backup/internal_users.yml
     @rm /etc/kibana/kibana.yml
 }
 
 test-06-passwords-changePassword-nuser-kibanaserver-kibana-installed-assert() {
-    awk -v new="11" 'prev=="kibanaserver:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/wazuh-indexer/backup/internal_users.yml
-    mv -f internal_users.yml_tmp /usr/share/wazuh-indexer/backup/internal_users.yml
+    awk -v new="11" 'prev=="kibanaserver:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/fortishield-indexer/backup/internal_users.yml
+    mv -f internal_users.yml_tmp /usr/share/fortishield-indexer/backup/internal_users.yml
     echo "kibanaserver_configuration_string"
     recommon_startService "kibana"
 }
 
 test-07-passwords-changePassword-nuser-kibanaserver-kibana-not-installed() {
     load-passwords-changePassword
-    @mkdir -p /usr/share/wazuh-indexer/backup/
-    @touch /usr/share/wazuh-indexer/backup/internal_users.yml
+    @mkdir -p /usr/share/fortishield-indexer/backup/
+    @touch /usr/share/fortishield-indexer/backup/internal_users.yml
     @mkdir -p /etc/kibana
     @touch /etc/kibana/kibana.yml
     nuser="kibanaserver"
@@ -171,13 +171,13 @@ test-07-passwords-changePassword-nuser-kibanaserver-kibana-not-installed() {
     @mock grep "password:" /etc/kibana/kibana.yml === @out "kibanapasswordold"
     @mock awk '{sub("elasticsearch.password: .*", "elasticsearch.password: kibanaserverpassword")}1' /etc/kibana/kibana.yml === @out "kibanaserver_configuration_string"
     passwords-changePassword
-    @rm /usr/share/wazuh-indexer/backup/internal_users.yml
+    @rm /usr/share/fortishield-indexer/backup/internal_users.yml
     @rm /etc/kibana/kibana.yml
 }
 
 test-07-passwords-changePassword-nuser-kibanaserver-kibana-not-installed-assert() {
-    awk -v new="11" 'prev=="kibanaserver:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/wazuh-indexer/backup/internal_users.yml
-    mv -f internal_users.yml_tmp /usr/share/wazuh-indexer/backup/internal_users.yml
+    awk -v new="11" 'prev=="kibanaserver:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/fortishield-indexer/backup/internal_users.yml
+    mv -f internal_users.yml_tmp /usr/share/fortishield-indexer/backup/internal_users.yml
 }
 
 test-08-passwords-changePassword-nuser-admin-filebeat-installed() {
@@ -188,20 +188,20 @@ test-08-passwords-changePassword-nuser-admin-filebeat-installed() {
     nuser="admin"
     password="adminpassword"
     hash="11"
-    @mkdir -p /usr/share/wazuh-indexer/backup/
-    @touch /usr/share/wazuh-indexer/backup/internal_users.yml
+    @mkdir -p /usr/share/fortishield-indexer/backup/
+    @touch /usr/share/fortishield-indexer/backup/internal_users.yml
     @mkdir -p /etc/filebeat
     @touch /etc/filebeat/filebeat.yml
-    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "wazuhpasswordold"
+    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "fortishieldpasswordold"
     @mock awk '{sub("password: .*", "password: adminpassword")}1' /etc/filebeat/filebeat.yml === @out "admin_configuration_string"
     passwords-changePassword
-    @rm /usr/share/wazuh-indexer/backup/internal_users.yml
+    @rm /usr/share/fortishield-indexer/backup/internal_users.yml
     @rm /etc/filebeat/filebeat.yml
 }
 
 test-08-passwords-changePassword-nuser-admin-filebeat-installed-assert() {
-    awk -v new=11 'prev=="admin:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/wazuh-indexer/backup/internal_users.yml
-    mv -f internal_users.yml_tmp /usr/share/wazuh-indexer/backup/internal_users.yml
+    awk -v new=11 'prev=="admin:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/fortishield-indexer/backup/internal_users.yml
+    mv -f internal_users.yml_tmp /usr/share/fortishield-indexer/backup/internal_users.yml
     echo "admin_configuration_string"
     recommon_startService "filebeat"
 }
@@ -214,20 +214,20 @@ test-09-passwords-changePassword-nuser-admin-filebeat-not-installed() {
     nuser="admin"
     password="adminpassword"
     hash="11"
-    @mkdir -p /usr/share/wazuh-indexer/backup/
-    @touch /usr/share/wazuh-indexer/backup/internal_users.yml
+    @mkdir -p /usr/share/fortishield-indexer/backup/
+    @touch /usr/share/fortishield-indexer/backup/internal_users.yml
     @mkdir -p /etc/filebeat
     @touch /etc/filebeat/filebeat.yml
-    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "wazuhpasswordold"
+    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "fortishieldpasswordold"
     @mock awk '{sub("password: .*", "password: adminpassword")}1' /etc/filebeat/filebeat.yml === @out "admin_configuration_string"
     passwords-changePassword
-    @rm /usr/share/wazuh-indexer/backup/internal_users.yml
+    @rm /usr/share/fortishield-indexer/backup/internal_users.yml
     @rm /etc/filebeat/filebeat.yml
 }
 
 test-09-passwords-changePassword-nuser-admin-filebeat-not-installed-assert() {
-    awk -v new=11 'prev=="admin:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/wazuh-indexer/backup/internal_users.yml
-    mv -f internal_users.yml_tmp /usr/share/wazuh-indexer/backup/internal_users.yml
+    awk -v new=11 'prev=="admin:"{sub(/\042.*/,""); $0=$0 new} {prev=$1} 1' /usr/share/fortishield-indexer/backup/internal_users.yml
+    mv -f internal_users.yml_tmp /usr/share/fortishield-indexer/backup/internal_users.yml
 }
 
 test-10-passwords-changePassword-changeall-all-users-nothing-installed() {
@@ -239,25 +239,25 @@ test-10-passwords-changePassword-changeall-all-users-nothing-installed() {
     users=( "kibanaserver" "admin" )
     passwords=( "kibanaserverpassword" "adminpassword" )
     hashes=( "11" "22")
-    @mkdir -p /usr/share/wazuh-indexer/backup/
-    @touch /usr/share/wazuh-indexer/backup/internal_users.yml
+    @mkdir -p /usr/share/fortishield-indexer/backup/
+    @touch /usr/share/fortishield-indexer/backup/internal_users.yml
     @mkdir -p /etc/filebeat
     @touch /etc/filebeat/filebeat.yml
     @mkdir -p /etc/kibana
     @touch /etc/kibana/kibana.yml
-    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "wazuhpasswordold"
+    @mock grep "password:" /etc/filebeat/filebeat.yml === @out "fortishieldpasswordold"
     @mock awk '{sub("password: .*", "password: adminpassword")}1' /etc/filebeat/filebeat.yml === @out "admin_configuration_string"
     @mock grep "password:" /etc/kibana/kibana.yml === @out "kibanapasswordold"
     @mock awk '{sub("elasticsearch.password: .*", "elasticsearch.password: kibanaserverpassword")}1' /etc/kibana/kibana.yml === @out "kibanaserver_configuration_string"
     passwords-changePassword
     @assert-success
-    @rm /usr/share/wazuh-indexer/backup/internal_users.yml
+    @rm /usr/share/fortishield-indexer/backup/internal_users.yml
     @rm /etc/filebeat/filebeat.yml
     @rm /etc/kibana/kibana.yml
 }
 
 function load-passwords-checkInstalledPass() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-checkInstalledPass
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-checkInstalledPass
 }
 
 test-11-passwords-checkInstalledPass-all-installed-yum() {
@@ -266,14 +266,14 @@ test-11-passwords-checkInstalledPass-all-installed-yum() {
 
     @mocktrue yum list installed
 
-    @mock grep opendistroforelasticsearch === @echo opendistroforelasticsearch.x86_64 1.13.2-1 @wazuh
+    @mock grep opendistroforelasticsearch === @echo opendistroforelasticsearch.x86_64 1.13.2-1 @fortishield
     @mock grep -v kibana
 
-    @mock grep filebeat === @echo filebeat.x86_64 7.10.2-1 @wazuh
+    @mock grep filebeat === @echo filebeat.x86_64 7.10.2-1 @fortishield
 
     @mock grep opendistroforelasticsearch-kibana === @echo opendistroforelasticsearch-kibana.x86_64
 
-    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/wazuh-indexer/opensearch.yml === @out "pem_path"
+    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/fortishield-indexer/opensearch.yml === @out "pem_path"
 
     adminpem=
     adminkey=
@@ -289,8 +289,8 @@ test-11-passwords-checkInstalledPass-all-installed-yum-assert() {
 
     passwords-readAdmincerts
 
-    @echo "opendistroforelasticsearch.x86_64 1.13.2-1 @wazuh"
-    @echo "filebeat.x86_64 7.10.2-1 @wazuh"
+    @echo "opendistroforelasticsearch.x86_64 1.13.2-1 @fortishield"
+    @echo "filebeat.x86_64 7.10.2-1 @fortishield"
     @echo "opendistroforelasticsearch-kibana.x86_64"
 }
 
@@ -307,7 +307,7 @@ test-12-passwords-checkInstalledPass-all-installed-apt() {
 
     @mock grep opendistroforelasticsearch-kibana === @echo opendistroforelasticsearch-kibana/now 1.13.2 amd64 [installed,local]
 
-    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/wazuh-indexer/opensearch.yml === @out "pem_path"
+    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/fortishield-indexer/opensearch.yml === @out "pem_path"
 
     adminpem=
     adminkey=
@@ -335,7 +335,7 @@ test-ASSERT-FAIL-13-passwords-checkInstalledPass-nothing-installed-apt() {
 
     @mocktrue apt list --installed
 
-    @mock grep wazuh-manager
+    @mock grep fortishield-manager
 
     @mock grep opendistroforelasticsearch
     @mock grep -v kibana
@@ -344,7 +344,7 @@ test-ASSERT-FAIL-13-passwords-checkInstalledPass-nothing-installed-apt() {
 
     @mock grep opendistroforelasticsearch-kibana
 
-    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/wazuh-indexer/opensearch.yml === @out "pem_path"
+    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/fortishield-indexer/opensearch.yml === @out "pem_path"
 
     passwords-checkInstalledPass
 }
@@ -355,7 +355,7 @@ test-ASSERT-FAIL-14-passwords-checkInstalledPass-nothing-installed-yum() {
 
     @mocktrue yum list installed
 
-    @mock grep wazuh-manager
+    @mock grep fortishield-manager
 
     @mock grep opendistroforelasticsearch
     @mock grep -v kibana
@@ -364,13 +364,13 @@ test-ASSERT-FAIL-14-passwords-checkInstalledPass-nothing-installed-yum() {
 
     @mock grep opendistroforelasticsearch-kibana
 
-    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/wazuh-indexer/opensearch.yml === @out "pem_path"
+    @mock grep "plugins.security.ssl.transport.pemtrustedcas_filepath: " /etc/fortishield-indexer/opensearch.yml === @out "pem_path"
 
     passwords-checkInstalledPass
 }
 
 function load-passwords-checkUser() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-checkUser
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-checkUser
 }
 
 test-ASSERT-FAIL-15-passwords-checkUser-no-nuser() {
@@ -383,7 +383,7 @@ test-ASSERT-FAIL-15-passwords-checkUser-no-nuser() {
 test-ASSERT-FAIL-16-passwords-checkUser-incorrect-user() {
     load-passwords-checkUser
     users=( "kibanaserver" "admin" )
-    nuser="wazuh"
+    nuser="fortishield"
     passwords-checkUser
 }
 
@@ -396,7 +396,7 @@ test-17-passwords-checkUser-correct() {
 }
 
 function load-passwords-generatePasswordFile() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-generatePasswordFile
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-generatePasswordFile
 }
 
 test-18-passwords-generatePasswordFile() {
@@ -429,12 +429,12 @@ test-18-passwords-generatePasswordFile-assert() {
 }
 
 function load-passwords-getNetworkHost() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-getNetworkHost
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-getNetworkHost
 }
 
 test-19-passwords-getNetworkHost() {
     load-passwords-getNetworkHost
-    @mock grep -hr "network.host:" /etc/wazuh-indexer/opensearch.yml === @out "network.host: 1.1.1.1"
+    @mock grep -hr "network.host:" /etc/fortishield-indexer/opensearch.yml === @out "network.host: 1.1.1.1"
     passwords-getNetworkHost
     @echo ${IP}
 }
@@ -445,7 +445,7 @@ test-19-passwords-getNetworkHost-assert() {
 
 test-20-passwords-getNetworkHost-interface() {
     load-passwords-getNetworkHost
-    @mock grep -hr "network.host:" /etc/wazuh-indexer/opensearch.yml === @out "network.host: _wlps01_"
+    @mock grep -hr "network.host:" /etc/fortishield-indexer/opensearch.yml === @out "network.host: _wlps01_"
     @mock ip -o -4 addr list wlps01 === @out "1.1.1.1"
     @mock awk '{print $4}' === @out ""
     @mock cut -d/ -f1 === @out ""
@@ -459,7 +459,7 @@ test-20-passwords-getNetworkHost-interface-assert() {
 
 test-21-passwords-getNetworkHost-localhost() {
     load-passwords-getNetworkHost
-    @mock grep -hr "network.host:" /etc/wazuh-indexer/opensearch.yml === @out "network.host: 0.0.0.0"
+    @mock grep -hr "network.host:" /etc/fortishield-indexer/opensearch.yml === @out "network.host: 0.0.0.0"
     passwords-getNetworkHost
     @echo ${IP}
 }
@@ -469,94 +469,94 @@ test-21-passwords-getNetworkHost-localhost-assert() {
 }
 
 function load-passwords-readAdmincerts() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-readAdmincerts
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-readAdmincerts
 }
 
 test-ASSERT-FAIL-22-passwords-readAdmincerts-no-admin.pem() {
     load-passwords-readAdmincerts
-    if [[ -f /etc/wazuh-indexer/certs/admin.pem ]]; then
-        @rm -f /etc/wazuh-indexer/certs/admin.pem
+    if [[ -f /etc/fortishield-indexer/certs/admin.pem ]]; then
+        @rm -f /etc/fortishield-indexer/certs/admin.pem
     fi
     passwords-readAdmincerts
 }
 
 test-ASSERT-FAIL-23-passwords-readAdmincerts-no-admin_key.pem() {
     load-passwords-readAdmincerts
-    @mkdir -p /etc/wazuh-indexer/certs
-    if [[ ! -f /etc/wazuh-indexer/certs/admin.pem ]]; then
-        @touch /etc/wazuh-indexer/certs/admin.pem
+    @mkdir -p /etc/fortishield-indexer/certs
+    if [[ ! -f /etc/fortishield-indexer/certs/admin.pem ]]; then
+        @touch /etc/fortishield-indexer/certs/admin.pem
     fi
-    if [[ -f /etc/wazuh-indexer/certs/admin-key.pem ]]; then
-        @rm -f /etc/wazuh-indexer/certs/admin-key.pem
+    if [[ -f /etc/fortishield-indexer/certs/admin-key.pem ]]; then
+        @rm -f /etc/fortishield-indexer/certs/admin-key.pem
     fi
 
-    if [[ -f /etc/wazuh-indexer/certs/admin.key ]]; then
-        @rm -f /etc/wazuh-indexer/certs/admin.key
+    if [[ -f /etc/fortishield-indexer/certs/admin.key ]]; then
+        @rm -f /etc/fortishield-indexer/certs/admin.key
     fi
     passwords-readAdmincerts
-    @rm /etc/wazuh-indexer/certs/admin.pem
-    @rmdir /etc/wazuh-indexer/certs
+    @rm /etc/fortishield-indexer/certs/admin.pem
+    @rmdir /etc/fortishield-indexer/certs
 }
 
 test-24-passwords-readAdmincerts-all-correct-admin_key.pem() {
     load-passwords-readAdmincerts
-    @mkdir -p /etc/wazuh-indexer/certs
-    if [[ ! -f /etc/wazuh-indexer/certs/admin.pem ]]; then
-        @touch /etc/wazuh-indexer/certs/admin.pem
+    @mkdir -p /etc/fortishield-indexer/certs
+    if [[ ! -f /etc/fortishield-indexer/certs/admin.pem ]]; then
+        @touch /etc/fortishield-indexer/certs/admin.pem
     fi
-    if [[ ! -f /etc/wazuh-indexer/certs/admin-key.pem ]]; then
-        @touch /etc/wazuh-indexer/certs/admin-key.pem
+    if [[ ! -f /etc/fortishield-indexer/certs/admin-key.pem ]]; then
+        @touch /etc/fortishield-indexer/certs/admin-key.pem
     fi
 
-    if [[ -f /etc/wazuh-indexer/certs/admin.key ]]; then
-        @rm -f /etc/wazuh-indexer/certs/admin.key
+    if [[ -f /etc/fortishield-indexer/certs/admin.key ]]; then
+        @rm -f /etc/fortishield-indexer/certs/admin.key
     fi
     passwords-readAdmincerts
-    @rm /etc/wazuh-indexer/certs/admin.pem
-    @rm /etc/wazuh-indexer/certs/admin-key.pem
-    @rmdir /etc/wazuh-indexer/certs
+    @rm /etc/fortishield-indexer/certs/admin.pem
+    @rm /etc/fortishield-indexer/certs/admin-key.pem
+    @rmdir /etc/fortishield-indexer/certs
     @echo $adminpem
     @echo $adminkey
 }
 
 test-24-passwords-readAdmincerts-all-correct-admin_key.pem-assert() {
-    @echo "/etc/wazuh-indexer/certs/admin.pem"
-    @echo "/etc/wazuh-indexer/certs/admin-key.pem"
+    @echo "/etc/fortishield-indexer/certs/admin.pem"
+    @echo "/etc/fortishield-indexer/certs/admin-key.pem"
 }
 
 test-25-passwords-readAdmincerts-all-correct-admin.key() {
     load-passwords-readAdmincerts
-    @mkdir -p /etc/wazuh-indexer/certs
-    if [[ ! -f /etc/wazuh-indexer/certs/admin.pem ]]; then
-        @touch /etc/wazuh-indexer/certs/admin.pem
+    @mkdir -p /etc/fortishield-indexer/certs
+    if [[ ! -f /etc/fortishield-indexer/certs/admin.pem ]]; then
+        @touch /etc/fortishield-indexer/certs/admin.pem
     fi
-    if [[ -f /etc/wazuh-indexer/certs/admin-key.pem ]]; then
-        @rm -f /etc/wazuh-indexer/certs/admin-key.pem
+    if [[ -f /etc/fortishield-indexer/certs/admin-key.pem ]]; then
+        @rm -f /etc/fortishield-indexer/certs/admin-key.pem
     fi
 
-    if [[ ! -f /etc/wazuh-indexer/certs/admin.key ]]; then
-        @touch /etc/wazuh-indexer/certs/admin.key
+    if [[ ! -f /etc/fortishield-indexer/certs/admin.key ]]; then
+        @touch /etc/fortishield-indexer/certs/admin.key
     fi
     passwords-readAdmincerts
-    @rm /etc/wazuh-indexer/certs/admin.pem
-    @rm /etc/wazuh-indexer/certs/admin.key
-    @rmdir /etc/wazuh-indexer/certs
+    @rm /etc/fortishield-indexer/certs/admin.pem
+    @rm /etc/fortishield-indexer/certs/admin.key
+    @rmdir /etc/fortishield-indexer/certs
     @echo $adminpem
     @echo $adminkey
 }
 
 test-25-passwords-readAdmincerts-all-correct-admin.key-assert() {
-    @echo "/etc/wazuh-indexer/certs/admin.pem"
-    @echo "/etc/wazuh-indexer/certs/admin.key"
+    @echo "/etc/fortishield-indexer/certs/admin.pem"
+    @echo "/etc/fortishield-indexer/certs/admin.key"
 }
 
 function load-passwords-readUsers() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-readUsers
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-readUsers
 }
 
 test-26-passwords-readUsers() {
     load-passwords-readUsers
-    @mock grep -B 1 hash: /etc/wazuh-indexer/opensearch-security/internal_users.yml === @out
+    @mock grep -B 1 hash: /etc/fortishield-indexer/opensearch-security/internal_users.yml === @out
     @mock grep -v hash: === @out
     @mock grep -v "-" === @out
     @mock awk '{ print substr( $0, 1, length($0)-1 ) }' === @out "kibanaserver admin"
@@ -569,7 +569,7 @@ test-26-passwords-readUsers-assert() {
 }
 
 function load-recommon_startService() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" recommon_startService
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" recommon_startService
 }
 
 test-ASSERT-FAIL-27-recommon_startService-no-args() {
@@ -582,8 +582,8 @@ test-ASSERT-FAIL-28-recommon_startService-no-service-manager() {
     @mockfalse ps -e
     @mockfalse grep -E -q "^\ *1\ .*systemd$"
     @mockfalse grep -E -q "^\ *1\ .*init$"
-    @rm /etc/init.d/wazuh
-    recommon_startService wazuh-manager
+    @rm /etc/init.d/fortishield
+    recommon_startService fortishield-manager
 }
 
 test-29-recommon_startService-systemd() {
@@ -591,12 +591,12 @@ test-29-recommon_startService-systemd() {
     @mockfalse ps -e === @out 
     @mocktrue grep -E -q "^\ *1\ .*systemd$"
     @mockfalse grep -E -q "^\ *1\ .*init$"
-    recommon_startService wazuh-manager
+    recommon_startService fortishield-manager
 }
 
 test-29-recommon_startService-systemd-assert() {
     systemctl daemon-reload
-    systemctl restart wazuh-manager.service
+    systemctl restart fortishield-manager.service
 }
 
 test-30-recommon_startService-systemd-error() {
@@ -604,9 +604,9 @@ test-30-recommon_startService-systemd-error() {
     @mock ps -e === @out 
     @mocktrue grep -E -q "^\ *1\ .*systemd$"
     @mockfalse grep -E -q "^\ *1\ .*init$"
-    @mockfalse systemctl restart wazuh-manager.service
+    @mockfalse systemctl restart fortishield-manager.service
     @mock type -t common_rollBack === @out "function"
-    recommon_startService wazuh-manager
+    recommon_startService fortishield-manager
 }
 
 test-30-recommon_startService-systemd-error-assert() {
@@ -621,17 +621,17 @@ test-31-recommon_startService-initd() {
     @mockfalse grep -E -q "^\ *1\ .*systemd$"
     @mocktrue grep -E -q "^\ *1\ .*init$"
     @mkdir -p /etc/init.d
-    @touch /etc/init.d/wazuh-manager
-    @chmod +x /etc/init.d/wazuh-manager
-    recommon_startService wazuh-manager
-    @rm /etc/init.d/wazuh-manager
+    @touch /etc/init.d/fortishield-manager
+    @chmod +x /etc/init.d/fortishield-manager
+    recommon_startService fortishield-manager
+    @rm /etc/init.d/fortishield-manager
 }
 
 test-31-recommon_startService-initd-assert() {
     @mkdir -p /etc/init.d
-    @touch /etc/init.d/wazuh-manager
-    /etc/init.d/wazuh-manager restart
-    @rm /etc/init.d/wazuh-manager
+    @touch /etc/init.d/fortishield-manager
+    /etc/init.d/fortishield-manager restart
+    @rm /etc/init.d/fortishield-manager
 }
 
 test-32-recommon_startService-initd-error() {
@@ -640,21 +640,21 @@ test-32-recommon_startService-initd-error() {
     @mockfalse grep -E -q "^\ *1\ .*systemd$"
     @mocktrue grep -E -q "^\ *1\ .*init$"
     @mkdir -p /etc/init.d
-    @touch /etc/init.d/wazuh-manager
-    #/etc/init.d/wazuh-manager is not executable -> It will fail
+    @touch /etc/init.d/fortishield-manager
+    #/etc/init.d/fortishield-manager is not executable -> It will fail
     @mock type -t common_rollBack === @out "function"
-    recommon_startService wazuh-manager
-    @rm /etc/init.d/wazuh-manager
+    recommon_startService fortishield-manager
+    @rm /etc/init.d/fortishield-manager
 }
 
 test-32-recommon_startService-initd-error-assert() {
     @mkdir -p /etc/init.d
-    @touch /etc/init.d/wazuh-manager
-    @chmod +x /etc/init.d/wazuh-manager
-    /etc/init.d/wazuh-manager restart
+    @touch /etc/init.d/fortishield-manager
+    @chmod +x /etc/init.d/fortishield-manager
+    /etc/init.d/fortishield-manager restart
     common_rollBack
     exit 1
-    @rm /etc/init.d/wazuh-manager
+    @rm /etc/init.d/fortishield-manager
 }
 
 test-33-recommon_startService-rc.d/init.d() {
@@ -664,23 +664,23 @@ test-33-recommon_startService-rc.d/init.d() {
     @mockfalse grep -E -q "^\ *1\ .*init$"
 
     @mkdir -p /etc/rc.d/init.d
-    @touch /etc/rc.d/init.d/wazuh-manager
-    @chmod +x /etc/rc.d/init.d/wazuh-manager
+    @touch /etc/rc.d/init.d/fortishield-manager
+    @chmod +x /etc/rc.d/init.d/fortishield-manager
 
-    recommon_startService wazuh-manager
-    @rm /etc/rc.d/init.d/wazuh-manager
+    recommon_startService fortishield-manager
+    @rm /etc/rc.d/init.d/fortishield-manager
 }
 
 test-33-recommon_startService-rc.d/init.d-assert() {
     @mkdir -p /etc/rc.d/init.d
-    @touch /etc/rc.d/init.d/wazuh-manager
-    @chmod +x /etc/rc.d/init.d/wazuh-manager
-    /etc/rc.d/init.d/wazuh-manager start
-    @rm /etc/rc.d/init.d/wazuh-manager
+    @touch /etc/rc.d/init.d/fortishield-manager
+    @chmod +x /etc/rc.d/init.d/fortishield-manager
+    /etc/rc.d/init.d/fortishield-manager start
+    @rm /etc/rc.d/init.d/fortishield-manager
 }
 
 function load-passwords-generateHash() {
-    @load_function "${base_dir}/wazuh-passwords-tool.sh" passwords-generateHash
+    @load_function "${base_dir}/fortishield-passwords-tool.sh" passwords-generateHash
 }
 
 test-34-passwords-generateHash-changeall() {
@@ -688,8 +688,8 @@ test-34-passwords-generateHash-changeall() {
     passwords=("kibanaserverpassword" "adminpassword")
     changeall=1
     @mock grep -v WARNING === @out ""
-    @mock bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword" === @out "11111111"
-    @mock bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "adminpassword" === @out "22222222"
+    @mock bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword" === @out "11111111"
+    @mock bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "adminpassword" === @out "22222222"
     passwords-generateHash
     @echo ${hashes[@]}
 }
@@ -703,8 +703,8 @@ test-ASSERT-FAIL-35-passwords-generateHash-changeall-error() {
     passwords=("kibanaserverpassword" "adminpassword")
     changeall=1
     @mockfalse grep -v WARNING
-    @mock bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword" === @out "11111111"
-    @mockfalse bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "adminpassword"
+    @mock bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword" === @out "11111111"
+    @mockfalse bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "adminpassword"
     passwords-generateHash
     @echo ${hashes[@]}
 }
@@ -715,7 +715,7 @@ test-36-passwords-generateHash-nuser() {
     password="kibanaserverpassword"
     changeall=
     @mock grep -v WARNING === @out ""
-    @mock bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword" === @out "11111111"
+    @mock bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword" === @out "11111111"
     passwords-generateHash
     @echo ${hash}
 }
@@ -730,6 +730,6 @@ test-ASSERT-FAIL-37-passwords-generateHash-nuser-error() {
     password="kibanaserverpassword"
     changeall=
     @mockfalse grep -v WARNING
-    @mockfalse bash /usr/share/wazuh-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword"
+    @mockfalse bash /usr/share/fortishield-indexer/plugins/opensearch-security/tools/hash.sh -p "kibanaserverpassword"
     passwords-generateHash
 }

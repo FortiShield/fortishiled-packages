@@ -1,8 +1,8 @@
-user="wazuh-dashboard"
-group="wazuh-dashboard"
+user="fortishield-dashboard"
+group="fortishield-dashboard"
 chroot="/"
 chdir="/"
 nice=""
 KILL_ON_STOP_TIMEOUT=0
 
-OSD_PATH_CONF="/etc/wazuh-dashboard"
+OSD_PATH_CONF="/etc/fortishield-dashboard"

@@ -1,6 +1,6 @@
 #!/bin/sh
-# checkinstall script for wazuh-agent
-# Wazuh, Inc 2015
+# checkinstall script for fortishield-agent
+# Fortishield, Inc 2015
 
 expected_platform="ARCH"
 platform=`uname -p`

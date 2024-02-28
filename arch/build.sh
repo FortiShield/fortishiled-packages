@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package builder
-# Copyright (C) 2015, Wazuh Inc.
+# Fortishield package builder
+# Copyright (C) 2015, Fortishield Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -12,14 +12,14 @@ set -ex
 
 # Script parameters to build the package
 build_target=${1}
-wazuh_branch=${2}
+fortishield_branch=${2}
 architecture_target=${3}
 package_release=${4}
 jobs=${5}
 dir_path=${6}
 debug=${7}
 checksum=${8}
-wazuh_packages_branch=${9}
+fortishield_packages_branch=${9}
 use_local_specs=${10}
 local_source_code=${11}
 future=${12}
@@ -29,14 +29,14 @@ if [ -z "${package_release}" ]; then
 fi
 
 if [ "${local_source_code}" = "no" ]; then
-    curl -sL https://github.com/wazuh/wazuh/tarball/${wazuh_branch} | tar zx
+    curl -sL https://github.com/fortishield/fortishield/tarball/${fortishield_branch} | tar zx
 fi
-wazuh_version="$(cat wazuh*/src/VERSION | cut -d 'v' -f 2)"
+fortishield_version="$(cat fortishield*/src/VERSION | cut -d 'v' -f 2)"
 
 # Build directories
-build_dir=/build_wazuh
-package_full_name="wazuh-${build_target}-${wazuh_version}"
-sources_dir=`pwd`/"wazuh*"
+build_dir=/build_fortishield
+package_full_name="fortishield-${build_target}-${fortishield_version}"
+sources_dir=`pwd`/"fortishield*"
 pacman_dir="${build_dir}/${build_target}/build"
 
 tmp_dir=${build_dir}/tmp
@@ -49,7 +49,7 @@ if [[ "${use_local_specs}" == "no" ]]; then
     mkdir -p ${tmp_specs_path}
     cd ${tmp_specs_path}
     specs_path=${tmp_specs_path}
-    curl -sL https://github.com/wazuh/wazuh-packages/tarball/${wazuh_packages_branch} | tar zx
+    curl -sL https://github.com/fortishield/fortishield-packages/tarball/${fortishield_packages_branch} | tar zx
     specs_path=`pwd`/$(find . -type d -name "SPECS" -path "*arch*")
     tmp_specs_path=${specs_path}
 else
@@ -58,28 +58,28 @@ fi
 
 if [[ "${future}" == "yes" ]]; then
     # MODIFY VARIABLES
-    base_version=${wazuh_version}
+    base_version=${fortishield_version}
     MAJOR=$(echo ${base_version} | cut -dv -f2 | cut -d. -f1)
     MINOR=$(echo ${base_version} | cut -d. -f2)
-    wazuh_version="${MAJOR}.30.0"
-    package_full_name=wazuh-${build_target}-${wazuh_version}
+    fortishield_version="${MAJOR}.30.0"
+    package_full_name=fortishield-${build_target}-${fortishield_version}
 
     # PREPARE FUTURE SPECS AND SOURCES
     mkdir -p ${tmp_dir}
     cp -r ${sources_dir} "${tmp_sources_dir}"
     sources_dir="${tmp_sources_dir}"
-    find "${sources_dir}" "${specs_path}" \( -name "*VERSION*" -o -name "*changelog*" \) -exec sed -i "s/${base_version}/${wazuh_version}/g" {} \;
+    find "${sources_dir}" "${specs_path}" \( -name "*VERSION*" -o -name "*changelog*" \) -exec sed -i "s/${base_version}/${fortishield_version}/g" {} \;
     sed -i "s/\$(VERSION)/${MAJOR}.${MINOR}/g" "${sources_dir}/src/Makefile"
-    sed -i "s/${base_version}/${wazuh_version}/g" "${sources_dir}/src/init/wazuh-server.sh"
-    sed -i "s/${base_version}/${wazuh_version}/g" "${sources_dir}/src/init/wazuh-client.sh"
-    sed -i "s/${base_version}/${wazuh_version}/g" "${sources_dir}/src/init/wazuh-local.sh"
+    sed -i "s/${base_version}/${fortishield_version}/g" "${sources_dir}/src/init/fortishield-server.sh"
+    sed -i "s/${base_version}/${fortishield_version}/g" "${sources_dir}/src/init/fortishield-client.sh"
+    sed -i "s/${base_version}/${fortishield_version}/g" "${sources_dir}/src/init/fortishield-local.sh"
 fi
 
 cd ${sources_dir} && tar -czf ${pacman_dir}/${package_full_name}.tar.gz . 
-cp -pr ${specs_path}/wazuh-${build_target}/arch/* ${pacman_dir}
+cp -pr ${specs_path}/fortishield-${build_target}/arch/* ${pacman_dir}
 
 # Configure the package with the different parameters
-sed -i "s:PARAM_VERSION:${wazuh_version}:g" ${pacman_dir}/PKGBUILD
+sed -i "s:PARAM_VERSION:${fortishield_version}:g" ${pacman_dir}/PKGBUILD
 sed -i "s:PARAM_RELEASE:${package_release}:g" ${pacman_dir}/PKGBUILD
 sed -i "s:PARAM_SOURCE_FILE:${package_full_name}.tar.gz:g" ${pacman_dir}/PKGBUILD
 sed -i "s:PARAM_DEBUG:${debug}:g" ${pacman_dir}/PKGBUILD
@@ -88,8 +88,8 @@ sed -i "s:PARAM_INSTALLATION_BACKUP_DIR:`echo ${dir_path} | cut -c 2-`:g" ${pacm
 sed -i "s:PARAM_INSTALLATION_SCRIPTS_DIR:${dir_path}/packages_files/agent_installation_scripts:g" ${pacman_dir}/PKGBUILD
 sed -i "s:PARAM_JOBS:${jobs}:g" ${pacman_dir}/PKGBUILD
 
-sed -i "s:PARAM_INSTALLATION_DIR:${dir_path}:g" ${pacman_dir}/wazuh.install
-sed -i "s:PARAM_INSTALLATION_SCRIPTS_DIR:${dir_path}/packages_files/agent_installation_scripts:g" ${pacman_dir}/wazuh.install
+sed -i "s:PARAM_INSTALLATION_DIR:${dir_path}:g" ${pacman_dir}/fortishield.install
+sed -i "s:PARAM_INSTALLATION_SCRIPTS_DIR:${dir_path}/packages_files/agent_installation_scripts:g" ${pacman_dir}/fortishield.install
 
 if [[ "${debug}" == "yes" ]]; then
     sed -i "s:dh_strip --no-automatic-dbgsym::g" ${pacman_dir}/PKGBUILD
@@ -140,10 +140,10 @@ su user -c "makepkg -s"
 mv /usr/bin/{real_install,install}
 
 # copy the package out
-pkg_file="wazuh-${build_target}-${wazuh_version}-${package_release}-${architecture_target}.pkg.tar.zst"
+pkg_file="fortishield-${build_target}-${fortishield_version}-${package_release}-${architecture_target}.pkg.tar.zst"
 pkg_path="${pacman_dir}"
 
 if [[ "${checksum}" == "yes" ]]; then
     cd ${pkg_path} && sha512sum ${pkg_file} > /var/local/checksum/${pkg_file}.sha512
 fi
-install -o root -g root ${pkg_path}/${pkg_file} /var/local/wazuh/${pkg_file}
+install -o root -g root ${pkg_path}/${pkg_file} /var/local/fortishield/${pkg_file}

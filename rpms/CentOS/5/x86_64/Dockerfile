@@ -13,23 +13,23 @@ RUN yum groupinstall -y "Development tools"
 RUN yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel
 
 # Install Perl 5.10, OpenSSL 1.1.1 and curl
-RUN curl -OL http://packages.wazuh.com/utils/perl/perl-5.10.1.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/perl/perl-5.10.1.tar.gz && \
     gunzip perl-5.10.1.tar.gz && tar -xf perl*.tar && \
     cd /perl-5.10.1 && ./Configure -des -Dcc='gcc' && \
     make -j2 && make install && ln -fs /usr/local/bin/perl /bin/perl && \
     cd / && rm -rf /perl-5.10.1*
 
-RUN curl -OL http://packages.wazuh.com/utils/openssl/openssl-1.1.1a.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/openssl/openssl-1.1.1a.tar.gz && \
     tar xf openssl-1.1.1a.tar.gz && cd openssl-1.1.1a && \
     CFLAGS="-fPIC" ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib && \
     make -j2 && make install && echo "/usr/local/ssl/lib" > /etc/ld.so.conf.d/openssl-1.1.1a.conf && \
     ldconfig -v && cd / && rm -rf openssl-1.1.1a*
 
-RUN curl -OL http://packages.wazuh.com/utils/curl/curl-7.63.0.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/curl/curl-7.63.0.tar.gz && \
     tar xf curl-7.63.0.tar.gz && cd curl-7.63.0 && ./configure --with-ssl=/usr/local/ssl && \
     make -j2 && make install && cd / && rm -rf curl*
 
-RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/gcc/gcc-9.4.0.tar.gz && \
     tar xzf gcc-9.4.0.tar.gz  && cd gcc-9.4.0/ && \
     ./contrib/download_prerequisites && \
     ./configure --prefix=/usr/local/gcc-9.4.0 --enable-languages=c,c++ \
@@ -42,7 +42,7 @@ ENV CPLUS_INCLUDE_PATH "/usr/local/gcc-9.4.0/include/c++/9.4.0/"
 ENV LD_LIBRARY_PATH "/usr/local/gcc-9.4.0/lib64/"
 ENV PATH "/usr/local/gcc-9.4.0/bin:${PATH}"
 
-RUN curl -OL http://packages.wazuh.com/utils/cmake/cmake-3.12.4.tar.gz && \
+RUN curl -OL http://fortishield.github.io/packages/utils/cmake/cmake-3.12.4.tar.gz && \
     tar -zxvf cmake-3.12.4.tar.gz && cd cmake-3.12.4 && \
     ./bootstrap && make -j2 && make install && cd / && rm -rf cmake-*
 

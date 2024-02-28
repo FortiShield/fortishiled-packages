@@ -1,10 +1,10 @@
 This work was packaged for Debian by:
 
-    Wazuh, Inc <info@wazuh.com> on Tue, 01 Oct 2024 00:00:00 +0000
+    Fortishield, Inc <info@fortishield.github.io> on Tue, 01 Oct 2024 00:00:00 +0000
 
 It was downloaded from:
 
-    https://www.wazuh.com
+    https://www.fortishield.github.io
 
 Copyright:
 
@@ -16,7 +16,7 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2021 Wazuh, Inc <info@wazuh.com>
+    Copyright (C) 2021 Fortishield, Inc <info@fortishield.github.io>
 
 and is licensed under the GPL version 2,
 see "/usr/share/common-licenses/GPL-2".
